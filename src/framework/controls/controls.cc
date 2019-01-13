@@ -46,3 +46,21 @@ bool ruvi::checkbox(int x, int y, bool* variable, std::string name) {
 
     return *variable;
 }
+
+bool ruvi::checkbox(std::string name, bool *var, int x, int y) {
+	auto title_size = draw::get_text_size(fonts::menu, name);
+	auto box_size = Vector2D(CHECKBOX_BOX_X, CHECKBOX_BOX_Y);
+	auto clickiable_area = rect{ x, y, x + (int)box_size.x + (int)title_size.x + CHECKBOX_TEXT_SPACING, y + (int)box_size.y };
+	bool is_hovered = input::is_mouse_in_region(clickiable_area.left, clickiable_area.top, clickiable_area.right - clickiable_area.left, clickiable_area.bottom - clickiable_area.top);
+
+	draw::clear(x, y, box_size.x, box_size.y, Color(100, 100, 100, 100));
+	if (*var) draw::clear(x + 1, y + 1, box_size.x - 2, box_size.y - 2, Color(255, 0, 0, 255)); // assign a checkbox color to this later
+	draw::text(x + box_size.x + CHECKBOX_TEXT_SPACING, y + box_size.y / 2 - title_size.y / 2, Color(200, 200, 200, 255), fonts::menu, name);
+
+	if (is_hovered && input::get_key_press(ButtonCode_t::MOUSE_LEFT) && input::get_can_click()) {
+		*var = !*var;	
+		input::set_can_click(false);
+	}
+
+	return *var;
+}
