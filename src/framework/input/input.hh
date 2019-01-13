@@ -13,12 +13,14 @@ struct input_data {
 	bool pressed_keys[256];
 	bool old_keys[256];
 	point cursor;
+	point cursor_delta;
 };
 
 namespace input {
 
 	void on_paint();
 
+	point get_mouse_delta();
 	bool get_key_state(e_button_code key);
 	bool get_key_press(e_button_code key);
 	bool in_bounds(int x, int y, int x2, int y2, int width, int height);
