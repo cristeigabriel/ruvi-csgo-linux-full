@@ -1,10 +1,10 @@
-///
-/// < malua linux >
-///
+//
+//  Ruvi - @ruvi-framework.git
+//
 
 #pragma once
 
-/* includes */
+// includes
 #include <math.h>
 #include <stdlib.h>
 #include <limits>
@@ -21,7 +21,6 @@ typedef float vec3_t[3];
 // definitions
 #define Assert( _exp ) ((void)0)
 
-// functions
 typedef class vector {
 public:
 	vec_t x, y, z;
@@ -203,21 +202,17 @@ inline void vector_subtract( const vector &a, const vector &b, vector &c ) {
 
 inline void vector::clamp_angles( ) {
 
-	if ( this->x < -89.0f ) {
+	if ( this->x < -89.0f )
 		this->x = -89.0f;
-	}
 
-	if ( this->x > 89.0f ) {
+	if ( this->x > 89.0f )
 		this->x = 89.0f;
-	}
 
-	while ( this->y < -180.0f ) {
+	while ( this->y < -180.0f )
 		this->y += 360.0f;
-	}
 
-	while ( this->y > 180.0f ) {
+	while ( this->y > 180.0f )
 		this->y -= 360.0f;
-	}
 
 	this->z = 0.0f;
 }
@@ -312,6 +307,7 @@ inline vector vector::operator/( const vector &v ) {
 
 class vector_aligned: public vector {
 public:
+
 	vector_aligned( ) {
 		x = y = z = 0.0f;
 	}
@@ -346,10 +342,6 @@ public:
 		m_flMatVal[ 2 ][ 3 ] = m23;
 	}
 
-	//-----------------------------------------------------------------------------
-	// Creates a matrix where the X axis = forward
-	// the Y axis = left, and the Z axis = up
-	//-----------------------------------------------------------------------------
 	void Init( const vector &xAxis, const vector &yAxis, const vector &zAxis, const vector &vecOrigin ) {
 		m_flMatVal[ 0 ][ 0 ] = xAxis.x;
 		m_flMatVal[ 0 ][ 1 ] = yAxis.x;
@@ -365,10 +357,6 @@ public:
 		m_flMatVal[ 2 ][ 3 ] = vecOrigin.z;
 	}
 
-	//-----------------------------------------------------------------------------
-	// Creates a matrix where the X axis = forward
-	// the Y axis = left, and the Z axis = up
-	//-----------------------------------------------------------------------------
 	matrix3x4_t( const vector &xAxis, const vector &yAxis, const vector &zAxis, const vector &vecOrigin ) {
 		Init( xAxis, yAxis, zAxis, vecOrigin );
 	}
