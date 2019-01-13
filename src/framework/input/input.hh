@@ -14,7 +14,8 @@ struct input_data {
 	bool old_keys[256];
 	point cursor;
 	point cursor_delta;
-};
+
+}; extern input_data id;
 
 namespace input {
 

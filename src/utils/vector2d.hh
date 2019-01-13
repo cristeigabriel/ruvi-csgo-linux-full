@@ -1,55 +1,41 @@
-///
-/// < malua linux >
-///
+//
+//  Ruvi - @ruvi-framework.git
+//
 
 #pragma once
 
-/* includes */
+// includes
 #include <math.h>
 #include <float.h>
 #include <assert.h>
 
-/* defs */
+// prototypes
 typedef float vec_t;
 typedef float vec2_t[2];
 typedef float vec3_t[3];
 
-/* definitions */
+// definitions
 #define FLOAT32_NAN_BITS (unsigned long) 0x7FC00000
 #define FLOAT32_NAN bits_to_float (FLOAT32_NAN_BITS)
 #define VEC_T_NAN FLOAT32_NAN
 
-/* functions */
 class vector2d {
 public:
 	float x, y;
 
 	vector2d( void );
-
 	vector2d( vec_t X, vec_t Y );
-
 	vector2d( const float* pFloat );
-
 	bool is_valid( ) const;
-
 	float operator[]( int i ) const;
-
 	float &operator[]( int i );
-
 	bool operator==( const vector2d &v ) const;
-
 	bool operator!=( const vector2d &v ) const;
-
 	vector2d &operator+=( const vector2d &v );
-
 	vector2d &operator-=( const vector2d &v );
-
 	vector2d &operator*=( const vector2d &v );
-
 	vector2d &operator*=( float s );
-
 	vector2d &operator/=( const vector2d &v );
-
 	vector2d &operator/=( float s );
 };
 

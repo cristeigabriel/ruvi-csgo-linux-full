@@ -15,6 +15,7 @@ std::vector<tab_data> tabs;
 
 bool boolean1;
 bool boolean2;
+float float1;
 
 void ruvi::on_paint() {
 
@@ -41,10 +42,15 @@ void ruvi::on_paint() {
     // controls
     if (wd.selected_tab == 0) {
         ruvi::groupbox(g.x + 20, g.y + 45, 250, 400, "groupbox1");
-        ruvi::checkbox(g.x + 30, g.y + 45 + (15 * 1), &boolean1, "checkbox1");
+        ruvi::checkbox(g.x + 30, g.y + 45 + (15 * 1), boolean1, "checkbox1");
 
         if (boolean1)
-            ruvi::checkbox(g.x + 40, g.y + 45 + (20 * 2), &boolean2, "checkbox2");
+            ruvi::checkbox(g.x + 40, g.y + 45 + (15 * 2), boolean2, "checkbox2");
+
+        if (boolean1)
+            ruvi::slider(g.x + 30, g.y + 45 + (15 * 3), 0.f, 255.f, float1, "slider1");
+        else
+            ruvi::slider(g.x + 30, g.y + 45 + (15 * 2), 0.f, 255.f, float1, "slider1");
     }
 
     else if (wd.selected_tab == 1)

@@ -1,10 +1,10 @@
-//
-//  Ruvi - @ruvi-framework.git
-//
+///
+/// < malua linux >
+///
 
 #pragma once
 
-// includes
+/* includes */
 #include <math.h>
 #include <stdlib.h>
 #include <limits>
@@ -21,6 +21,7 @@ typedef float vec3_t[3];
 // definitions
 #define Assert( _exp ) ((void)0)
 
+// functions
 typedef class vector {
 public:
 	vec_t x, y, z;

@@ -7,6 +7,9 @@
 #include "utils/rendering.hh"
 #include "framework/input/input.hh"
 
+// declarations
+control_data cd;
+
 void ruvi::groupbox(int x, int y, int width, int height, std::string name) {
 
     auto title_size = draw::get_text_size(fonts::menu, name);
@@ -25,7 +28,7 @@ void ruvi::groupbox(int x, int y, int width, int height, std::string name) {
     draw::text(x + 15, y - 10 + (title_size.y / 2), Color(200, 200, 200), fonts::menu, name);
 }
 
-bool ruvi::checkbox(int x, int y, bool* variable, std::string name) {
+bool ruvi::checkbox(int x, int y, bool& variable, std::string name) {
 
     auto title_size = draw::get_text_size(fonts::menu, name);
 
@@ -35,14 +38,66 @@ bool ruvi::checkbox(int x, int y, bool* variable, std::string name) {
     draw::text(x + 20, y + (10 / 2) - (title_size.y / 2), Color(200, 200, 200), fonts::menu, name);
 
     // if the checkbox is checked :^)
-    if (*variable)
+    if (variable)
         draw::clear(x + 1, y + 1, (10 - 2), (10 - 2), Color(245, 245, 245));
 
     if (input::is_mouse_in_region(x, y, 10, 10)) {
 
         if (input::get_key_press(MOUSE_LEFT))
-            *variable = !*variable;
+            variable = !variable;
     }
 
-    return *variable;
+    return variable;
+}
+
+float ruvi::slider(int x, int y, float min, float max, float& variable, std::string name) {
+
+    auto title_size = draw::get_text_size(fonts::menu, name);
+
+    auto value_size = draw::get_text_size(fonts::menu, std::to_string((int)variable));
+
+    draw::clear(x - 1, y - 1, (150 + 2), (10 + 2), Color(60, 60, 60));
+    draw::clear(x, y, 150, 10, Color(35, 35, 35));
+
+    draw::text(x + 160, y + (10 / 2) - (title_size.y / 2), Color(200, 200, 200), fonts::menu, name);
+
+    // slider value text
+    draw::text(x + (150 / 2) - (value_size.x / 2), y + (10 + 5), Color(200, 200, 200), fonts::menu, std::to_string((int)variable));
+
+    // calculate the ratio
+    float ratio = variable / ( max - min );
+    float location = (ratio * 150);
+
+    draw::clear(x + 1, y + 1, (location - 2), (10 - 2), Color(200, 200, 200));
+
+    if (input::is_mouse_in_region(x, y, 150, 10)) {
+
+        if (input::get_key_state(MOUSE_LEFT))
+            cd.dragging = true;
+    }
+
+    // if the user is dragging the slider
+    if ( cd.dragging ) {
+
+        if (input::get_key_state(MOUSE_LEFT)) {
+
+            float new_x;
+            float ratio;
+
+            new_x = id.cursor.x - x - 1.f;
+
+            if (new_x <= min)
+                new_x = min;
+
+            if (new_x >= 150)
+                new_x = 150;
+
+            ratio = (new_x / 150);
+
+            variable = min + (max - min) * ratio;
+        }
+
+        else
+            cd.dragging = false;
+    }
 }
