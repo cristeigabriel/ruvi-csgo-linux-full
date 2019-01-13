@@ -13,6 +13,8 @@ struct input_data {
 	bool pressed_keys[256];
 	bool old_keys[256];
 	point cursor;
+	point cursor_ghost; // last frames cursor pos, used for getting cursor_delta
+	point cursor_delta;
 	bool can_click;
 };
 
