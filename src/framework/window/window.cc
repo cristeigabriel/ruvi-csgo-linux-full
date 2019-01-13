@@ -13,6 +13,9 @@ geometry g;
 window_data wd;
 std::vector<tab_data> tabs;
 
+bool boolean1;
+bool boolean2;
+
 void ruvi::on_paint() {
 
     // initialize the geometry struct
@@ -24,7 +27,6 @@ void ruvi::on_paint() {
     // tabs
     static bool do_once = [&]() {
 
-        // this can be optimized/shortened with a constructor
         tabs.emplace_back(tab_data("Aimbot", 0));
         tabs.emplace_back(tab_data("Visuals", 1));
         tabs.emplace_back(tab_data("Misc", 2));
@@ -37,8 +39,13 @@ void ruvi::on_paint() {
     ruvi::populate_geometry();
 
     // controls
-    if (wd.selected_tab == 0)
+    if (wd.selected_tab == 0) {
         ruvi::groupbox(g.x + 20, g.y + 45, 250, 400, "groupbox1");
+        ruvi::checkbox(g.x + 30, g.y + 45 + (15 * 1), &boolean1, "checkbox1");
+
+        if (boolean1)
+            ruvi::checkbox(g.x + 40, g.y + 45 + (20 * 2), &boolean2, "checkbox2");
+    }
 
     else if (wd.selected_tab == 1)
         ruvi::groupbox(g.x + 20, g.y + 45, 250, 400, "groupbox2");
