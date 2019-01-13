@@ -1,10 +1,11 @@
 //
-//  Ruvi - @special-parakeet.git
+//  Ruvi - @ruvi-framework.git
 //
 
 // includes
 #include "hooks.hh"
 #include "utils/rendering.hh"
+#include "framework/window/window.hh"
 
 // declarations
 static vmt_hook engine_vgui_hook;
@@ -36,7 +37,10 @@ auto hooks::paint::hooked( void* thisptr, e_paint_mode mode ) -> void {
         start_drawing( csgo::vgui_surface );
 
         // draw stuff here
-        draw::text(5, 5, Color(75, 75, 230), fonts::watermark, "[parakeet]");
+        draw::text(5, 5, Color(245, 245, 245), fonts::watermark, "Ruvi Framework");
+
+        // menu
+        ruvi::on_paint();
 
         finish_drawing( csgo::vgui_surface );
     }

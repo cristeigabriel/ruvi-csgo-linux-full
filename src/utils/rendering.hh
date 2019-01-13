@@ -1,5 +1,5 @@
 //
-//  Ruvi - @special-parakeet.git
+//  Ruvi - @ruvi-framework.git
 //
 
 #pragma once
@@ -34,6 +34,7 @@ typedef struct s_point {
 namespace fonts {
 
 	extern n_vgui::h_font watermark;
+	extern n_vgui::h_font menu;
 };
 
 namespace draw {

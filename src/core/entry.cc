@@ -1,5 +1,5 @@
 //
-//  Ruvi - @special-parakeet.git
+//  Ruvi - @ruvi-framework.git
 //
 
 // includes
@@ -15,7 +15,9 @@ void install() {
         std::this_thread::sleep_for( std::chrono::milliseconds( 100 ) );
 
     interfaces::on_entry_point();
+
     draw::on_entry_point();
+
     hooks::on_entry_point();
 
 }

@@ -1,5 +1,5 @@
 //
-//  Ruvi - @special-parakeet.git
+//  Ruvi - @ruvi-framework.git
 //
 
 /* includes */
@@ -15,13 +15,16 @@
 namespace fonts {
 
 	n_vgui::h_font watermark;
+	n_vgui::h_font menu;
 };
 
 auto draw::on_entry_point( ) -> void {
 
-	fonts::watermark = csgo::vgui_surface->create_font( );
+	fonts::watermark = csgo::vgui_surface->create_font();
+	fonts::menu = csgo::vgui_surface->create_font();
 
 	csgo::vgui_surface->set_font_glyph_set( fonts::watermark, "fs Tahoma 8px", 14, 0, 0, 0, FONTFLAG_NONE | FONTFLAG_DROPSHADOW );
+	csgo::vgui_surface->set_font_glyph_set( fonts::menu, "fs Tahoma 8px", 14, 0, 0, 0, FONTFLAG_NONE | FONTFLAG_DROPSHADOW );
 }
 
 void draw::clear( int x, int y, int w, int h, Color color ) {
