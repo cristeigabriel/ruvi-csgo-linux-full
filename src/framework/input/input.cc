@@ -24,11 +24,13 @@ void input::on_paint( ) {
 		id.can_click = true;
 }
 
-bool input::can_click() { // if mouse1 should be registered by the window
-
+bool input::get_can_click() { // if mouse1 should be registered by the window
 	return id.can_click;
 }
 
+void input::set_can_click(bool state) { // set the windows access to mouse1 
+	id.can_click = state;
+}
 bool input::get_key_state( e_button_code key ) { // if the key is being held
 
 	return id.keys[ key ];
