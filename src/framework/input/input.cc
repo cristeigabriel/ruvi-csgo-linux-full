@@ -18,6 +18,15 @@ void input::on_paint( ) {
 
 	// get the cursor position
 	csgo::vgui_surface->surface_get_cursor_pos( id.cursor.x, id.cursor.y );
+	
+	// makes us able to click again, after we let go of mouse 1
+	if (!get_key_press(ButtonCode_t::MOUSE_LEFT))
+		id.can_click = true;
+}
+
+bool input::can_click() { // if mouse1 should be registered by the window
+
+	return id.can_click;
 }
 
 bool input::get_key_state( e_button_code key ) { // if the key is being held
