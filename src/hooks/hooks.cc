@@ -5,6 +5,7 @@
 // includes
 #include "hooks.hh"
 #include "utils/rendering.hh"
+#include "framework/input/input.hh"
 #include "framework/window/window.hh"
 
 // declarations
@@ -36,8 +37,11 @@ auto hooks::paint::hooked( void* thisptr, e_paint_mode mode ) -> void {
 
         start_drawing( csgo::vgui_surface );
 
+        // input system
+        input::on_paint();
+
         // draw stuff here
-        draw::text(5, 5, Color(245, 245, 245), fonts::watermark, "Ruvi Framework");
+        draw::text(5, 5, Color(200, 200, 200), fonts::watermark, "Ruvi Framework");
 
         // menu
         ruvi::on_paint();

@@ -5,6 +5,7 @@
 #pragma once
 
 // includes
+#include <string>
 #include "utils/color.hh"
 
 // structs
@@ -14,6 +15,24 @@ struct geometry {
     int y;
     int width;
     int height;
+};
+
+struct window_data {
+
+    int selected_tab;
+    bool dropdown_opened;
+};
+
+struct tab_data {
+
+    tab_data(std::string tab_name, int tab_id) {
+
+        name = tab_name;
+        id = tab_id;
+    }
+
+    int id;
+    std::string name;
 };
 
 namespace ruvi {
