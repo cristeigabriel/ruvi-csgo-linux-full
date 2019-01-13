@@ -26,7 +26,7 @@ void input::on_paint( ) {
 	last_cursor_pos = id.cursor;
 }
 
-point get_cursor_delta() {
+point input::get_cursor_delta() {
 	
 	return id.cursor_delta;
 }
