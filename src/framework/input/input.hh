@@ -13,6 +13,7 @@ struct input_data {
 	bool pressed_keys[256];
 	bool old_keys[256];
 	point cursor;
+	bool can_click;
 };
 
 namespace input {
