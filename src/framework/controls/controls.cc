@@ -62,7 +62,7 @@ float ruvi::slider(int x, int y, float min, float max, float& variable, std::str
     draw::text(x + 160, y + (10 / 2) - (title_size.y / 2), Color(200, 200, 200), fonts::menu, name);
 
     // slider value text
-    draw::text(x + (150 / 2) - (value_size.x / 2), y + (10 + 5), Color(200, 200, 200), fonts::menu, std::to_string((int)variable));
+    draw::text(x + (150 / 2) - (value_size.x / 2), y + (10 + 2), Color(200, 200, 200), fonts::menu, std::to_string((int)variable));
 
     // calculate the ratio
     float ratio = variable / ( max - min );
@@ -100,4 +100,52 @@ float ruvi::slider(int x, int y, float min, float max, float& variable, std::str
         else
             cd.dragging = false;
     }
+
+    return variable;
+}
+
+
+int ruvi::combobox(int x, int y, std::vector<std::string> items, int& variable, std::string name) {
+
+    auto title_size = draw::get_text_size(fonts::menu, name);
+
+    auto selected_item_size = draw::get_text_size(fonts::menu, items[variable]);
+
+    draw::outline(x - 1, y - 1, (150 + 2), (15 + 2), Color(60, 60, 60));
+    draw::clear(x, y, 150, 15, Color(35, 35, 35));
+
+    draw::text(x + 160, y + (17 / 2) - (title_size.y / 2), Color(200, 200, 200), fonts::menu, name);
+
+    // draw selected item
+    draw::text(x + (150 / 2) - (selected_item_size.x / 2), y + (15 / 2) - (selected_item_size.y / 2), Color(200, 200, 200), fonts::menu, items[variable]);
+
+    // open/close the dropdown list
+    if (input::is_mouse_in_region(x, y, 150, 17)) {
+
+        if (input::get_key_press(MOUSE_LEFT))
+            cd.dropdown_opened = !cd.dropdown_opened;
+    }
+
+    if (cd.dropdown_opened) {
+
+        draw::outline(x - 1, y + (18 - 1), (150 + 2), (16 * items.size()) + 2, Color(35, 35, 35));
+        draw::clear(x, y + 18, 150, (16 * items.size()), Color(15, 15, 15));
+
+        for (int i = 0; i < items.size(); i++) {
+
+            if (input::is_mouse_in_region(x, y + 22 + (16 * i), 150, 16))
+                draw::text(x + 5, y + 22 + (16 * i), Color(245, 245, 245), fonts::menu, items[i]);
+            else
+                draw::text(x + 5, y + 22 + (16 * i), Color(200, 200, 200), fonts::menu, items[i]);
+
+            if (input::is_mouse_in_region(x, y + 22 + (16 * i), 150, 16)) {
+
+                // select a item from the list
+                if (input::get_key_state(MOUSE_LEFT))
+                    variable = i;
+            }
+        }
+    }
+
+    return variable;
 }

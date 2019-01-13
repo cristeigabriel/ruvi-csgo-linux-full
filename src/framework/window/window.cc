@@ -15,7 +15,10 @@ std::vector<tab_data> tabs;
 
 bool boolean1;
 bool boolean2;
+bool boolean3;
 float float1;
+int integer1;
+std::vector<std::string> vector1 = { "Item 0", "Item 1", "Item 2", "Item 3", "Item 4" };
 
 void ruvi::on_paint() {
 
@@ -53,8 +56,11 @@ void ruvi::on_paint() {
             ruvi::slider(g.x + 30, g.y + 45 + (15 * 2), 0.f, 255.f, float1, "slider1");
     }
 
-    else if (wd.selected_tab == 1)
+    else if (wd.selected_tab == 1) {
         ruvi::groupbox(g.x + 20, g.y + 45, 250, 400, "groupbox2");
+        ruvi::combobox(g.x + 30, g.y + 45 + (15 * 1), vector1, integer1, "combobox1");
+        ruvi::checkbox(g.x + 30, g.y + 45 + (20 * 2), boolean3, "checkbox3");
+    }
 
     else if (wd.selected_tab == 2)
         ruvi::groupbox(g.x + 20, g.y + 45, 250, 400, "groupbox3");
