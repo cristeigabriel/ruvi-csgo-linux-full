@@ -20,6 +20,8 @@ namespace input {
 
 	void on_paint();
 
+	bool get_can_click(); 
+	void set_can_click(bool state);
 	bool get_key_state(e_button_code key);
 	bool get_key_press(e_button_code key);
 	bool in_bounds(int x, int y, int x2, int y2, int width, int height);
