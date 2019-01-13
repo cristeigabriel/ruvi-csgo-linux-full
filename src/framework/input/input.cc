@@ -22,11 +22,11 @@ void input::on_paint( ) {
 	
 	// the point struct does not have a - operator and I am to lazy to add one rn, so it stays written like aids
 	id.cursor_delta.x = id.cursor.x - last_cursor_pos.x;
-	id.cursor_delta.y = id.cursor.y - last_cursor_pos.y 
+	id.cursor_delta.y = id.cursor.y - last_cursor_pos.y;
 	last_cursor_pos = id.cursor;
 }
 
-point get_cursor_delta() {
+point input::get_cursor_delta() {
 	
 	return id.cursor_delta;
 }
