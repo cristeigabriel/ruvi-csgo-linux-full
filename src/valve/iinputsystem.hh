@@ -5,7 +5,7 @@
 #pragma once
 
 // includes
-#include "utils/memory.hh"
+#include "memory/memory.hh"
 
 // enums
 enum e_button_code {

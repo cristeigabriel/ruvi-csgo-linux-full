@@ -7,6 +7,7 @@
 // includes
 #include <string>
 #include <vector>
+#include <functional>
 #include "utils/color.hh"
 
 // struct || todo: this will probably be useless when we have more controls that needs to use some of those variables
@@ -22,4 +23,5 @@ namespace ruvi {
     bool checkbox(int x, int y, bool &variable, std::string name);
     float slider(int x, int y, float min, float max, float &variable, std::string name);
     int combobox(int x, int y, std::vector<std::string> items, int& variable, std::string name);
+    bool button(int x, int y, std::function<void()> function, std::string name);
 }

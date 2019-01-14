@@ -5,7 +5,7 @@
 /* includes */
 #include <vector>
 #include <math.h>
-#include "rendering.hh"
+#include "render.hh"
 #include "interfaces/interfaces.hh"
 
 // definitions

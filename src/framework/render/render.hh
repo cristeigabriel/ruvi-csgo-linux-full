@@ -8,7 +8,7 @@
 #include <string>
 #include <iostream>
 #include "utils/color.hh"
-#include "utils/vector.hh"
+#include "vector/vector.hh"
 #include "valve/isurface.hh"
 
 // enums

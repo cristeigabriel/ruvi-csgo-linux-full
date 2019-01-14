@@ -16,18 +16,18 @@ void input::on_paint( ) {
 	for ( int x = 0; x < 255; x++ )
 		id.keys[ x ] = csgo::input_system->is_button_down( e_button_code( x ) );
 
-	// this is used for the cursor delta
-	point last_cursor_pos;
+
 	csgo::vgui_surface->surface_get_cursor_pos( id.cursor.x, id.cursor.y );
-	
-	// the point struct does not have a - operator and I am to lazy to add one rn, so it stays written like aids
+
+	// this is used for the cursor delta
+	point last_cursor_pos = { 0, 0};
 	id.cursor_delta.x = id.cursor.x - last_cursor_pos.x;
 	id.cursor_delta.y = id.cursor.y - last_cursor_pos.y;
 	last_cursor_pos = id.cursor;
 }
 
 point input::get_cursor_delta() {
-	
+
 	return id.cursor_delta;
 }
 

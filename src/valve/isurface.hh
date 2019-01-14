@@ -8,8 +8,8 @@
 #include <math.h>
 #include <functional>
 #include "utils/color.hh"
-#include "utils/memory.hh"
-#include "utils/vector2d.hh"
+#include "memory/memory.hh"
+#include "vector/vector2d.hh"
 
 /* namespaces */
 namespace n_vgui {

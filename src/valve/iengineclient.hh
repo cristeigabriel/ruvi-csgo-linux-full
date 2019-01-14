@@ -6,8 +6,8 @@
 
 /* includes */
 #include <functional>
-#include "utils/memory.hh"
-#include "utils/vector.hh"
+#include "memory/memory.hh"
+#include "vector/vector.hh"
 
 /* structs */
 struct player_info_t {

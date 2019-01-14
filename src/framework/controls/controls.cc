@@ -4,7 +4,7 @@
 
 // includes
 #include "controls.hh"
-#include "utils/rendering.hh"
+#include "framework/render/render.hh"
 #include "framework/input/input.hh"
 
 // declarations
@@ -148,4 +148,35 @@ int ruvi::combobox(int x, int y, std::vector<std::string> items, int& variable, 
     }
 
     return variable;
+}
+
+bool ruvi::button(int x, int y, std::function<void()> function, std::string name) {
+
+    auto title_size = draw::get_text_size(fonts::menu, name);
+
+    if (input::is_mouse_in_region(x, y, 150, 25)) {
+        draw::outline(x - 1, y - 1, (150 + 2), (25 + 2), Color(50, 50, 50));
+        draw::clear(x, y, 150, 25, Color(25, 25, 25));
+        draw::text(x + (150 / 2) - (title_size.x / 2), y + (25 / 2) - (title_size.y / 2), Color(245, 245, 245), fonts::menu, name);
+    }
+
+    else {
+        draw::outline(x - 1, y - 1, (150 + 2), (25 + 2), Color(60, 60, 60));
+        draw::clear(x, y, 150, 25, Color(35, 35, 35));
+        draw::text(x + (150 / 2) - (title_size.x / 2), y + (25 / 2) - (title_size.y / 2), Color(200, 200, 200), fonts::menu, name);
+    }
+
+
+    if (input::is_mouse_in_region(x, y, 150, 25)) {
+
+        // call the function when the user clicks on the button area
+        if (input::get_key_press(MOUSE_LEFT))
+            function();
+    }
+
+    // if the function was successfully called, return true
+    if (function)
+        return true;
+
+    return false;
 }
