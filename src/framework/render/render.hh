@@ -59,4 +59,5 @@ namespace draw {
 	vector2d get_text_size( unsigned int font, std::string text, ... );
 	void progress_circle(int x, int y, int size, float percentage, Color color);
 	void multi_color_gradient(int x, int y, int w, int h, Color color1, Color color2, Color color3, Color color4);
+	void alpha_background(int x, int y, int width, int height);
 };

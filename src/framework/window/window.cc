@@ -13,13 +13,16 @@ geometry g;
 window_data wd;
 std::vector<tab_data> tabs;
 
+// variables
 bool boolean1;
 bool boolean2;
 bool boolean3;
 float float1;
+float float2;
 int integer1;
 void function1() {};
 std::vector<std::string> vector1 = { "Item 0", "Item 1", "Item 2", "Item 3", "Item 4" };
+Color color1 = Color( 100, 100, 245 );
 
 void ruvi::on_paint() {
 
@@ -51,10 +54,14 @@ void ruvi::on_paint() {
         if (boolean1)
             ruvi::checkbox(g.x + 30, g.y + 70 + (15 * 2), boolean2, "checkbox2");
 
-        if (boolean1)
+        if (boolean1) {
             ruvi::slider(g.x + 30, g.y + 70 + (15 * 3), 0.f, 255.f, float1, "slider1");
-        else
+            ruvi::slider(g.x + 30, g.y + 70 + (15 * 5), 0.f, 255.f, float2, "slider2");
+        }
+        else {
             ruvi::slider(g.x + 30, g.y + 70 + (15 * 2), 0.f, 255.f, float1, "slider1");
+            ruvi::slider(g.x + 30, g.y + 70 + (15 * 4), 0.f, 255.f, float2, "slider2");
+        }
     }
 
     else if (wd.selected_tab == 1) {
@@ -64,8 +71,10 @@ void ruvi::on_paint() {
         ruvi::button(g.x + 30, g.y + 70 + (20 * 3), function1, "button1");
     }
 
-    else if (wd.selected_tab == 2)
+    else if (wd.selected_tab == 2) {
         ruvi::groupbox(g.x + 20, g.y + 70, 250, 350, "groupbox3");
+        ruvi::colorpicker(g.x + 30, g.y + 70 + (15 * 1), color1, "colorpicker1");
+    }
 
     else if (wd.selected_tab == 3)
         ruvi::groupbox(g.x + 20, g.y + 70, 250, 350, "groupbox4");
@@ -82,7 +91,7 @@ void ruvi::populate_geometry() {
 
     // tab panel
     draw::gradient(g.x + 5, g.y + (25 + 15), g.width - 10, 20, 200, 0, false, Color(0, 0, 0));
-    draw::clear(g.x + 5, g.y + 25, g.width - 10, 25, Color(25, 25, 25));
+    draw::clear(g.x + 5, g.y + 25, g.width - 10, 25, Color(45, 45, 45));
 
     if (tabs.size() > 0) {
 

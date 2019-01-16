@@ -267,3 +267,21 @@ void draw::multi_color_gradient(int x, int y, int w, int h, Color color1, Color 
 	csgo::vgui_surface->draw_set_color(color4.r(), color4.g(), color4.b(), color4.a());
 	csgo::vgui_surface->draw_filled_rect_fade(x, y, w, h, 128, 0, true);
 }
+
+void draw::alpha_background(int x, int y, int width, int height) {
+
+	for (int py = 0; py < height / 5; py++) {
+
+		for (int px = 0; px < width / 5; px++) {
+
+			int pixel_nr = roundf(px);
+			int line_nr = roundf(py);
+			bool start_with_light = line_nr % 2;
+			bool is_brick_light = start_with_light ? pixel_nr % 2 : pixel_nr % 2 == 0;
+
+			Color new_color = is_brick_light ? Color(60, 60, 60) : Color(40, 40, 40);
+
+			draw::clear(x + px * 5, y + py * 5, 5, 5, new_color);
+		}
+	}
+};

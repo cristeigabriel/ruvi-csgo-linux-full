@@ -6,6 +6,7 @@
 
 // includes
 #include <algorithm>
+#include <math.h>
 
 // functions
 class Color {
@@ -116,13 +117,13 @@ public:
 		float q = brightness * (1.f - saturation * f);
 		float t = brightness * (1.f - (saturation * (1.f - f)));
 
-		if (h < 1.f)
+		if (h < 1)
 			return Color(brightness * 255, t * 255, p * 255, alpha);
 
-		else if (h < 2.f)
+		else if (h < 2)
 			return Color(q * 255, brightness * 255, p * 255, alpha);
 
-		else if (h < 3.f)
+		else if (h < 3)
 			return Color(p * 255, brightness * 255, t * 255, alpha);
 
 		else if (h < 4)
@@ -135,6 +136,42 @@ public:
 			return Color(brightness * 255, p * 255, q * 255, alpha);
 
 	}
+
+    static float get_hue(Color color) {
+
+        float r = color.red_base();
+        float g = color.green_base();
+        float b = color.blue_base();
+        float max = fmaxf(std::fmaxf(r, g), b);
+        float min = fminf(std::fminf(r, g), b);
+        float delta = max - min;
+
+        if (delta != 0) {
+
+            float hue;
+
+            if (r == max)
+                hue = (g - b) / delta;
+
+            else {
+
+                if (g == max)
+                    hue = 2 + (b - r) / delta;
+                else
+                    hue = 4 + (r - g) / delta;
+            }
+
+            hue *= 60;
+
+            if (hue < 0)
+                hue += 360;
+
+            return hue;
+        }
+
+        else
+            return 0;
+    }
 
 	unsigned char _color[4];
 };
