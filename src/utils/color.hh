@@ -166,7 +166,7 @@ public:
             if (hue < 0)
                 hue += 360;
 
-            return hue;
+            return hue / 360;
         }
 
         else

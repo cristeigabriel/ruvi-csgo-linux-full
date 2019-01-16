@@ -222,7 +222,7 @@ void ruvi::colorpicker(int x, int y, Color& color, std::string name) {
 
             for (int px = 0; px < new_width; px += pixelation) {
 
-                Color new_color = Color::hsb_to_rgb(Color::get_hue(color) / 360, px / new_width, py / new_height, color.a());
+                Color new_color = Color::hsb_to_rgb(Color::get_hue(color), px / new_width, py / new_height, color.a());
 
                 draw::clear(x + px, y - py - 5, pixelation, pixelation, new_color);
 
