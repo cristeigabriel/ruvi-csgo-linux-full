@@ -185,7 +185,7 @@ bool ruvi::button(int x, int y, std::function<void()> function, std::string name
     return false;
 }
 
-void ruvi::colorpicker(int x, int y, Color& color, std::string name) {
+void ruvi::color_picker(int x, int y, Color& color, std::string name) {
 
     auto title_size = draw::get_text_size(fonts::menu, name);
 
@@ -217,9 +217,29 @@ void ruvi::colorpicker(int x, int y, Color& color, std::string name) {
         draw::clear(x, y - new_height, new_width + 45, new_height, Color(35, 35, 35));
         draw::alpha_background(x, y - new_height, new_width, new_height);
 
-        // pallet
+        // hue and alpha
         for (int py = 0; py < new_height; py += pixelation) {
 
+            Color hue_color = Color::hsb_to_rgb(py / 150.f, 1, 1);
+            Color alpha_color = Color(color.r(), color.g(), color.b(), py / new_height * 255);
+
+            draw::clear(x + new_width + 5, y - new_height + py, 15, pixelation, hue_color);
+            draw::clear(x + new_width + 25, y - new_height + py, 15, pixelation, alpha_color);
+
+            if (input::is_mouse_in_region(x + new_width + 5, y - new_height + py, 15, pixelation)) {
+
+                if (input::get_key_state(MOUSE_LEFT)) {
+                    color = hue_color;
+                }
+            }
+
+           else if (input::is_mouse_in_region(x + new_width + 25, y - new_height + py, 15, pixelation)) {
+
+                if (input::get_key_state(MOUSE_LEFT))
+                    color = alpha_color;
+            }
+
+            // color hsb
             for (int px = 0; px < new_width; px += pixelation) {
 
                 Color new_color = Color::hsb_to_rgb(Color::get_hue(color), px / new_width, py / new_height, color.a());
@@ -232,34 +252,44 @@ void ruvi::colorpicker(int x, int y, Color& color, std::string name) {
                         color = new_color;
                 }
             }
+
+
+            // hue indicator
+            draw::outline(x + new_width + 5, y - new_height + new_width * Color::get_hue(color), 15, 3, Color(45, 45, 45));
+
+            // alpha indicator
+            draw::outline(x + new_width + 25, y - new_height + new_width * color.alpha_base(), 15, 3, Color(45, 45, 45));
         }
+    }
+}
 
-        // hue bar
-        for (int px = 0; px < new_height; px += pixelation) {
+void ruvi::tab(int x, int y, int width, int height, std::vector<std::string> tabs, int& tab_id) {
 
-            Color new_color = Color::hsb_to_rgb(px / 150.f, 1, 1);
+    // tab panel
+    draw::gradient(x, y + 15, width, height - 5, 200, 0, false, Color(0, 0, 0));
+    draw::clear(x, y, width, height, Color(45, 45, 45));
 
-            draw::clear(x + new_width + 5, y - new_height + px, 15, pixelation, new_color);
+    if (tabs.size() > 0) {
 
-            if (input::is_mouse_in_region(x + new_width + 5, y - new_height + px, 15, pixelation)) {
+        int button_size = (width - 10) / tabs.size();
 
+        for (int i = 0; i < tabs.size(); i++) {
+
+            auto tab_title_size = draw::get_text_size(fonts::menu, tabs[i]);
+
+            rect tab_area = {x + (i * button_size), y, button_size, height};
+
+            if (input::is_mouse_in_region(tab_area.left, tab_area.top, tab_area.right, tab_area.bottom)) {
+
+                // if the user selects a new tab
                 if (input::get_key_state(MOUSE_LEFT))
-                    color = new_color;
+                    tab_id = i;
             }
-        }
 
-        // alpha bar
-        for (int px = 0; px < new_height; px += pixelation) {
-
-            Color new_color = Color(color.r(), color.g(), color.b(), px / new_height * 255);
-
-            draw::clear(x + new_width + 25, y - new_height + px, 15, pixelation, new_color);
-
-            if (input::is_mouse_in_region(x + new_width + 25, y - new_height + px, 15, pixelation)) {
-
-                if (input::get_key_state(MOUSE_LEFT))
-                    color = new_color;
-            }
+            if (input::is_mouse_in_region(tab_area.left, tab_area.top, tab_area.right, tab_area.bottom))
+                draw::text(tab_area.left + (tab_area.right / 2) - (tab_title_size.x / 2), tab_area.top + (tab_area.bottom / 2) - (tab_title_size.y / 2), Color(245, 245, 245), fonts::menu, tabs[i]);
+            else
+                draw::text(tab_area.left + (tab_area.right / 2) - (tab_title_size.x / 2), tab_area.top + (tab_area.bottom / 2) - (tab_title_size.y / 2), Color(200, 200, 200), fonts::menu, tabs[i]);
         }
     }
 }
