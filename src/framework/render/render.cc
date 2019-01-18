@@ -87,18 +87,6 @@ void draw::line( int x, int y, int x2, int y2, Color color ) {
 	csgo::vgui_surface->draw_line( x, y, x2, y2 );
 }
 
-void draw::poly_line( int* x, int* y, int points, Color color ) {
-
-	csgo::vgui_surface->draw_set_color( color );
-	csgo::vgui_surface->draw_poly_line( x, y, points );
-}
-
-/*
-bool draw::world_to_screen( vector &origin, vector &screen ) {
-	return ( csgo::debug_overlay->screen_position( origin, screen ) != 1 );
-}
-*/
-
 void draw::text( int x, int y, Color color, unsigned int font, const wchar_t* text, ... ) {
 
 	csgo::vgui_surface->draw_set_text_font( font );
@@ -190,82 +178,6 @@ void draw::rounded_clear( int x, int y, int w, int h, int radius, Color color ) 
 	}
 
 	draw::polygon( 64, round, color );
-}
-
-void draw::image( unsigned char* rgb, int x, int y, unsigned int w, unsigned int h, float scale ) {
-
-	// use this to set the id of the texture
-	static unsigned int texture_id;
-
-	// call everything that is inside this lambda only once
-	bool do_once = [ & ]( ) {
-
-		// lets create a new texture
-		texture_id = csgo::vgui_surface->create_new_texture_id( true );
-
-		// if somehow the texture id is invalid, don't proceed until it's valid
-		if ( !texture_id )
-			return false;
-
-		// apply the rgb data (byte array) to the texture
-		csgo::vgui_surface->draw_set_texture_rgba( texture_id, rgb, w, h );
-
-		return true;
-	}( );
-
-	if ( !csgo::vgui_surface->is_texture_id_valid( texture_id ) )
-		return;
-
-	csgo::vgui_surface->draw_set_color( 255, 255, 255, 255 );
-	csgo::vgui_surface->draw_set_texture( texture_id );
-	csgo::vgui_surface->draw_textured_rect( x, y, x + w * scale, y + h * scale );
-}
-
-void draw::pixel_clear( int x, int y, int w, int h, Color color ) {
-
-	auto draw_pixel_line = [ & ]( int x, int y, int w ) -> void {
-
-		float x_spacing = w / 2.95f;
-
-		for ( int i = 0; i < x_spacing; i++ )
-			draw::clear( x + ( 3 * i ), y, 1, 1, Color( color ) );
-	};
-
-	float y_spacing = h / 2.95f;
-
-	for ( int i = 0; i < y_spacing; i++ )
-		draw_pixel_line( x, y + ( 3 * i ), w );
-}
-
-
-void draw::progress_circle(int x, int y, int size, float percentage, Color color) {
-
-	int texture_id = csgo::vgui_surface->create_new_texture_id( true );
-	csgo::vgui_surface->draw_set_texture( texture_id );
-	csgo::vgui_surface->draw_set_color( color );
-
-	vertex_t vertexes[100];
-	for ( int i = 0; i < 100; i++ ) {
-		float angle = ( ( float )i / -100 ) * ( M_PI * ( 2 * percentage ) );
-		vertexes[ i ].init( vector2d( x + ( size * sin( angle ) ), y + ( size * cos( angle ) ) ) );
-	}
-
-	csgo::vgui_surface->draw_textured_polygon( 100, vertexes, true );
-}
-
-void draw::multi_color_gradient(int x, int y, int w, int h, Color color1, Color color2, Color color3, Color color4) {
-
-	csgo::vgui_surface->draw_set_color(color1.r(), color1.g(), color1.b(), color1.a());
-	csgo::vgui_surface->draw_filled_rect_fade(x, y, w, h, 255, 0, false);
-
-	csgo::vgui_surface->draw_set_color(color2.r(), color2.g(), color2.b(), color2.a());
-	csgo::vgui_surface->draw_filled_rect_fade(x, y, w, h, 0, 255, false);
-
-	csgo::vgui_surface->draw_set_color(color3.r(), color3.g(), color3.b(), color3.a());
-	csgo::vgui_surface->draw_filled_rect_fade(x, y, w, h, 0, 128, true);
-
-	csgo::vgui_surface->draw_set_color(color4.r(), color4.g(), color4.b(), color4.a());
-	csgo::vgui_surface->draw_filled_rect_fade(x, y, w, h, 128, 0, true);
 }
 
 void draw::alpha_background(int x, int y, int width, int height) {
