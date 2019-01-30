@@ -64,7 +64,7 @@ auto hooks::paint_traverse::hooked( void* thisptr, unsigned long long vgui_panel
 auto hooks::set_key_code_state::hooked( void* thisptr, e_button_code key, bool is_pressed ) -> void {
 
     if ( key == KEY_INSERT && is_pressed )
-       ruvi::set_key_code_state();
+       ruvi::on_set_key_code_state();
 
     // call the original function
     original( thisptr, key, is_pressed );
