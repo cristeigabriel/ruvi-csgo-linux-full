@@ -2,7 +2,7 @@
 //  Ruvi - @ruvi-framework.git
 //
 
-/* includes */
+// includes
 #include <vector>
 #include <math.h>
 #include "render.hh"
@@ -180,11 +180,11 @@ void draw::rounded_clear( int x, int y, int w, int h, int radius, Color color ) 
 	draw::polygon( 64, round, color );
 }
 
-void draw::alpha_background(int x, int y, int width, int height) {
+void draw::alpha_background(int x, int y, int w, int h) {
 
-	for (int py = 0; py < height / 5; py++) {
+	for (int py = 0; py < h / 5; py++) {
 
-		for (int px = 0; px < width / 5; px++) {
+		for (int px = 0; px < w / 5; px++) {
 
 			int pixel_nr = roundf(px);
 			int line_nr = roundf(py);
