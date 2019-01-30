@@ -13,6 +13,7 @@
 #include "valve/ienginevgui.hh"
 #include "valve/iengineclient.hh"
 #include "valve/iinputsystem.hh"
+#include "valve/iinputinternal.hh"
 
 // prototypes
 typedef void* (* create_interface_fn)( const char*, int* );
@@ -48,4 +49,5 @@ namespace csgo {
    extern i_engine_vgui* engine_vgui;
    extern i_engine_client* engine_client;
    extern i_input_system* input_system;
+   extern i_input_internal* input_internal;
 }

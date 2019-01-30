@@ -321,7 +321,7 @@ public:
 	float w;
 };
 
-/* structs */
+// structs
 class matrix3x4_t {
 public:
 	matrix3x4_t( ) {

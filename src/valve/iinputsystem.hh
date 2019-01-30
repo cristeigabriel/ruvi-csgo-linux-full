@@ -133,10 +133,6 @@ enum e_button_code {
 	MOUSE_COUNT = MOUSE_LAST - MOUSE_FIRST + 1,
 };
 
-class i_input_internal {
-public:
-};
-
 class i_input_system {
 public:
 

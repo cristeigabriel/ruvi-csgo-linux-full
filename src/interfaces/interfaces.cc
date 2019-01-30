@@ -17,6 +17,7 @@ void interfaces::on_entry_point() {
     csgo::engine_vgui = interfaces::get_interface<i_engine_vgui>( engine_module, "VEngineVGui001" );
     csgo::engine_client = interfaces::get_interface<i_engine_client>( engine_module, "VEngineClient014" );
     csgo::input_system = interfaces::get_interface<i_input_system>( inputsystem_module, "InputSystemVersion001" );
+    csgo::input_internal = interfaces::get_interface<i_input_internal>( vgui2_module, "VGUI_InputInternal001" );
 }
 
 namespace csgo {
@@ -26,4 +27,5 @@ namespace csgo {
     i_engine_vgui* engine_vgui;
     i_engine_client* engine_client;
     i_input_system* input_system;
+    i_input_internal* input_internal;
 }

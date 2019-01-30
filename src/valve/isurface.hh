@@ -11,13 +11,13 @@
 #include "memory/memory.hh"
 #include "vector/vector2d.hh"
 
-/* namespaces */
+// namespace
 namespace n_vgui {
 	typedef unsigned long h_font;
 	typedef unsigned int v_panel;
 };
 
-/* structs */
+// structs
 struct vertex_t {
 
 	vector2d position;
