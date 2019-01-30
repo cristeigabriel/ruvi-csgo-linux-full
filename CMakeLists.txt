@@ -7,7 +7,10 @@ include_directories(src)
 add_library(ruvi MODULE
 
         src/core/entry.cc
-        src/interfaces/interfaces.cc
-        src/memory/memory.cc
+        src/framework/controls/controls.cc
+        src/framework/input/input.cc
+        src/framework/render/render.cc
+        src/framework/window/window.cc
         src/hooks/hooks.cc
-        src/framework/render/render.cc)
+        src/interfaces/interfaces.cc
+        src/memory/memory.cc)
