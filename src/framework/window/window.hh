@@ -20,7 +20,7 @@ struct geometry {
 
 namespace ruvi {
 
-    void set_key_code_state();
     void on_paint();
+    void on_set_key_code_state();
     void populate_geometry();
 }
