@@ -1,15 +1,15 @@
-///
-/// < malua linux >
-///
+//
+//  Ruvi - @ruvi-framework.git
+//
 
 #pragma once
 
-/* includes */
+// includes
 #include <functional>
 #include "memory/memory.hh"
 #include "vector/vector.hh"
 
-/* structs */
+// structs
 struct player_info_t {
 	int64_t __pad0;
 	union {
@@ -30,7 +30,6 @@ struct player_info_t {
 	unsigned char filesdownloaded;
 };
 
-/* functions */
 class i_engine_client {
 public:
 
