@@ -24,7 +24,7 @@ void function1() {};
 std::vector<std::string> vector1 = { "Item 0", "Item 1", "Item 2", "Item 3", "Item 4" };
 Color color1 = Color( 100, 100, 245 );
 
-void ruvi::set_key_code_state() {
+void ruvi::on_set_key_code_state() {
 
     // switch
     g.is_opened = !g.is_opened;
