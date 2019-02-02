@@ -85,8 +85,22 @@ void ruvi::on_paint() {
 }
 
 void ruvi::populate_geometry() {
-
-    // window
+    
+    // this does not look the greatest, but for the behavior we want it is required.
+    // sometimes the cursor goes out of region while draging, so we want to keep the is_draging true as long as we hold mouse1 after clicking the titlebar. 
+    // We also don't want to activate draging when holding mouse1 and draging the cursor over the titlebar.
+    static bool is_draging = false;
+    if (input::is_mouse_in_region(g.x, g.y, g.width, 25) && input::get_key_press(MOUSE_LEFT))
+        is_draging = true;
+    else if (!input::get_key_state(MOUSE_LEFT)) 
+        is_draging = false;
+        
+    if (is_draging) {
+        g.x += input::get_cursor_delta().x;
+        g.y += input::get_cursor_delta().y;
+    }
+    
+    // drawing the window
     draw::outline(g.x - 1, g.y - 1, g.width + 2, g.height + 2, Color(60, 60, 60));
     draw::clear(g.x, g.y, g.width, g.height, Color(15, 15, 15));
     draw::outline(g.x + 6, g.y + 26, g.width - 12, g.height - 32, Color(60, 60, 60));
