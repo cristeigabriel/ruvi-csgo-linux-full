@@ -1,8 +1,9 @@
-# ruvi
+## Ruvi
+A CS:GO cheat base for GNU/Linux. It has some basic interfaces and a mouse menu, so you can start building your cheat from there.
+Big thanks to [@Vulgar1s](https://github.com/Vulgar1s) & [@daansayajin](https://github.com/daansayajin).
 
-A linux csgo cheat base with a semi-working menu. 
-
+## Menu Picture
 ![menu](https://raw.githubusercontent.com/iFloody/ruvi-csgo-linux/master/image.png)
 
-
-Big thanks to: [@Vulgar1s](https://github.com/Vulgar1s) & [@daansayajin](https://github.com/daansayajin).
+## License
+Available under the [MIT License](https://github.com/iFloody/ruvi-csgo-linux/blob/master/LICENSE)
