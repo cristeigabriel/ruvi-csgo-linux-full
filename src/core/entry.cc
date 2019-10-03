@@ -1,32 +1,38 @@
 //
-//  Ruvi - @ruvi-framework.git
+//  ruvi base
 //
 
 // includes
-#include <thread>
+#include "core/interfaces/interfaces.hh"
 #include "hooks/hooks.hh"
-#include "framework/render/render.hh"
-#include "interfaces/interfaces.hh"
+#include "menu/menu.hh"
+#include "sdk/input/input.hh"
+#include "sdk/netvars/netvars.hh"
+#include "sdk/render/render.hh"
+#include <thread>
 
-// lets initialize all our stuff here
-void install() {
+std::thread main_thread;
 
-    while ( !dlopen( "./bin/linux64/serverbrowser_client.so", RTLD_NOLOAD | RTLD_NOW ) )
-        std::this_thread::sleep_for( std::chrono::milliseconds( 100 ) );
+// initialize all our stuff here
+void constructor() {
 
-    interfaces::on_entry_point();
+  while (
+      !dlopen("./bin/linux64/serverbrowser_client.so", RTLD_NOLOAD | RTLD_NOW))
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-    draw::on_entry_point();
-
-    hooks::on_entry_point();
-
+  interfaces::on_entry_point();
+  netvars::on_entry_point();
+  draw::on_entry_point();
+  input::on_entry_point();
+  hooks::on_entry_point();
+  menu::on_entry_point();
 }
 
 // entry point
-int __attribute__((constructor)) startup( ) {
+int __attribute__((constructor)) startup() {
 
-    std::thread main_thread( install );
-    main_thread.detach( );
+  // create a new thread and attach the library
+  main_thread = std::thread{constructor};
 
-    return 0;
+  return 0;
 }
