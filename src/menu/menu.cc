@@ -5,11 +5,6 @@
 // includes
 #include "menu.hh"
 
-void call_notification() {
-
-  fgui::handler::call_notification("This is a notification.", fgui::animation_type::LINEAR);
-}
-
 void menu::on_entry_point() {
 
   // default fonts
@@ -30,8 +25,8 @@ void menu::on_entry_point() {
   ADD_TAB(vars::tabs["#panel"], "Aimbot"); {
 
     ADD_GROUPBOX(vars::container["#groupbox"], 15, (25 + 15), "Groupbox", 280, 370, element_font, vars::container["#window"], 0, false, false, false) {
-      ADD_BUTTON(vars::button["#button"], 15, 15, "Spawn Notification", 250, 25, title_font, vars::container["#groupbox"], -1);
-      ADD_FUNCTION(vars::button["#button"], call_notification);
+    ADD_CONTROLLER(vars::container["#groupbox"], vars::tabs["#panel"]);
+
     }
   }
 
