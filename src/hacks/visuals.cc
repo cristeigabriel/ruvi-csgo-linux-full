@@ -21,15 +21,13 @@ void features::visuals::on_paint() {
     entity_t *entity =
         reinterpret_cast<entity_t *>(csgo::entity_list->get_client_entity(i));
 
-    if (!entity)
-      continue;
+    if (!entity) continue;
 
     // client class pointer
     c_client_class *client_class =
         entity->IClientNetworkable()->get_client_class();
 
-    if (!client_class)
-      continue;
+    if (!client_class) continue;
 
     // run thinkers
     if (client_class->class_id == class_id_t::PLAYER)
@@ -86,8 +84,7 @@ void features::visuals::world(entity_t *entity) {
     return;
 
   utilities::esp_box_t box;
-  if (utilities::create_box(entity, box)) {
-  }
+  if (utilities::create_box(entity, box)) {}
 }
 
 //
@@ -95,8 +92,7 @@ void features::visuals::world(entity_t *entity) {
 //
 void features::visuals::bounding_box(const utilities::esp_box_t &box) {
 
-  if (!vars::checkbox["#bounding_box"]->get_bool())
-    return;
+  if (!vars::checkbox["#bounding_box"]->get_bool()) return;
 
   // draw box
   draw::outline(box.x, box.y, box.width, box.height,
@@ -105,11 +101,10 @@ void features::visuals::bounding_box(const utilities::esp_box_t &box) {
                 fgui::color(200, 75, 75));
 }
 
-void features::visuals::player_name(entity_t *entity,
+void features::visuals::player_name(entity_t *                  entity,
                                     const utilities::esp_box_t &box) {
 
-  if (!vars::checkbox["#player_name"]->get_bool())
-    return;
+  if (!vars::checkbox["#player_name"]->get_bool()) return;
 
   // if the entity is a bot
   if (entity->get_entity_info().is_fake_player) {
@@ -140,8 +135,7 @@ void features::visuals::player_name(entity_t *entity,
     const std::string &player_name = entity->get_entity_info().name;
 
     // safety check
-    if (player_name.size() > 17)
-      player_name.substr(0, 17) + "...";
+    if (player_name.size() > 17) player_name.substr(0, 17) + "...";
 
     // player name
     draw::text(box.x + (box.width / 2) - (text_size.width / 2),
@@ -150,7 +144,7 @@ void features::visuals::player_name(entity_t *entity,
   }
 }
 
-void features::visuals::nightmode(entity_t *entity,
+void features::visuals::nightmode(entity_t *      entity,
                                   c_client_class *client_class) {
 
   if (client_class->class_id !=
@@ -166,8 +160,7 @@ void features::visuals::nightmode(entity_t *entity,
       reinterpret_cast<tonemap_controller_t *>(entity);
 
   // this is needed because some maps doesn't have proper lightning set up
-  if (!tonemap_controller)
-    return;
+  if (!tonemap_controller) return;
 
   // get the skyname convar (is this convar checked?)
   static convar *sv_skyname = csgo::cvar->find_var("sv_skyname");
@@ -195,8 +188,7 @@ void features::visuals::nightmode(entity_t *entity,
 
 void features::visuals::engine_radar(entity_t *entity) {
 
-  if (!vars::checkbox["#engine_radar"]->get_bool())
-    return;
+  if (!vars::checkbox["#engine_radar"]->get_bool()) return;
 
   *entity->m_bSpotted() = true;
 }
@@ -224,8 +216,7 @@ void features::visuals::disable_post_processing() {
 
 void features::visuals::low_health_warning(entity_t *local_player) {
 
-  if (!vars::checkbox["#low_health_warning"]->get_bool())
-    return;
+  if (!vars::checkbox["#low_health_warning"]->get_bool()) return;
 
   if (local_player->m_iHealth() <= 50)
     *local_player->m_flHealthShotBoostExpirationTime() =

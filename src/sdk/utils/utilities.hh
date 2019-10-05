@@ -17,8 +17,8 @@ struct esp_box_t {
   int x, y, z, width, height;
 };
 
-inline void move_fix(c_user_cmd *cmd, qangle old_angle,
-                         float old_forward_move, float old_side_move) {
+inline void move_fix(c_user_cmd *cmd, qangle old_angle, float old_forward_move,
+                     float old_side_move) {
 
   float yaw_delta = cmd->view_angles.y - old_angle.y;
   float f1, f2;
@@ -101,30 +101,26 @@ inline bool create_box(entity_t *entity, esp_box_t &box) {
       front_right_bottom, back_right_bottom, back_left_top,    front_left_top};
 
   // initialize
-  int left = front_left_bottom.x;
-  int top = front_left_bottom.y;
-  int right = front_left_bottom.x;
+  int left   = front_left_bottom.x;
+  int top    = front_left_bottom.y;
+  int right  = front_left_bottom.x;
   int bottom = front_left_bottom.y;
 
   // find the bounding corners for our box
   for (std::size_t i = 1; i < 8; i++) {
 
-    if (left > box_array[i].x)
-      left = box_array[i].x;
+    if (left > box_array[i].x) left = box_array[i].x;
 
-    if (bottom < box_array[i].y)
-      bottom = box_array[i].y;
+    if (bottom < box_array[i].y) bottom = box_array[i].y;
 
-    if (right < box_array[i].x)
-      right = box_array[i].x;
+    if (right < box_array[i].x) right = box_array[i].x;
 
-    if (top > box_array[i].y)
-      top = box_array[i].y;
+    if (top > box_array[i].y) top = box_array[i].y;
   }
 
-  box.x = static_cast<int>(left);
-  box.y =  static_cast<int>(top);
-  box.width = static_cast<int>((right - left));
+  box.x      = static_cast<int>(left);
+  box.y      = static_cast<int>(top);
+  box.width  = static_cast<int>((right - left));
   box.height = static_cast<int>((bottom - top));
 
   return true;

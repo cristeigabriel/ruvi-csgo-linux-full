@@ -5,9 +5,9 @@
 #pragma once
 
 // includes
-#include <functional>
 #include "../memory/memory.hh"
 #include "../vector/vector.hh"
+#include <functional>
 
 struct model_t;
 class matrix3x4_t;

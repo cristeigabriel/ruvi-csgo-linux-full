@@ -9,8 +9,8 @@
 void input::on_entry_point() {
 
   // initialize the input system
-  fgui::input.get_key_state = input::get_key_state;
-  fgui::input.get_scroll_delta = input::get_scroll_delta;
+  fgui::input.get_key_state      = input::get_key_state;
+  fgui::input.get_scroll_delta   = input::get_scroll_delta;
   fgui::input.get_mouse_position = input::get_mouse_position;
 }
 
@@ -29,7 +29,8 @@ fgui::point input::get_mouse_position() {
   static fgui::point temporary_point = {0, 0};
 
   // get cursor position
-  csgo::vgui_surface->surface_get_cursor_pos(temporary_point.x, temporary_point.y);
+  csgo::vgui_surface->surface_get_cursor_pos(temporary_point.x,
+                                             temporary_point.y);
 
   return temporary_point;
 }

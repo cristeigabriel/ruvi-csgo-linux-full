@@ -4,7 +4,7 @@
 
 #pragma once
 
- // includes
+// includes
 #include <string>
 #include <vector>
 
@@ -13,61 +13,58 @@
 
 namespace fgui {
 
-	class multibox : public fgui::element {
-	public:
-		multibox();
+class multibox : public fgui::element {
+public:
+  multibox();
 
-		// draw the element
-		void draw();
+  // draw the element
+  void draw();
 
-		// add a new item in the element
-		inline void add_item(const std::string_view item, const fgui::state &state) noexcept {
+  // add a new item in the element
+  inline void add_item(const std::string_view item,
+                       const fgui::state &    state) noexcept {
 
-			m_info.push_back( { item, state } );
-		}
+    m_info.push_back({item, state});
+  }
 
-		// select a specific item at a given position
-		inline void set_selected(const int &index, const bool &onoff) noexcept {
+  // select a specific item at a given position
+  inline void set_selected(const int &index, const bool &onoff) noexcept {
 
-			m_info[index].checked = onoff;
-		}
+    m_info[index].checked = onoff;
+  }
 
-		// get the item selected at a given position
-		inline bool get_selected(int index) const noexcept {
+  // get the item selected at a given position
+  inline bool get_selected(int index) const noexcept {
 
-			return m_info[index].checked;
-		}
+    return m_info[index].checked;
+  }
 
-		// sets a custom state for the multibox (if the dropdown list is opened or not)
-		inline void set_state(const fgui::state &state) noexcept {
+  // sets a custom state for the multibox (if the dropdown list is opened or
+  // not)
+  inline void set_state(const fgui::state &state) noexcept { m_opened = state; }
 
-			m_opened = state;
-		}
+  // returns the current state of the multibox (if the dropdown list is opened
+  // or not)
+  inline fgui::state get_state() const noexcept { return m_opened; }
 
-		// returns the current state of the multibox (if the dropdown list is opened or not)
-		inline fgui::state get_state() const noexcept {
+  // handle keyboard and mouse input
+  void handle_input();
 
-			return m_opened;
-		}
+  // handle the element updates
+  void update();
 
-		// handle keyboard and mouse input
-		void handle_input();
+  // element tooltip
+  void tooltip();
 
-		// handle the element updates
-		void update();
+  // save the element state
+  void save(nlohmann::json &json_module);
 
-		// element tooltip
-		void tooltip();
+  // load the element state
+  void load(const std::string_view file_name);
 
-		// save the element state
-		void save(nlohmann::json& json_module);
-
-		// load the element state
-		void load(const std::string_view file_name);
-	private:
-
-		int m_item_height;
-		fgui::state m_opened;
-		std::vector<fgui::detail::item_info> m_info;
-	};
-}
+private:
+  int                                  m_item_height;
+  fgui::state                          m_opened;
+  std::vector<fgui::detail::item_info> m_info;
+};
+} // namespace fgui

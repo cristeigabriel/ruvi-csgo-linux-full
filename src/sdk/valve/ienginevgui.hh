@@ -17,9 +17,9 @@ enum vgui_panel_t {
 
 enum paint_mode_t {
 
-  PAINT_UIPANELS = (1 << 0),
+  PAINT_UIPANELS     = (1 << 0),
   PAINT_INGAMEPANELS = (1 << 1),
-  PAINT_CURSOR = (1 << 2),
+  PAINT_CURSOR       = (1 << 2),
 };
 
 class i_engine_vgui {

@@ -23,11 +23,11 @@ void on_entry_point();
 
 void create_font(fgui::font &font, const std::string_view family, int size,
                  int flags, bool bold);
-fgui::dimension get_text_size(const fgui::font &font,
+fgui::dimension get_text_size(const fgui::font &     font,
                               const std::string_view text);
-void get_screen_size(int &width, int &height);
-void clip_rect(int x, int y, int width, int height);
-bool world_to_screen(vector3d &origin, vector3d &screen);
+void            get_screen_size(int &width, int &height);
+void            clip_rect(int x, int y, int width, int height);
+bool            world_to_screen(vector3d &origin, vector3d &screen);
 
 void rect(int x, int y, int w, int h, fgui::color color);
 void gradient(int x, int y, int w, int h, int alpha1, int alpha2,

@@ -4,7 +4,7 @@
 
 #pragma once
 
- // includes
+// includes
 #include <string>
 #include <vector>
 
@@ -13,40 +13,35 @@
 
 namespace fgui {
 
-	class checkbox : public fgui::element {
-	public:
-		checkbox();
+class checkbox : public fgui::element {
+public:
+  checkbox();
 
-		// draw the element
-		void draw();
+  // draw the element
+  void draw();
 
-		// defines the state of the checkbox
-		inline void set_bool(const bool &onoff) noexcept {
-			
-			m_checked = onoff;
-		}
+  // defines the state of the checkbox
+  inline void set_bool(const bool &onoff) noexcept { m_checked = onoff; }
 
-		// returns the checkbox state
-		inline bool get_bool() const noexcept {
+  // returns the checkbox state
+  inline bool get_bool() const noexcept { return m_checked; }
 
-			return m_checked;
-		}
+  // handle keyboard and mouse input
+  void handle_input();
 
-		// handle keyboard and mouse input
-		void handle_input();
+  // handle the element updates
+  void update();
 
-		// handle the element updates
-		void update();
+  // element tooltip
+  void tooltip();
 
-		// element tooltip
-		void tooltip();
+  // save the element state
+  void save(nlohmann::json &json_module);
 
-		// save the element state
-		void save(nlohmann::json& json_module);
+  // load the element state
+  void load(const std::string_view file_name);
 
-		// load the element state
-		void load(const std::string_view file_name);
-	private:
-		bool m_checked;
-	};
-}
+private:
+  bool m_checked;
+};
+} // namespace fgui

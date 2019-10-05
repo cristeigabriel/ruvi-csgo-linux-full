@@ -4,7 +4,7 @@
 
 #pragma once
 
- // includes
+// includes
 #include <string>
 #include <vector>
 
@@ -13,63 +13,55 @@
 
 namespace fgui {
 
-	class listbox : public fgui::element {
-	public:
-		listbox();
+class listbox : public fgui::element {
+public:
+  listbox();
 
-		// draw the element
-		void draw();
+  // draw the element
+  void draw();
 
-		// add a new item in the element
-		inline void add_item(const std::string_view item, const int &value = 0) noexcept {
+  // add a new item in the element
+  inline void add_item(const std::string_view item,
+                       const int &            value = 0) noexcept {
 
-			m_info.push_back( {item, value } );
-		}
+    m_info.push_back({item, value});
+  }
 
-		// returns the name of the selected item
-		inline std::string_view get_item() const noexcept {
+  // returns the name of the selected item
+  inline std::string_view get_item() const noexcept {
 
-			return m_info[m_index].item;
-		}
+    return m_info[m_index].item;
+  }
 
-		// get the index of the selected item
-		inline int get_index() const noexcept {
+  // get the index of the selected item
+  inline int get_index() const noexcept { return m_index; }
 
-			return m_index;
-		}
+  // get the value of a selected item
+  inline int get_value() const noexcept { return m_info[m_index].value; }
 
-		// get the value of a selected item
-		inline int get_value() const noexcept {
+  // set a pre-selected item for the element
+  inline void set_index(const int &index) noexcept { m_index = index; }
 
-			return m_info[m_index].value;
-		}
+  // handle keyboard and mouse input
+  void handle_input();
 
-		// set a pre-selected item for the element
-		inline void set_index(const int &index) noexcept {
+  // handle the element updates
+  void update();
 
-			m_index = index;
-		}
+  // element tooltip
+  void tooltip();
 
-		// handle keyboard and mouse input
-		void handle_input();
+  // save the element state
+  void save(nlohmann::json &json_module);
 
-		// handle the element updates
-		void update();
+  // load the element state
+  void load(const std::string_view file_name);
 
-		// element tooltip
-		void tooltip();
-
-		// save the element state
-		void save(nlohmann::json& json_module);
-
-		// load the element state
-		void load(const std::string_view file_name);
-	private:
-
-		int m_index;
-		bool m_dragging;
-		int m_slider_top;
-		int m_item_height;
-		std::vector<fgui::detail::item_info> m_info;
-	};
-}
+private:
+  int                                  m_index;
+  bool                                 m_dragging;
+  int                                  m_slider_top;
+  int                                  m_item_height;
+  std::vector<fgui::detail::item_info> m_info;
+};
+} // namespace fgui

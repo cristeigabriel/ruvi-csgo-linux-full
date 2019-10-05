@@ -29,13 +29,13 @@ inline std::unordered_map<std::string, std::shared_ptr<fgui::combobox>>
 inline std::unordered_map<std::string, std::shared_ptr<fgui::container>>
     container;
 inline std::unordered_map<std::string, std::shared_ptr<fgui::keybinder>>
-    keybinder;
-inline std::unordered_map<std::string, std::shared_ptr<fgui::label>> label;
+                                                                       keybinder;
+inline std::unordered_map<std::string, std::shared_ptr<fgui::label>>   label;
 inline std::unordered_map<std::string, std::shared_ptr<fgui::listbox>> listbox;
 inline std::unordered_map<std::string, std::shared_ptr<fgui::multibox>>
-    multibox;
-inline std::unordered_map<std::string, std::shared_ptr<fgui::slider>> slider;
+                                                                       multibox;
+inline std::unordered_map<std::string, std::shared_ptr<fgui::slider>>  slider;
 inline std::unordered_map<std::string, std::shared_ptr<fgui::spinner>> spinner;
-inline std::unordered_map<std::string, std::shared_ptr<fgui::tabs>> tabs;
+inline std::unordered_map<std::string, std::shared_ptr<fgui::tabs>>    tabs;
 inline std::unordered_map<std::string, std::shared_ptr<fgui::textbox>> textbox;
 } // namespace vars

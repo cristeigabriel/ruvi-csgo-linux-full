@@ -4,17 +4,19 @@
 
 #pragma once
 
-template <class t, class m = int> class utl_memory {
+template <class t, class m = int>
+class utl_memory {
 public:
   t &operator[](m i) { return memory[i]; }
 
 protected:
-  t *memory;
+  t * memory;
   int allocation_size;
   int grow_size;
 };
 
-template <class t, class a = utl_memory<t>> class utl_vector {
+template <class t, class a = utl_memory<t>>
+class utl_vector {
   typedef a allocator;
 
 public:
@@ -26,6 +28,6 @@ public:
 
 protected:
   allocator memory;
-  int size;
-  t *elements;
+  int       size;
+  t *       elements;
 };

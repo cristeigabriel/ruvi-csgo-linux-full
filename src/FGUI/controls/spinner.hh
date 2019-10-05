@@ -12,51 +12,46 @@
 
 namespace fgui {
 
-    class spinner : public fgui::element {
-    public:
-        spinner();
+class spinner : public fgui::element {
+public:
+  spinner();
 
-        // draw the element
-        void draw();
+  // draw the element
+  void draw();
 
-        // set a custom value for the element
-		inline void set_value(const int &value) noexcept {
+  // set a custom value for the element
+  inline void set_value(const int &value) noexcept { m_value = value; }
 
-            m_value = value;
-        }
+  // get the current value of the element
+  inline int get_value() const noexcept { return m_value; }
 
-		// get the current value of the element
-		inline int get_value() const noexcept {
+  // set the boundaries of the element
+  void set_boundaries(const int &min, const int &max) noexcept {
 
-            return m_value;
-        }
+    m_min = min;
+    m_max = max;
+  }
 
-		// set the boundaries of the element
-		void set_boundaries(const int &min, const int &max) noexcept {
+  // handle keyboard and mouse input
+  void handle_input();
 
-            m_min = min;
-            m_max = max;
-        }
+  // handle the element updates
+  void update();
 
-        // handle keyboard and mouse input
-		void handle_input();
+  // element tooltip
+  void tooltip();
 
-		// handle the element updates
-		void update();
+  // save the element state
+  void save(nlohmann::json &json_module);
 
-		// element tooltip
-		void tooltip();
+  // load the element state
+  void load(const std::string_view file_name);
 
-		// save the element state
-		void save(nlohmann::json& json_module);
-
-		// load the element state
-		void load(const std::string_view file_name);
-    private:
-        int m_value;
-        int m_min, m_max;
-        int m_holding_ticks;
-        fgui::state m_normal_click;
-        fgui::state m_holding_click;
-    };
-}
+private:
+  int         m_value;
+  int         m_min, m_max;
+  int         m_holding_ticks;
+  fgui::state m_normal_click;
+  fgui::state m_holding_click;
+};
+} // namespace fgui

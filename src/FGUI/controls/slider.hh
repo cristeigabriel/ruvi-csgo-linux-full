@@ -4,7 +4,7 @@
 
 #pragma once
 
- // includes
+// includes
 #include <string>
 #include <vector>
 
@@ -13,58 +13,53 @@
 
 namespace fgui {
 
-	class slider : public fgui::element {
-	public:
-		slider();
+class slider : public fgui::element {
+public:
+  slider();
 
-		// draw the element
-		void draw();
+  // draw the element
+  void draw();
 
-		// set a custom value for the element
-		inline void set_value(const float &value) noexcept {
+  // set a custom value for the element
+  inline void set_value(const float &value) noexcept { m_value = value; }
 
-			m_value = value;
-		}
+  // get the current value of the element
+  inline float get_value() const noexcept { return m_value; }
 
-		// get the current value of the element
-		inline float get_value() const noexcept {
+  // set the boundaries of the element
+  inline void set_boundaries(const float &min, const float &max) noexcept {
 
-			return m_value;
-		}
+    m_min = min;
+    m_max = max;
+  }
 
-		// set the boundaries of the element
-		inline void set_boundaries(const float &min, const float &max) noexcept {
+  // set the min and max custom text
+  inline void set_boundaries_text(const std::string_view min_text,
+                                  const std::string_view max_text) noexcept {
 
-			m_min = min;
-			m_max = max;
-		}
+    m_min_text = min_text;
+    m_max_text = max_text;
+  }
 
-		// set the min and max custom text
-		inline void set_boundaries_text(const std::string_view min_text, const std::string_view max_text) noexcept {
+  // handle keyboard and mouse input
+  void handle_input();
 
-			m_min_text = min_text;
-			m_max_text = max_text;
-		}
+  // handle the element updates
+  void update();
 
-		// handle keyboard and mouse input
-		void handle_input();
+  // element tooltip
+  void tooltip();
 
-		// handle the element updates
-		void update();
+  // save the element state
+  void save(nlohmann::json &json_module);
 
-		// element tooltip
-		void tooltip();
+  // load the element state
+  void load(const std::string_view file_name);
 
-		// save the element state
-		void save(nlohmann::json& json_module);
-
-		// load the element state
-		void load(const std::string_view file_name);
-	private:
-
-		float m_value;
-		bool m_dragging;
-		float m_min, m_max;
-		std::string m_min_text, m_max_text;
-	};
-}
+private:
+  float       m_value;
+  bool        m_dragging;
+  float       m_min, m_max;
+  std::string m_min_text, m_max_text;
+};
+} // namespace fgui

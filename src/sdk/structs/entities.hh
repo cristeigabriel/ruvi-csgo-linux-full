@@ -11,22 +11,22 @@
 #include "../vector/vector.hh"
 
 enum cs_team_id_t {
-  NONE = 0,
-  SPECTATOR = 1,
-  TERRORIST = 2,
+  NONE              = 0,
+  SPECTATOR         = 1,
+  TERRORIST         = 2,
   COUNTER_TERRORIST = 3
 };
 
 enum entity_flags_t {
-  ON_GROUND = (1 << 0),
-  DUCKING = (1 << 1),
-  PARTIAL_GROUND = (1 << 17),
-  STEP_MOVEMENT = (1 << 21),
+  ON_GROUND             = (1 << 0),
+  DUCKING               = (1 << 1),
+  PARTIAL_GROUND        = (1 << 17),
+  STEP_MOVEMENT         = (1 << 21),
   UNBLOCKABLE_BY_PLAYER = (1 << 30)
 };
 
 enum item_definition_index_t {
-  INVALID = -1,
+  INVALID     = -1,
   WEAPON_NONE = 0,
   WEAPON_DEAGLE,
   WEAPON_ELITE,
@@ -70,7 +70,7 @@ enum item_definition_index_t {
   WEAPON_INCGRENADE,
   WEAPON_C4,
   WEAPON_HEALTHSHOT = 57,
-  KNIFE_T = 59,
+  KNIFE_T           = 59,
   WEAPON_M4A1_SILENCER,
   WEAPON_USP_SILENCER,
   WEAPON_CZ75A = 63,
@@ -79,24 +79,24 @@ enum item_definition_index_t {
   WEAPON_FISTS,
   WEAPON_BREACHCHARGE,
   WEAPON_TABLET = 72,
-  WEAPON_MELEE = 74,
+  WEAPON_MELEE  = 74,
   WEAPON_AXE,
   WEAPON_HAMMER,
   WEAPON_SPANNER = 78,
-  KNIFE_GHOST = 80,
+  KNIFE_GHOST    = 80,
   WEAPON_FIREBOMB,
   WEAPON_DIVERSION,
   WEAPON_FRAG_GRENADE,
   WEAPON_SNOWBALL,
   WEAPON_BUMPMINE,
   KNIFE_BAYONET = 500,
-  KNIFE_FLIP = 505,
+  KNIFE_FLIP    = 505,
   KNIFE_GUT,
   KNIFE_KARAMBIT,
   KNIFE_M9_BAYONET,
   KNIFE_TACTICAL,
   KNIFE_FALCHION = 512,
-  KNIFE_BOWIE = 514,
+  KNIFE_BOWIE    = 514,
   KNIFE_BUTTERFLY,
   KNIFE_PUSH,
   KNIFE_URSUS = 519,
@@ -104,23 +104,23 @@ enum item_definition_index_t {
   KNIFE_STILETTO = 522,
   KNIFE_TALON,
   GLOVE_STUDDED_BLOODHOUND = 5027,
-  GLOVE_T_SIDE = 5028,
-  GLOVE_CT_SIDE = 5029,
-  GLOVE_SPORTY = 5030,
-  GLOVE_SLICK = 5031,
-  GLOVE_LEATHER_WRAP = 5032,
-  GLOVE_MOTORCYCLE = 5033,
-  GLOVE_SPECIALIST = 5034,
-  GLOVE_HYDRA = 5035,
+  GLOVE_T_SIDE             = 5028,
+  GLOVE_CT_SIDE            = 5029,
+  GLOVE_SPORTY             = 5030,
+  GLOVE_SLICK              = 5031,
+  GLOVE_LEATHER_WRAP       = 5032,
+  GLOVE_MOTORCYCLE         = 5033,
+  GLOVE_SPECIALIST         = 5034,
+  GLOVE_HYDRA              = 5035,
   WEAPON_MAX
 };
 
 enum class_id_t {
 
-  AK_47 = 1,
-  PLAYER = 40,
+  AK_47                  = 1,
+  PLAYER                 = 40,
   ENV_TONEMAP_CONTROLLER = 69,
-  PLAYER_RESOURCE = 131
+  PLAYER_RESOURCE        = 131
 
 };
 
@@ -158,8 +158,7 @@ struct player_resource_t {
   NETVAR_PTR(int, m_iPing, "DT_CSPlayerResource", "m_iPing");
 };
 
-struct entity_t : public i_client_networkable,
-                  public i_client_renderable {
+struct entity_t : public i_client_networkable, public i_client_renderable {
 
   inline vector3d get_bone_position(int i) {
 

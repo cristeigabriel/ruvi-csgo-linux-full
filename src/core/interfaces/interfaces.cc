@@ -49,8 +49,8 @@ void interfaces::on_entry_point() {
           memory::get_address(get_local_player_vfunc + 9, 1, 5));
 
   // initialize non exposed interfaces
-  csgo::client_mode = client_mode_ptr();
+  csgo::client_mode  = client_mode_ptr();
   csgo::client_state = client_state_ptr(-1);
-  csgo::global_vars = *reinterpret_cast<c_global_vars **>(
+  csgo::global_vars  = *reinterpret_cast<c_global_vars **>(
       memory::get_address(hud_update_vfunc + 13, 3, 7));
 }

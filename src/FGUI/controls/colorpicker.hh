@@ -5,63 +5,55 @@
 #pragma once
 
 // framework includes
-#include "element.hh"
 #include "../dependencies/color.hh"
+#include "element.hh"
 
 namespace fgui {
 
-	class colorpicker : public fgui::element {
-	public:
-		colorpicker();
+class colorpicker : public fgui::element {
+public:
+  colorpicker();
 
-		// draw the element
-		void draw();
+  // draw the element
+  void draw();
 
-		// set a custom color for the color picker
-		inline void set_color(const int &red, const int &green, const int &blue, const int &alpha = 255) noexcept {
+  // set a custom color for the color picker
+  inline void set_color(const int &red, const int &green, const int &blue,
+                        const int &alpha = 255) noexcept {
 
-			m_color = { red, green, blue, alpha };
-		}
+    m_color = {red, green, blue, alpha};
+  }
 
-		inline void set_color(const fgui::color &color) noexcept {
+  inline void set_color(const fgui::color &color) noexcept { m_color = color; }
 
-			m_color = color;
-		}
+  // returns the current selected color
+  inline fgui::color get_color() const noexcept { return m_color; }
 
-		// returns the current selected color
-		inline fgui::color get_color() const noexcept {
+  // sets a custom state for the color picker (if the color pallet is opened or
+  // not)
+  inline void set_state(const fgui::state &state) noexcept { m_opened = state; }
 
-			return m_color;
-		}
+  // returns the current state of the color picker (if the color pallet is
+  // opened or not)
+  inline fgui::state get_state() const noexcept { return m_opened; }
 
-		// sets a custom state for the color picker (if the color pallet is opened or not)
-		inline void set_state(const fgui::state &state) noexcept {
+  // handle keyboard and mouse input
+  void handle_input();
 
-			m_opened = state;
-		}
+  // handle the element updates
+  void update();
 
-		// returns the current state of the color picker (if the color pallet is opened or not)
-		inline fgui::state get_state() const noexcept {
+  // element tooltip
+  void tooltip();
 
-			return m_opened;
-		}
+  // save the element state
+  void save(nlohmann::json &json_module);
 
-		// handle keyboard and mouse input
-		void handle_input();
+  // load the element state
+  void load(const std::string_view file_name);
 
-		// handle the element updates
-		void update();
-
-		// element tooltip
-		void tooltip();
-
-		// save the element state
-		void save(nlohmann::json& json_module);
-
-		// load the element state
-		void load(const std::string_view file_name);
-	private:
-		fgui::state m_opened;
-		fgui::color m_color = { 0, 0, 0 };
-	};
-}
+private:
+  fgui::state m_opened;
+  fgui::color m_color = {0, 0, 0};
+};
+} // namespace fgui

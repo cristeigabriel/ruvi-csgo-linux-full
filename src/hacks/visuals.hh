@@ -13,8 +13,10 @@ class visuals { // using classes for this might be a little bit overkill, but
 public:
   void on_paint(); // main entity loop and other visuals
 protected:
-  void player(entity_t *entity); // player visuals (bounding box, name esp, weapon esp, flags, etc)
-  void world(entity_t *world); // non player visuals (dropped weapons, grenades esp, etc)
+  void player(entity_t *entity); // player visuals (bounding box, name esp,
+                                 // weapon esp, flags, etc)
+  void world(entity_t *world); // non player visuals (dropped weapons, grenades
+                               // esp, etc)
 private:
   void bounding_box(const utilities::esp_box_t &box);
   void player_name(entity_t *entity, const utilities::esp_box_t &box);

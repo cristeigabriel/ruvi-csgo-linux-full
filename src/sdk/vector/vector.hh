@@ -12,7 +12,8 @@ inline double DEG2RAD(double degrees) {
   return degrees * 4.0 * atan(1.0) / 180.0;
 }
 
-template <typename t> class vector {
+template <typename t>
+class vector {
 public:
   t x, y, z;
 

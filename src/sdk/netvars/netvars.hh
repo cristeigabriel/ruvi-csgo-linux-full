@@ -13,15 +13,13 @@
 // macros
 #define NETVAR(type, function_name, table_name, netvar_name)                   \
   type function_name() {                                                       \
-    static std::uintptr_t offset =                                             \
-        netvars::m_netvar[table_name][netvar_name];                    \
+    static std::uintptr_t offset = netvars::m_netvar[table_name][netvar_name]; \
     return *reinterpret_cast<type *>(std::uintptr_t(this) + offset);           \
   };
 
 #define NETVAR_PTR(type, function_name, table_name, netvar_name)               \
   type *function_name() {                                                      \
-    static std::uintptr_t offset =                                             \
-        netvars::m_netvar[table_name][netvar_name];                    \
+    static std::uintptr_t offset = netvars::m_netvar[table_name][netvar_name]; \
     return reinterpret_cast<type *>(std::uintptr_t(this) + offset);            \
   };
 
@@ -44,8 +42,8 @@ inline std::unordered_map<std::string,
                           std::unordered_map<std::string, std::uintptr_t>>
     m_netvar;
 
-void on_entry_point();
-void collect_netvars(const std::string &table_name, recv_table_t *table,
-                    int table_offset = 0);
+void        on_entry_point();
+void        collect_netvars(const std::string &table_name, recv_table_t *table,
+                            int table_offset = 0);
 std::string dump_netvars(recv_table_t *table);
 } // namespace netvars

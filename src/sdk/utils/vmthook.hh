@@ -18,16 +18,14 @@ public:
 
   ~vmt_hook() {
 
-    if (m_new_vmt)
-      delete[](m_new_vmt - 1);
+    if (m_new_vmt) delete[](m_new_vmt - 1);
   }
 
   void initialize(void **original_table) {
     m_old_vmt = original_table;
 
     std::size_t size = 0;
-    while (m_old_vmt[size])
-      ++size;
+    while (m_old_vmt[size]) ++size;
 
     m_new_vmt = (new void *[size + 1]) + 1;
     std::memcpy(m_new_vmt - 1, m_old_vmt - 1, sizeof(void *) * (size + 1));
@@ -35,8 +33,8 @@ public:
 
   bool initialize_and_hook_instance(void *instance) {
 
-    void **&vtbl = *reinterpret_cast<void ***>(instance);
-    bool initialized = false;
+    void **&vtbl        = *reinterpret_cast<void ***>(instance);
+    bool    initialized = false;
 
     if (!m_old_vmt) {
       initialized = true;
@@ -69,7 +67,8 @@ public:
     return reinterpret_cast<fn>(m_old_vmt[index]);
   }
 
-  template <typename fn> void apply_hook(std::size_t index) {
+  template <typename fn>
+  void apply_hook(std::size_t index) {
     fn::original = hook_function(&fn::hooked, index);
   }
 

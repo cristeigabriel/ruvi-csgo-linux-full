@@ -9,20 +9,20 @@
 void draw::on_entry_point() {
 
   // initialize render manager
-  fgui::render.create_font = draw::create_font;
-  fgui::render.get_screen_size = draw::get_screen_size;
-  fgui::render.get_text_size = draw::get_text_size;
-  fgui::render.clip_rect = draw::clip_rect;
-  fgui::render.rect = draw::rect;
-  fgui::render.gradient = draw::gradient;
+  fgui::render.create_font      = draw::create_font;
+  fgui::render.get_screen_size  = draw::get_screen_size;
+  fgui::render.get_text_size    = draw::get_text_size;
+  fgui::render.clip_rect        = draw::clip_rect;
+  fgui::render.rect             = draw::rect;
+  fgui::render.gradient         = draw::gradient;
   fgui::render.colored_gradient = draw::colored_gradient;
-  fgui::render.outline = draw::outline;
-  fgui::render.line = draw::line;
-  fgui::render.polygon = draw::polygon;
-  fgui::render.circle = draw::circle;
-  fgui::render.rounded_rect = draw::rounded_rect;
-  fgui::render.text = draw::text;
-  fgui::render.alpha = draw::alpha;
+  fgui::render.outline          = draw::outline;
+  fgui::render.line             = draw::line;
+  fgui::render.polygon          = draw::polygon;
+  fgui::render.circle           = draw::circle;
+  fgui::render.rounded_rect     = draw::rounded_rect;
+  fgui::render.text             = draw::text;
+  fgui::render.alpha            = draw::alpha;
 
   // other fonts (esp, watermark, etc)
   fonts.emplace_back(FONT_VERDANA);
@@ -45,7 +45,7 @@ void draw::create_font(fgui::font &font, const std::string_view family,
                                          bold ? 800 : 0, 0, 0, flags);
 }
 
-fgui::dimension draw::get_text_size(const fgui::font &font,
+fgui::dimension draw::get_text_size(const fgui::font &     font,
                                     const std::string_view text) {
 
   fgui::dimension temp = {0, 0};
@@ -92,13 +92,13 @@ void draw::colored_gradient(int x, int y, int w, int h, fgui::color color1,
 
     draw::rect(x, y, w, h, color1);
 
-    unsigned char first = color2.m_red;
+    unsigned char first  = color2.m_red;
     unsigned char second = color2.m_green;
-    unsigned char third = color2.m_blue;
+    unsigned char third  = color2.m_blue;
 
     for (int i = 0; i < w; i++) {
-      float fi = i, fw = w;
-      float a = fi / fw;
+      float        fi = i, fw = w;
+      float        a  = fi / fw;
       unsigned int ia = a * 255;
       draw::rect(x + i, y, 1, h, fgui::color(first, second, third, ia));
     }
@@ -108,14 +108,14 @@ void draw::colored_gradient(int x, int y, int w, int h, fgui::color color1,
 
     draw::rect(x, y, w, h, color1);
 
-    unsigned char first = color2.m_red;
+    unsigned char first  = color2.m_red;
     unsigned char second = color2.m_green;
-    unsigned char third = color2.m_blue;
+    unsigned char third  = color2.m_blue;
 
     for (int i = 0; i < h; i++) {
 
-      float fi = i, fh = h;
-      float a = fi / fh;
+      float        fi = i, fh = h;
+      float        a  = fi / fh;
       unsigned int ia = a * 255;
       draw::rect(x, y + i, w, 1, fgui::color(first, second, third, ia));
     }
@@ -151,7 +151,7 @@ void draw::get_screen_size(int &width, int &height) {
 
 void draw::polygon(int count, fgui::vertex *vertex, fgui::color color) {
 
-  static int texture = csgo::vgui_surface->create_new_texture_id(true);
+  static int    texture   = csgo::vgui_surface->create_new_texture_id(true);
   unsigned char buffer[4] = {255, 255, 255, 255};
 
   csgo::vgui_surface->draw_set_texture_rgba(texture, buffer, 1, 1);
@@ -202,8 +202,7 @@ void draw::texture(const std::string_view texture_name, int x, int y, int w,
     texture_id = csgo::vgui_surface->create_new_texture_id(true);
 
     // if somehow the texture id is invalid
-    if (!texture_id)
-      return false;
+    if (!texture_id) return false;
 
     csgo::vgui_surface->draw_set_texture_file(texture_id, texture_name.data(),
                                               1, false);
@@ -214,8 +213,7 @@ void draw::texture(const std::string_view texture_name, int x, int y, int w,
   if (initialized) {
 
     static bool draw_once = [&]() {
-      if (!csgo::vgui_surface->is_texture_id_valid(texture_id))
-        return false;
+      if (!csgo::vgui_surface->is_texture_id_valid(texture_id)) return false;
 
       csgo::vgui_surface->draw_set_color(255, 255, 255, 255);
       csgo::vgui_surface->draw_set_texture(texture_id);
@@ -233,8 +231,8 @@ void draw::alpha(int x, int y, int w, int h) {
 
     for (std::size_t t = 0; t < w / 5; t++) {
 
-      int pixel_nr = roundf(t);
-      int line_nr = roundf(i);
+      int  pixel_nr         = roundf(t);
+      int  line_nr          = roundf(i);
       bool start_with_light = line_nr % 2;
       bool is_brick_light = start_with_light ? pixel_nr % 2 : pixel_nr % 2 == 0;
 

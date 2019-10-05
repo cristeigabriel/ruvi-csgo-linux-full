@@ -18,14 +18,14 @@ struct player_info_t {
       int xuid_high;
     };
   };
-  char name[128];
-  int userid;
-  char guid[33];
-  unsigned int steam3_id;
-  char friendsname[128];
-  bool is_fake_player;
-  bool ishltv;
-  unsigned int customfiles[4];
+  char          name[128];
+  int           userid;
+  char          guid[33];
+  unsigned int  steam3_id;
+  char          friendsname[128];
+  bool          is_fake_player;
+  bool          ishltv;
+  unsigned int  customfiles[4];
   unsigned char filesdownloaded;
 };
 

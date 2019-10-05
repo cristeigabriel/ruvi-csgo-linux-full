@@ -5,9 +5,9 @@
 #pragma once
 
 // includes
-#include <functional>
 #include "../memory/memory.hh"
 #include "../utils/utlvector.hh"
+#include <functional>
 
 class convar {
 private:
@@ -28,23 +28,23 @@ public:
   void set_value(int value) { return memory::vfunc<19, void>(this, value); }
 
 public:
-  char pad0[0x4];
-  convar *next;
-  int registered;
-  char *name;
-  char *help_string;
-  int flags;
-  char pad1[0x4];
-  convar *parent;
-  char *default_value;
-  char *string;
-  int string_length;
-  float float_value;
-  int int_value;
-  int has_min;
-  float min;
-  int has_max;
-  float max;
+  char                   pad0[0x4];
+  convar *               next;
+  int                    registered;
+  char *                 name;
+  char *                 help_string;
+  int                    flags;
+  char                   pad1[0x4];
+  convar *               parent;
+  char *                 default_value;
+  char *                 string;
+  int                    string_length;
+  float                  float_value;
+  int                    int_value;
+  int                    has_min;
+  float                  min;
+  int                    has_max;
+  float                  max;
   utl_vector<callback_t> callback;
 };
 
@@ -71,7 +71,8 @@ public:
     return cvar;
   }
 
-  void console_color_printf(const int color[4], const std::string_view message, ...) {
+  void console_color_printf(const int color[4], const std::string_view message,
+                            ...) {
     return memory::vfunc<25, void>(this, std::ref(color), message.data());
   }
 };

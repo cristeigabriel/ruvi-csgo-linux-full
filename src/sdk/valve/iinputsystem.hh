@@ -9,7 +9,7 @@
 
 enum analog_code_t {
   ANALOG_CODE_INVALID = -1,
-  MOUSE_X = 0,
+  MOUSE_X             = 0,
   MOUSE_Y,
   MOUSE_XY, // invoked when either x or y changes
   MOUSE_WHEEL,

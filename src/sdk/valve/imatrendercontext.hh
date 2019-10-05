@@ -13,13 +13,13 @@ class i_material;
 struct stencil_state_t {
 
   bool enable;
-  int fail;
-  int zfail;
-  int pass;
-  int compare;
-  int ref;
-  int mask1;
-  int mask2;
+  int  fail;
+  int  zfail;
+  int  pass;
+  int  compare;
+  int  ref;
+  int  mask1;
+  int  mask2;
 };
 
 class i_texture {
