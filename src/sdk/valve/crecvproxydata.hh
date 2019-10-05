@@ -9,9 +9,19 @@ struct recv_table_t;
 
 typedef void (*fn)(recv_proxy_data_t *p_data, void *p_struct, void *p_out);
 
+enum prop_type_t {
+	DPT_Int = 0,
+	DPT_Float,
+	DPT_Vector,
+	DPT_VectorXY, // only encodes the XY of a vector, ignores Z
+	DPT_String,
+	DPT_Array,	// an array of the base types (can't be of datatables).
+	DPT_DataTable,
+};
+
 struct recv_prop_t {
   char *name;
-  int type;
+  prop_type_t type;
   int flags;
   int string_buffer_size;
   bool inside_array;

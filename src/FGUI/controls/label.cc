@@ -25,7 +25,7 @@ void fgui::label::draw() {
 	fgui::point a = fgui::element::get_absolute_position();
 
 	// get the window style
-	auto style = handler::get_style();
+	fgui::style style = handler::get_style();
 
 	// label size
 	fgui::dimension text_size = fgui::render.get_text_size(fgui::label::get_font(), fgui::label::m_text);
@@ -118,7 +118,7 @@ void fgui::label::tooltip() {
 	fgui::point a = fgui::element::get_absolute_position();
 
 	// get the window style
-	auto style = handler::get_style();
+	fgui::style style = handler::get_style();
 
 	// get the control area
 	fgui::rect area = { a.x, a.y, m_width, m_height };

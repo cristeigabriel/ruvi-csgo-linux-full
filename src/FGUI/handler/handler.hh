@@ -134,7 +134,7 @@ namespace fgui {
 		// call a notification
 		inline const void call_notification(const std::string_view notification_text, const fgui::animation_type &animation_type) noexcept {	
 			
-			fgui::m_notifications->add_notification(notification_text, animation_type);
+			m_notifications->add_notification(notification_text, animation_type);
 		}
 	}
 }

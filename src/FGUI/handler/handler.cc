@@ -17,7 +17,7 @@ void fgui::handler::render_window() {
 	}
 
 	// bindings
-	for (auto &binded_key : m_binds) {
+	for (std::pair<const int, std::shared_ptr<fgui::container>> &binded_key : m_binds) {
 
 		// toggle the window on and off
 		if (fgui::input_system::key_press(binded_key.first))
@@ -49,7 +49,7 @@ void fgui::handler::render_window() {
 		}
 
 		// other window
-        auto other_window = m_windows.at(m_windows.size() - 1 - i);
+        std::shared_ptr<fgui::container> other_window = m_windows.at(m_windows.size() - 1 - i);
 
         if (other_window && other_window->hovered()) {
 
@@ -70,7 +70,7 @@ void fgui::handler::draw_cursors() {
 	static fgui::point cursor = {0, 0};
 
 	// get the window style
-	auto style = get_style();
+	fgui::style style = get_style();
 
 	if (m_input_state == fgui::input_state::UNLOCKED) {
 

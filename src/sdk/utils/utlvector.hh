@@ -6,26 +6,26 @@
 
 template <class t, class m = int> class utl_memory {
 public:
-  t &operator[](m i) { return m_memory[i]; }
+  t &operator[](m i) { return memory[i]; }
 
 protected:
-  t *m_memory;
-  int m_allocation_size;
-  int m_grow_size;
+  t *memory;
+  int allocation_size;
+  int grow_size;
 };
 
 template <class t, class a = utl_memory<t>> class utl_vector {
   typedef a allocator;
 
 public:
-  t &operator[](std::size_t index) { return m_memory[index]; }
+  t &operator[](std::size_t index) { return memory[index]; }
 
-  int count() const { return m_size; }
+  int count() const { return size; }
 
-  void set_size(std::size_t value) { m_size = value; }
+  void set_size(std::size_t value) { size = value; }
 
 protected:
-  allocator m_memory;
-  int m_size;
-  t *m_elements;
+  allocator memory;
+  int size;
+  t *elements;
 };

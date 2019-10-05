@@ -17,7 +17,12 @@ void netvars::on_entry_point() {
 
   for (c_client_class *data = client_class; data != nullptr;
        data = data->next) {
-    collect_netvars(data->table->name, data->table);
+
+    if (data->table)
+      collect_netvars(data->table->name, data->table);
+
+    // debug purposes only
+    m_dumped_tables++;
 
     if (DUMP_NETVARS)
       ss << netvars::dump_netvars(data->table);
@@ -33,6 +38,9 @@ void netvars::on_entry_point() {
 
     // read buffer and write to file
     file << ss.rdbuf();
+
+    // debug purposes only
+    file << std::endl << "dumped: " + std::to_string(m_dumped_tables) + " tables" + ", " + std::to_string(m_dumped_netvars) + " netvars" << std::endl; 
   }
 }
 
@@ -41,24 +49,18 @@ std::string netvars::dump_netvars(recv_table_t *table) {
   std::stringstream ss;
 
   // table name
-  ss << '[' << table->name << ']' << std::endl;
+  ss << std::endl << '[' << table->name << ']' << std::endl;
 
   for (std::size_t i = 0; i < table->num_props; i++) {
 
     recv_prop_t *current_netvar = &table->p_props[i];
 
-    // netvar name
-    std::string_view netvar_name = current_netvar->name;
-
     // remove useless stuff
-    if (netvar_name.find("baseclass") != std::string::npos ||
-        netvar_name.find('0') != std::string::npos ||
-        netvar_name.find('1') != std::string::npos ||
-        netvar_name.find("2") != std::string::npos)
+    if (std::string("baseclass").compare(current_netvar->name) == 0)
       continue;
 
     // offset
-    ss << netvar_name << " ="
+    ss << current_netvar->name << " ="
        << " 0x" << std::uppercase << std::hex << current_netvar->offset
        << std::endl;
 
@@ -71,8 +73,9 @@ std::string netvars::dump_netvars(recv_table_t *table) {
   return ss.str();
 }
 
-void netvars::collect_netvars(std::string table_name, recv_table_t *table,
-                              std::uintptr_t table_offset) {
+void netvars::collect_netvars(const std::string &table_name,
+                              recv_table_t *table,
+                              int table_offset) {
 
   // loop through tables and netvars
   for (std::size_t i = 0; i < table->num_props; ++i) {
@@ -83,16 +86,22 @@ void netvars::collect_netvars(std::string table_name, recv_table_t *table,
     // current table
     recv_table_t *current_table = current_netvar->data_table;
 
-    // if we have at least one netvar on the table, store it
-    if (current_table != nullptr && current_table->num_props > 0)
+    // if the table have at least one netvar store it
+    if (current_table && current_table->num_props > 0)
       collect_netvars(table_name, current_table, current_netvar->offset);
 
-    // check if the netvar exists in the specified table
-    if (m_netvar[table_name][current_netvar->name] <= 0) {
+    if (m_netvar[table_name][current_netvar->name] <= 0 &&
+            (current_netvar->type == DPT_Float ||
+        current_netvar->type == DPT_Int || current_netvar->type == DPT_String ||
+        current_netvar->type == DPT_Vector ||
+        current_netvar->type == DPT_VectorXY)) {
 
-      // grab the offset of the netvar that we just searched
+      // assign the offset of the netvar that we searched
       m_netvar[table_name][current_netvar->name] =
           static_cast<std::uintptr_t>(current_netvar->offset) + table_offset;
+
+      // debug purposes only
+      m_dumped_netvars++;
     }
   }
 }

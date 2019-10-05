@@ -29,6 +29,7 @@
 #include "sdk/valve/ipanel.hh"
 #include "sdk/valve/isurface.hh"
 #include "sdk/valve/ivdebugoverlay.hh"
+#include "sdk/valve/cglobalvars.hh"
 
 typedef void *(*create_interface_fn)();
 
@@ -115,4 +116,5 @@ inline i_client_mode *client_mode;
 inline c_base_client_state *client_state;
 inline i_cvar *cvar;
 inline i_material_system *material_system;
+inline c_global_vars *global_vars;
 } // namespace csgo

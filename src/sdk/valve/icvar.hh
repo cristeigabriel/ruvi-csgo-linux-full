@@ -62,16 +62,16 @@ public:
     return memory::vfunc<15, convar *>(this, name);
   }
 
-  convar *spoof(convar *cvar, std::string new_name) {
+  convar *spoof(convar *cvar, const std::string_view new_name) {
 
     un_register_con_command(cvar);
-    cvar->name = const_cast<char *>(new_name.c_str());
+    cvar->name = const_cast<char *>(new_name.data());
     register_con_command(cvar);
 
     return cvar;
   }
 
-  void console_color_printf(const int color[4], std::string message, ...) {
-    return memory::vfunc<25, void>(this, std::ref(color), message.c_str());
+  void console_color_printf(const int color[4], const std::string_view message, ...) {
+    return memory::vfunc<25, void>(this, std::ref(color), message.data());
   }
 };

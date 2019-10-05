@@ -25,7 +25,7 @@ enum entity_flags_t {
   UNBLOCKABLE_BY_PLAYER = (1 << 30)
 };
 
-enum item_definition_index_t : int {
+enum item_definition_index_t {
   INVALID = -1,
   WEAPON_NONE = 0,
   WEAPON_DEAGLE,
@@ -115,28 +115,51 @@ enum item_definition_index_t : int {
   WEAPON_MAX
 };
 
-struct entity_t : public i_client_networkable, public i_client_renderable {
+enum class_id_t {
 
-  inline bool is_valid() {
+  AK_47 = 1,
+  PLAYER = 40,
+  ENV_TONEMAP_CONTROLLER = 69,
+  PLAYER_RESOURCE = 131
 
-    entity_t *local_player =
-        reinterpret_cast<entity_t *>(csgo::entity_list->get_client_entity(
-            csgo::engine_client->get_local_player()));
+};
 
-    if (!this)
-      return false;
+struct tonemap_controller_t {
 
-    if (IClientNetworkable()->is_dormant())
-      return false;
+  NETVAR_PTR(bool, m_bUseCustomAutoExposureMin, "DT_EnvTonemapController",
+             "m_bUseCustomAutoExposureMin");
+  NETVAR_PTR(bool, m_bUseCustomAutoExposureMax, "DT_EnvTonemapController",
+             "m_bUseCustomAutoExposureMax");
+  NETVAR_PTR(float, m_flCustomAutoExposureMin, "DT_EnvTonemapController",
+             "m_flCustomAutoExposureMin");
+  NETVAR_PTR(float, m_flCustomAutoExposureMax, "DT_EnvTonemapController",
+             "m_flCustomAutoExposureMax");
+};
 
-    if (m_iHealth() == 0)
-      return false;
+struct player_resource_t {
 
-    if (this == local_player)
-      return false;
+  NETVAR_PTR(int, m_nPersonaDataPublicLevel, "DT_CSPlayerResource",
+             "m_nPersonaDataPublicLevel");
+  NETVAR_PTR(int, m_nPersonaDataPublicCommendsLeader, "DT_CSPlayerResource",
+             "m_nPersonaDataPublicCommendsLeader");
+  NETVAR_PTR(int, m_nPersonaDataPublicCommendsTeacher, "DT_CSPlayerResource",
+             "m_nPersonaDataPublicCommendsTeacher");
+  NETVAR_PTR(int, m_nPersonaDataPublicCommendsFriendly, "DT_CSPlayerResource",
+             "m_nPersonaDataPublicCommendsFriendly");
+  NETVAR_PTR(int, m_nActiveCoinRank, "DT_CSPlayerResource",
+             "m_nActiveCoinRank");
+  NETVAR_PTR(int, m_nMusicID, "DT_CSPlayerResource", "m_nMusicID");
+  NETVAR_PTR(int, m_iCompetitiveWins, "DT_CSPlayerResource",
+             "m_iCompetitiveWins");
+  NETVAR_PTR(int, m_iCompetitiveRanking, "DT_CSPlayerResource",
+             "m_iCompetitiveRanking");
+  NETVAR_PTR(char, m_szClan, "DT_CSPlayerResource", "m_szClan");
+  NETVAR_PTR(int, m_iKills, "DT_CSPlayerResource", "m_iKills");
+  NETVAR_PTR(int, m_iPing, "DT_CSPlayerResource", "m_iPing");
+};
 
-    return true;
-  }
+struct entity_t : public i_client_networkable,
+                  public i_client_renderable {
 
   inline vector3d get_bone_position(int i) {
 
@@ -162,6 +185,13 @@ struct entity_t : public i_client_networkable, public i_client_renderable {
     return memory::vfunc<111, void>(this, index);
   }
 
+  player_info_t get_entity_info() {
+    player_info_t temp_info;
+    csgo::engine_client->get_player_info(IClientNetworkable()->get_index(),
+                                         &temp_info);
+    return temp_info;
+  }
+
   //
   // offsets goes here
   //
@@ -175,6 +205,11 @@ struct entity_t : public i_client_networkable, public i_client_renderable {
   NETVAR(int, m_iTeamNum, "DT_CSPlayer", "m_iTeamNum");
   NETVAR(vector3d, m_vecOrigin, "DT_BaseEntity", "m_vecOrigin");
   NETVAR(vector3d, m_vecViewOffset, "DT_BasePlayer", "m_vecViewOffset[0]");
+  NETVAR(vector3d, m_vecMins, "DT_BaseEntity", "m_vecMins");
+  NETVAR(vector3d, m_vecMaxs, "DT_BaseEntity", "m_vecMaxs");
+  NETVAR_PTR(bool, m_bSpotted, "DT_BaseEntity", "m_bSpotted");
+  NETVAR_PTR(float, m_flHealthShotBoostExpirationTime, "DT_CSPlayer",
+             "m_flHealthShotBoostExpirationTime");
 };
 
 struct weapon_t {

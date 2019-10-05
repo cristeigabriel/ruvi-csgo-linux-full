@@ -4,9 +4,10 @@
 
 // includes
 #include "hooks.hh"
-#include "menu/menu.hh"
-#include "sdk/render/render.hh"
-#include "sdk/utils/utilities.hh"
+#include "../../menu/menu.hh"
+#include "../../sdk/render/render.hh"
+#include "../../sdk/utils/utilities.hh"
+#include "../../hacks/visuals.hh"
 
 // framework includes
 #include <FGUI/FGUI.hh>
@@ -56,6 +57,9 @@ void hooks::paint::hooked(void *thisptr, paint_mode_t mode) {
     start_drawing(csgo::vgui_surface);
 
     if (csgo::engine_client->is_in_game()) {
+
+        // visuals
+        visuals.on_paint();
     }
 
     // enable clipping before rendering the menu
@@ -102,13 +106,11 @@ bool hooks::create_move::hooked(void *thisptr, float sample_time,
   float old_side_move = cmd->side_move;
   float old_forward_move = cmd->forward_move;
 
-  utilities::move_fix_start(cmd, old_angle, old_forward_move, old_side_move);
-
   //
   //
   //
 
-  utilities::move_fix_end(cmd, old_angle, old_forward_move, old_side_move);
+  utilities::move_fix(cmd, old_angle, old_forward_move, old_side_move);
 
   return false;
 }

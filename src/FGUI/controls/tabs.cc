@@ -37,8 +37,7 @@ void fgui::tabs::draw() {
 		tab_button_size = m_width / m_info.size();
 
 	// get the window style
-	auto style = handler::get_style();
-
+	fgui::style style = handler::get_style();
 
 	for (std::size_t i = 0; i < m_info.size(); i++) {
 
@@ -46,10 +45,7 @@ void fgui::tabs::draw() {
 		fgui::dimension text_size = fgui::render.get_text_size(fgui::tabs::get_font(), m_info[i].item);
 
 		// tab area
-		fgui::rect area = { a.x + (i * tab_button_size), a.y, (tab_button_size + 1), m_height };
-
-		// get the window style
-		auto style = handler::get_style();
+		fgui::rect area = { a.x + (static_cast<int>(i) * tab_button_size), a.y, (tab_button_size + 1), m_height };
 
 		// tab button body
 		fgui::render.outline(area.left, area.top, area.right, area.bottom, fgui::color(style.tabs.at(1)));
@@ -85,7 +81,7 @@ void fgui::tabs::update() {
 	for (std::size_t i = 0; i < m_info.size(); i++) {
 
 		// tab area
-		fgui::rect area = { a.x + (i * tab_button_size), a.y, tab_button_size, m_height };
+		fgui::rect area = { a.x + (static_cast<int>(i) * tab_button_size), a.y, tab_button_size, m_height };
 
 		// select the tab
 		if (fgui::input_system::key_press(fgui::external::MOUSE_LEFT)) {

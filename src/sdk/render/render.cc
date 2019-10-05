@@ -33,7 +33,7 @@ void draw::on_entry_point() {
                            fgui::external::font_flags::SHADOW, false);
   fgui::render.create_font(fonts[FONT_ARIAL], "Arial", 11,
                            fgui::external::font_flags::SHADOW, false);
-  fgui::render.create_font(fonts[FONT_TAHOMA], "Tahoma", 11,
+  fgui::render.create_font(fonts[FONT_TAHOMA], "fs Tahoma 8px", 13,
                            fgui::external::font_flags::SHADOW, false);
 }
 
