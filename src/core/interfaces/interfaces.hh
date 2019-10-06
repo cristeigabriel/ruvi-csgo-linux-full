@@ -95,7 +95,10 @@ inline t *get_interface(const std::string &interface_location) {
       }
     }
   }
-
+  
+  // remove splitted_string
+  splitted_string.clear();
+  
   return {};
 }
 } // namespace interfaces
