@@ -15,6 +15,7 @@ public:
 protected:
 private:
   void bunny_hop(c_user_cmd *cmd);
+  void auto_strafe(c_user_cmd *cmd);
 };
 
 } // namespace features

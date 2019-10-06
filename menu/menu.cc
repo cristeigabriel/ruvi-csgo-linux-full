@@ -97,6 +97,9 @@ void menu::on_entry_point() {
       ADD_CHECKBOX(vars::checkbox["#bunny_hop"], 15, 15, "Bunny Hop",
                    "vars.bunny_hop", element_font,
                    vars::container["#miscelleanous_groupbox"], -1);
+      ADD_CHECKBOX(vars::checkbox["#auto_strafe"], 15, (15 + 25), "Auto Strafe",
+                   "vars.auto_strafe", element_font,
+                   vars::container["#miscelleanous_groupbox"], -1);
     }
   }
 
