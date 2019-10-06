@@ -4,6 +4,7 @@
 
 // includes
 #include "hooks.hh"
+#include "../../core/globals/globals.hh"
 #include "../../hacks/miscellaneous.hh"
 #include "../../hacks/visuals.hh"
 #include "../../menu/menu.hh"
@@ -103,16 +104,14 @@ bool hooks::create_move::hooked(void *thisptr, float sample_time,
 
   if (cmd || cmd->command_number) {
 
-    // save it for later
-    qangle old_angle = cmd->view_angles;
-    float old_side_move = cmd->side_move;
-    float old_forward_move = cmd->forward_move;
+    // send packet -- FUZION
+    uintptr_t rbp;
+    asm volatile("mov %%rbp, %0" : "=r" (rbp));
+    bool *send_packet = ((*(bool **)rbp) - 0x18);
+    globals::send_packet = true;
 
     // miscellaneous
     miscellaneous.on_create_move(cmd);
-
-    // fix movement
-    utilities::move_fix(cmd, old_angle, old_forward_move, old_side_move);
   }
   return false;
 }

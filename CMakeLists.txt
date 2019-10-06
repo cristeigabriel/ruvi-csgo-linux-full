@@ -25,6 +25,7 @@ add_library(ruvi SHARED
         
         # cheat
         src/core/entry.cc
+	src/core/globals/globals.cc
         src/core/hooks/hooks.cc
         src/core/interfaces/interfaces.cc
         src/hacks/miscellaneous.cc

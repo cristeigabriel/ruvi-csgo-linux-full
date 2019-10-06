@@ -85,6 +85,10 @@ void features::miscellaneous::bunny_hop(c_user_cmd *cmd) {
 
 void features::miscellaneous::auto_strafe(c_user_cmd *cmd) {
 
+  qangle old_angle = cmd->view_angles;
+  float old_side_move = cmd->side_move;
+  float old_forward_move = cmd->forward_move;
+
   if (!vars::checkbox["#auto_strafe"]->get_bool())
     return;
 
@@ -106,6 +110,8 @@ void features::miscellaneous::auto_strafe(c_user_cmd *cmd) {
     return;
 
   cmd->side_move = cmd->mouse_dx < 0 ? -450.0f : 450.0f;
+
+  utilities::move_fix(cmd, old_angle, old_forward_move, old_side_move);
 }
 
 void features::miscellaneous::rank_revealer(entity_t* local_player, c_user_cmd *cmd) {
