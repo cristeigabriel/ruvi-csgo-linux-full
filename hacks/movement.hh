@@ -11,7 +11,7 @@ namespace features {
 class movement { // using classes for this might be a little bit overkill, but
                  // IMO it's better for organization, and feature control.
 public:
-  void on_move(c_user_cmd *cmd); // calls every movement function
+  void on_create_move(c_user_cmd *cmd); // calls every movement function
 protected:
 private:
   void bunny_hop(c_user_cmd *cmd);

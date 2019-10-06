@@ -5,11 +5,11 @@
 #include "movement.hh"
 #include "menu/menu.hh"
 
-void features::movement::on_move(c_user_cmd *cmd) { movement::bunny_hop(cmd); }
+void features::movement::on_create_move(c_user_cmd *cmd) { movement::bunny_hop(cmd); }
 
-void features::movement::bunny_hop(c_user_cmd *cmd) {     /* spent a few of my minutes writing this */ 
-                                                          /* and seeing how fuzion does it, no idea why*/
-  if (!vars::checkbox["#bunny_hop"]->get_bool()) return;  /* it acts up and just doesn't work, will fix it later:TM:*/
+void features::movement::bunny_hop(c_user_cmd *cmd) {     
+                                                          
+  if (!vars::checkbox["#bunny_hop"]->get_bool()) return;
 
   /*for later additions*/
   static bool b_last_jumped = false;
@@ -29,7 +29,7 @@ void features::movement::bunny_hop(c_user_cmd *cmd) {     /* spent a few of my m
   }
 
   else if (cmd->buttons & IN_JUMP) {
-    if (local_player->m_iFlags() & ON_GROUND) {
+    if (local_player->m_fFlags() & ON_GROUND) {
 
       b_actual_hop++;
       b_last_jumped = true;

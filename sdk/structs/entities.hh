@@ -202,7 +202,7 @@ struct entity_t : public i_client_networkable, public i_client_renderable {
   //
   NETVAR(int, m_iHealth, "DT_CSPlayer", "m_iHealth");
   NETVAR(int, m_iTeamNum, "DT_CSPlayer", "m_iTeamNum");
-  NETVAR(int, m_iFlags, "DT_CSPlayer", "m_iFlags");
+  NETVAR(int, m_fFlags, "DT_CSPlayer", "m_fFlags");
   NETVAR(vector3d, m_vecOrigin, "DT_BaseEntity", "m_vecOrigin");
   NETVAR(vector3d, m_vecViewOffset, "DT_BasePlayer", "m_vecViewOffset[0]");
   NETVAR(vector3d, m_vecMins, "DT_BaseEntity", "m_vecMins");

@@ -102,7 +102,7 @@ bool hooks::create_move::hooked(void *thisptr, float sample_time,
 
   if (cmd || cmd->command_number) {
 
-    movement.on_move(cmd);
+    movement.on_create_move(cmd);
 
     // save it for later
     qangle old_angle        = cmd->view_angles;
