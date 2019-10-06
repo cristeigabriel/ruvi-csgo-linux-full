@@ -18,7 +18,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 #link_directories(${CMAKE_SOURCE_DIR}/src/FGUI)
 
 # disable warnings
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations -Wno-narrowing")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations -Wno-narrowing")
 
 # cheat source files
 add_library(ruvi SHARED
@@ -27,9 +27,8 @@ add_library(ruvi SHARED
         src/core/entry.cc
         src/core/hooks/hooks.cc
         src/core/interfaces/interfaces.cc
-        src/hacks/visuals.cc
-        src/hacks/movement.cc
         src/hacks/miscellaneous.cc
+        src/hacks/visuals.cc
         src/menu/menu.cc
         src/sdk/input/input.cc
         src/sdk/memory/memory.cc

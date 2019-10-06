@@ -4,6 +4,7 @@
 
 // includes
 #include "hooks.hh"
+#include "../../hacks/miscellaneous.hh"
 #include "../../hacks/visuals.hh"
 #include "../../menu/menu.hh"
 #include "../../sdk/render/render.hh"
@@ -12,16 +13,16 @@
 // framework includes
 #include <FGUI/FGUI.hh>
 
-std::unique_ptr<vmt_hook> engine_vgui_hook  = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> base_client_hook  = std::make_unique<vmt_hook>();
+std::unique_ptr<vmt_hook> engine_vgui_hook = std::make_unique<vmt_hook>();
+std::unique_ptr<vmt_hook> base_client_hook = std::make_unique<vmt_hook>();
 std::unique_ptr<vmt_hook> vgui_surface_hook = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> client_mode_hook  = std::make_unique<vmt_hook>();
+std::unique_ptr<vmt_hook> client_mode_hook = std::make_unique<vmt_hook>();
 
 // originals
-hooks::paint::fn *             hooks::paint::original;
-hooks::in_key_event::fn *      hooks::in_key_event::original;
-hooks::lock_cursor::fn *       hooks::lock_cursor::original;
-hooks::create_move::fn *       hooks::create_move::original;
+hooks::paint::fn *hooks::paint::original;
+hooks::in_key_event::fn *hooks::in_key_event::original;
+hooks::lock_cursor::fn *hooks::lock_cursor::original;
+hooks::create_move::fn *hooks::create_move::original;
 hooks::frame_stage_notify::fn *hooks::frame_stage_notify::original;
 
 void hooks::on_entry_point() {
@@ -74,7 +75,8 @@ void hooks::paint::hooked(void *thisptr, paint_mode_t mode) {
 int hooks::in_key_event::hooked(void *thisptr, int event_code, int key_num,
                                 const char *current_binding) {
 
-  if (vars::container["#window"]->get_state()) return 0;
+  if (vars::container["#window"]->get_state())
+    return 0;
 
   // call original function
   return original(thisptr, event_code, key_num, current_binding);
@@ -97,23 +99,25 @@ void hooks::lock_cursor::hooked(void *thisptr) {
 bool hooks::create_move::hooked(void *thisptr, float sample_time,
                                 c_user_cmd *cmd) {
 
-  if (!cmd || !cmd->command_number) original(thisptr, sample_time, cmd);
+  original(thisptr, sample_time, cmd);
 
-  // save it for later
-  qangle old_angle        = cmd->view_angles;
-  float  old_side_move    = cmd->side_move;
-  float  old_forward_move = cmd->forward_move;
+  if (cmd || cmd->command_number) {
 
-  //
-  //
-  //
+    // save it for later
+    qangle old_angle = cmd->view_angles;
+    float old_side_move = cmd->side_move;
+    float old_forward_move = cmd->forward_move;
 
-  utilities::move_fix(cmd, old_angle, old_forward_move, old_side_move);
+    // miscellaneous
+    miscellaneous.on_create_move(cmd);
 
+    // fix movement
+    utilities::move_fix(cmd, old_angle, old_forward_move, old_side_move);
+  }
   return false;
 }
 
-void hooks::frame_stage_notify::hooked(void *               thisptr,
+void hooks::frame_stage_notify::hooked(void *thisptr,
                                        client_frame_stage_t stage) {
 
   // call original function

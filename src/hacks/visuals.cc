@@ -40,6 +40,9 @@ void features::visuals::on_paint() {
 
     // spot entities on radar
     visuals::engine_radar(entity);
+
+    // disable the smoke effect from smoke greandes
+    visuals::disable_smoke_effect(entity, client_class);
   }
 
   // disable some post processing effects
@@ -253,4 +256,26 @@ void features::visuals::grenade_prediction() {
   // enable grenade preview
   cl_grenadepreview->set_value(
       vars::checkbox["#grenade_prediction"]->get_bool());
+}
+
+void features::visuals::disable_smoke_effect(entity_t *entity,
+                                                 c_client_class *client_class) {
+
+  if (!vars::checkbox["#disable_smoke_effect"]->get_bool())
+    return;
+
+  if (client_class->class_id != class_id_t::SMOKE_GRENADE_PROJECTILE)
+    return;
+
+  // grenade projectile pointer
+  smoke_grenade_projectile_t *smoke_grenade_projectile =
+      reinterpret_cast<smoke_grenade_projectile_t *>(entity);
+
+  // check if there's a grenade on the world first
+  if (!smoke_grenade_projectile)
+    return;
+
+  // trick the game on thinking that the smoke effect was already applied 
+  *smoke_grenade_projectile->m_bDidSmokeEffect() = true;
+  *smoke_grenade_projectile->m_nSmokeEffectTickBegin() = -999; // ghetto fix for removing the smoke on the local player head.
 }

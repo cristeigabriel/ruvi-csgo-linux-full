@@ -8,7 +8,7 @@
 void menu::on_entry_point() {
 
   // default fonts
-  fgui::element_font title_font   = {"Verdana Bold", 11,
+  fgui::element_font title_font = {"Verdana Bold", 11,
                                    fgui::external::font_flags::ANTIALIAS |
                                        fgui::external::font_flags::SHADOW,
                                    true};
@@ -67,6 +67,9 @@ void menu::on_entry_point() {
       ADD_CHECKBOX(vars::checkbox["#disable_panorama_blur"], 15, (65 + 25),
                    "Disable Panorama Blur", "vars.disable_panorama_blur",
                    element_font, vars::container["#effects_groupbox"], -1);
+      ADD_CHECKBOX(vars::checkbox["#disable_smoke_effect"], 15, (90 + 25),
+                   "Disable Smoke Effect", "vars.disable_smoke_effect",
+                   element_font, vars::container["#effects_groupbox"], -1);
     }
 
     ADD_GROUPBOX(vars::container["#other_visuals_groupbox"], (260 + 15) + 10,
@@ -86,7 +89,25 @@ void menu::on_entry_point() {
   }
 
   ADD_TAB(vars::tabs["#tab_panel"], "Misc");
-  {}
+  {
+
+    ADD_GROUPBOX(vars::container["#miscellaneous_groupbox"], 15, (25 + 15),
+                 "Misc", 260, 370, title_font, vars::container["#window"], 2,
+                 false, false, false) {
+      ADD_CONTROLLER(vars::container["#miscellaneous_groupbox"],
+                     vars::tabs["#tab_panel"]);
+
+      ADD_CHECKBOX(vars::checkbox["#rank_revealer"], 15, 15, "Rank Revealer",
+                   "vars.rank_revealer", element_font,
+                   vars::container["#miscellaneous_groupbox"], -1);
+      ADD_CHECKBOX(vars::checkbox["#bunny_hop"], 15, (15 + 25), "Bunny Hop",
+                   "vars.bunny_hop", element_font,
+                   vars::container["#miscellaneous_groupbox"], -1);
+      ADD_CHECKBOX(vars::checkbox["#auto_strafe"], 15, (40 + 25), "Auto Strafe",
+                   "vars.auto_strafe", element_font,
+                   vars::container["#miscellaneous_groupbox"], -1);
+    }
+  }
 
   ADD_TAB(vars::tabs["#tab_panel"], "Colors");
   {}

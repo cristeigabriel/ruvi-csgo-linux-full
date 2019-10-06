@@ -26,6 +26,7 @@ private:
   void low_health_warning(entity_t *local_player);
   void grenade_prediction();
   void disable_panorama_blur();
+  void disable_smoke_effect(entity_t* entity, c_client_class* client_class);
 };
 
 } // namespace features

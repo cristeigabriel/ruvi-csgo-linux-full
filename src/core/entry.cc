@@ -15,17 +15,23 @@ std::thread main_thread;
 
 // initialize all our stuff here
 void constructor() {
+  try {
 
-  while (
-      !dlopen("./bin/linux64/serverbrowser_client.so", RTLD_NOLOAD | RTLD_NOW))
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    while (!dlopen("./bin/linux64/serverbrowser_client.so",
+                   RTLD_NOLOAD | RTLD_NOW))
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-  interfaces::on_entry_point();
-  netvars::on_entry_point();
-  draw::on_entry_point();
-  input::on_entry_point();
-  hooks::on_entry_point();
-  menu::on_entry_point();
+    interfaces::on_entry_point();
+    netvars::on_entry_point();
+    draw::on_entry_point();
+    input::on_entry_point();
+    hooks::on_entry_point();
+    menu::on_entry_point();
+  } catch (...) {
+
+    std::throw_with_nested(
+        std::runtime_error("error handler - constructor - entry"));
+  }
 }
 
 // entry point

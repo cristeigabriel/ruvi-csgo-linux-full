@@ -120,8 +120,15 @@ enum class_id_t {
   AK_47                  = 1,
   PLAYER                 = 40,
   ENV_TONEMAP_CONTROLLER = 69,
-  PLAYER_RESOURCE        = 131
+  SMOKE_GRENADE_PROJECTILE = 156
 
+};
+
+struct smoke_grenade_projectile_t {
+
+  NETVAR_PTR(bool, m_bDidSmokeEffect, "DT_SmokeGrenadeProjectile", "m_bDidSmokeEffect");
+  NETVAR_PTR(int, m_nSmokeEffectTickBegin, "DT_SmokeGrenadeProjectile",
+             "m_nSmokeEffectTickBegin");
 };
 
 struct tonemap_controller_t {
@@ -134,28 +141,6 @@ struct tonemap_controller_t {
              "m_flCustomAutoExposureMin");
   NETVAR_PTR(float, m_flCustomAutoExposureMax, "DT_EnvTonemapController",
              "m_flCustomAutoExposureMax");
-};
-
-struct player_resource_t {
-
-  NETVAR_PTR(int, m_nPersonaDataPublicLevel, "DT_CSPlayerResource",
-             "m_nPersonaDataPublicLevel");
-  NETVAR_PTR(int, m_nPersonaDataPublicCommendsLeader, "DT_CSPlayerResource",
-             "m_nPersonaDataPublicCommendsLeader");
-  NETVAR_PTR(int, m_nPersonaDataPublicCommendsTeacher, "DT_CSPlayerResource",
-             "m_nPersonaDataPublicCommendsTeacher");
-  NETVAR_PTR(int, m_nPersonaDataPublicCommendsFriendly, "DT_CSPlayerResource",
-             "m_nPersonaDataPublicCommendsFriendly");
-  NETVAR_PTR(int, m_nActiveCoinRank, "DT_CSPlayerResource",
-             "m_nActiveCoinRank");
-  NETVAR_PTR(int, m_nMusicID, "DT_CSPlayerResource", "m_nMusicID");
-  NETVAR_PTR(int, m_iCompetitiveWins, "DT_CSPlayerResource",
-             "m_iCompetitiveWins");
-  NETVAR_PTR(int, m_iCompetitiveRanking, "DT_CSPlayerResource",
-             "m_iCompetitiveRanking");
-  NETVAR_PTR(char, m_szClan, "DT_CSPlayerResource", "m_szClan");
-  NETVAR_PTR(int, m_iKills, "DT_CSPlayerResource", "m_iKills");
-  NETVAR_PTR(int, m_iPing, "DT_CSPlayerResource", "m_iPing");
 };
 
 struct entity_t : public i_client_networkable, public i_client_renderable {
@@ -202,6 +187,7 @@ struct entity_t : public i_client_networkable, public i_client_renderable {
   //
   NETVAR(int, m_iHealth, "DT_CSPlayer", "m_iHealth");
   NETVAR(int, m_iTeamNum, "DT_CSPlayer", "m_iTeamNum");
+  NETVAR(int, m_fFlags, "DT_CSPlayer", "m_fFlags");
   NETVAR(vector3d, m_vecOrigin, "DT_BaseEntity", "m_vecOrigin");
   NETVAR(vector3d, m_vecViewOffset, "DT_BasePlayer", "m_vecViewOffset[0]");
   NETVAR(vector3d, m_vecMins, "DT_BaseEntity", "m_vecMins");
