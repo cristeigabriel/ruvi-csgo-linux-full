@@ -28,6 +28,8 @@ add_library(ruvi SHARED
         src/core/hooks/hooks.cc
         src/core/interfaces/interfaces.cc
         src/hacks/visuals.cc
+        src/hacks/movement.cc
+        src/hacks/miscellaneous.cc
         src/menu/menu.cc
         src/sdk/input/input.cc
         src/sdk/memory/memory.cc
