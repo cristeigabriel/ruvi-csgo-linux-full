@@ -4,6 +4,7 @@
 
 // includes
 #include "hooks.hh"
+#include "../../hacks/miscellaneous.hh"
 #include "../../hacks/movement.hh"
 #include "../../hacks/visuals.hh"
 #include "../../menu/menu.hh"
@@ -103,6 +104,7 @@ bool hooks::create_move::hooked(void *thisptr, float sample_time,
   if (cmd || cmd->command_number) {
 
     movement.on_create_move(cmd);
+    miscellaneous.on_create_move(cmd);
 
     // save it for later
     qangle old_angle        = cmd->view_angles;

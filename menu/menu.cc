@@ -88,18 +88,21 @@ void menu::on_entry_point() {
   ADD_TAB(vars::tabs["#tab_panel"], "Misc");
   {
 
-    ADD_GROUPBOX(vars::container["#miscelleanous_groupbox"], 15, (25 + 15),
+    ADD_GROUPBOX(vars::container["#miscellaneous_groupbox"], 15, (25 + 15),
                  "Misc", 260, 370, title_font, vars::container["#window"], 2,
                  false, false, false) {
-      ADD_CONTROLLER(vars::container["#miscelleanous_groupbox"],
+      ADD_CONTROLLER(vars::container["#miscellaneous_groupbox"],
                      vars::tabs["#tab_panel"]);
 
-      ADD_CHECKBOX(vars::checkbox["#bunny_hop"], 15, 15, "Bunny Hop",
+      ADD_CHECKBOX(vars::checkbox["#rank_revealer"], 15, 15, "Rank Revealer",
+                   "vars.rank_revealer", element_font,
+                   vars::container["#miscellaneous_groupbox"], -1);
+      ADD_CHECKBOX(vars::checkbox["#bunny_hop"], 15, (15 + 25), "Bunny Hop",
                    "vars.bunny_hop", element_font,
-                   vars::container["#miscelleanous_groupbox"], -1);
-      ADD_CHECKBOX(vars::checkbox["#auto_strafe"], 15, (15 + 25), "Auto Strafe",
+                   vars::container["#miscellaneous_groupbox"], -1);
+      ADD_CHECKBOX(vars::checkbox["#auto_strafe"], 15, (40 + 25), "Auto Strafe",
                    "vars.auto_strafe", element_font,
-                   vars::container["#miscelleanous_groupbox"], -1);
+                   vars::container["#miscellaneous_groupbox"], -1);
     }
   }
 

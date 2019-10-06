@@ -9,7 +9,6 @@ void features::movement::on_create_move(c_user_cmd *cmd) {
 
   movement::bunny_hop(cmd);
   movement::auto_strafe(cmd);
-
 }
 
 void features::movement::bunny_hop(c_user_cmd *cmd) {
