@@ -6,5 +6,5 @@
 
 namespace globals {
 
-  bool send_packet = true;
+// bool send_packet = true;
 }

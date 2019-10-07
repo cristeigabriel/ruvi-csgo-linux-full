@@ -7,8 +7,7 @@
 
 void features::miscellaneous::on_create_move(c_user_cmd *cmd) {
 
-  if (!cmd)
-    return;
+  if (!cmd) return;
 
   // run thinkers
   movement(cmd);
@@ -25,8 +24,7 @@ void features::miscellaneous::movement(c_user_cmd *cmd) {
       reinterpret_cast<entity_t *>(csgo::entity_list->get_client_entity(
           csgo::engine_client->get_local_player()));
 
-  if (!cmd || local_player->m_iHealth() == 0)
-    return;
+  if (!cmd || local_player->m_iHealth() == 0) return;
 
   // hit perfect jumps
   features::miscellaneous::bunny_hop(local_player, cmd);
@@ -44,9 +42,8 @@ void features::miscellaneous::other(c_user_cmd *cmd) {
   entity_t *local_player =
       reinterpret_cast<entity_t *>(csgo::entity_list->get_client_entity(
           csgo::engine_client->get_local_player()));
-  
-  if (!cmd)
-    return;
+
+  if (!cmd) return;
 
   // reveal players ranks
   features::miscellaneous::rank_revealer(local_player, cmd);
@@ -55,15 +52,15 @@ void features::miscellaneous::other(c_user_cmd *cmd) {
 //
 // features
 //
-void features::miscellaneous::bunny_hop(entity_t* local_player, c_user_cmd *cmd) {
+void features::miscellaneous::bunny_hop(entity_t *  local_player,
+                                        c_user_cmd *cmd) {
 
-  if (!vars::checkbox["#bunny_hop"]->get_bool())
-    return;
+  if (!vars::checkbox["#bunny_hop"]->get_bool()) return;
 
-  // for later additions 
+  // for later additions
   static bool last_jumped = false;
   static bool should_fake = false;
-  static int actual_hop = 0;
+  static int  actual_hop  = 0;
 
   if (!last_jumped && should_fake) {
 
@@ -84,44 +81,43 @@ void features::miscellaneous::bunny_hop(entity_t* local_player, c_user_cmd *cmd)
     }
   } else {
 
-    actual_hop = 0;
+    actual_hop  = 0;
     last_jumped = false;
     should_fake = false;
   }
 }
 
-void features::miscellaneous::auto_strafe(entity_t* local_player, c_user_cmd *cmd) {
+void features::miscellaneous::auto_strafe(entity_t *  local_player,
+                                          c_user_cmd *cmd) {
 
-  if (!vars::checkbox["#auto_strafe"]->get_bool())
+  if (!vars::checkbox["#auto_strafe"]->get_bool()) return;
+
+  if (cmd->buttons & cmd_buttons_t::IN_FORWARD ||
+      cmd->buttons & cmd_buttons_t::IN_BACK ||
+      cmd->buttons & cmd_buttons_t::IN_MOVELEFT ||
+      cmd->buttons & cmd_buttons_t::IN_MOVERIGHT)
     return;
 
-  if (cmd->buttons & cmd_buttons_t::IN_FORWARD || cmd->buttons & cmd_buttons_t::IN_BACK ||
-      cmd->buttons & cmd_buttons_t::IN_MOVELEFT || cmd->buttons & cmd_buttons_t::IN_MOVERIGHT)
-    return;
+  if (cmd->mouse_dx <= 1 && cmd->mouse_dx >= -1) return;
 
-  if (cmd->mouse_dx <= 1 && cmd->mouse_dx >= -1)
-    return;
-
-  if (local_player->m_fFlags() & entity_flag_t::ON_GROUND)
-    return;
+  if (local_player->m_fFlags() & entity_flag_t::ON_GROUND) return;
 
   cmd->side_move = cmd->mouse_dx < 0 ? -450.0f : 450.0f;
 }
 
-void features::miscellaneous::rank_revealer(entity_t* local_player, c_user_cmd *cmd) {
+void features::miscellaneous::rank_revealer(entity_t *  local_player,
+                                            c_user_cmd *cmd) {
 
-  if (!vars::checkbox["#rank_revealer"]->get_bool())
-    return;
+  if (!vars::checkbox["#rank_revealer"]->get_bool()) return;
 
   if (cmd->buttons & cmd_buttons_t::IN_SCORE)
     csgo::base_client->dispatch_user_message(CS_UM_ServerRankRevealAll, 0, 0,
                                              nullptr);
 }
 
-void features::miscellaneous::crouch_exploit(c_user_cmd* cmd) {
+void features::miscellaneous::crouch_exploit(c_user_cmd *cmd) {
 
-    if (!vars::checkbox["#crouch_exploit"]->get_bool())
-      return;
+  if (!vars::checkbox["#crouch_exploit"]->get_bool()) return;
 
-    cmd->buttons |= cmd_buttons_t::IN_BULLRUSH;
+  cmd->buttons |= cmd_buttons_t::IN_BULLRUSH;
 }

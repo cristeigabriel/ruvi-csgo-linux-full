@@ -4,5 +4,5 @@
 
 namespace globals {
 
-  extern bool send_packet;
+// extern bool send_packet;
 }

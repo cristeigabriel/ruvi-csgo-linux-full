@@ -117,16 +117,17 @@ enum item_definition_index_t {
 
 enum class_id_t {
 
-  AK_47                  = 1,
-  PLAYER                 = 40,
-  ENV_TONEMAP_CONTROLLER = 69,
+  AK_47                    = 1,
+  PLAYER                   = 40,
+  ENV_TONEMAP_CONTROLLER   = 69,
   SMOKE_GRENADE_PROJECTILE = 156
 
 };
 
 struct smoke_grenade_projectile_t {
 
-  NETVAR_PTR(bool, m_bDidSmokeEffect, "DT_SmokeGrenadeProjectile", "m_bDidSmokeEffect");
+  NETVAR_PTR(bool, m_bDidSmokeEffect, "DT_SmokeGrenadeProjectile",
+             "m_bDidSmokeEffect");
   NETVAR_PTR(int, m_nSmokeEffectTickBegin, "DT_SmokeGrenadeProjectile",
              "m_nSmokeEffectTickBegin");
 };

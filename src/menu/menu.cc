@@ -8,8 +8,8 @@
 void menu::on_entry_point() {
 
   // default font
-    fgui::element_font title_font = {
-      "Verdana Bold", 10, fgui::external::font_flags::ANTIALIAS, true};
+  fgui::element_font title_font   = {"Verdana Bold", 10,
+                                   fgui::external::font_flags::ANTIALIAS, true};
   fgui::element_font element_font = {
       "Verdana", 11, fgui::external::font_flags::ANTIALIAS, false};
 
@@ -104,8 +104,8 @@ void menu::on_entry_point() {
       ADD_CHECKBOX(vars::checkbox["#auto_strafe"], 15, (40 + 25), "Auto Strafe",
                    "vars.auto_strafe", element_font,
                    vars::container["#miscellaneous_groupbox"], -1);
-      ADD_CHECKBOX(vars::checkbox["#crouch_exploit"], 15, (65 + 25), "Crouch Exploit",
-                   "vars.crouch_exploit", element_font,
+      ADD_CHECKBOX(vars::checkbox["#crouch_exploit"], 15, (65 + 25),
+                   "Crouch Exploit", "vars.crouch_exploit", element_font,
                    vars::container["#miscellaneous_groupbox"], -1);
     }
   }

@@ -20,9 +20,9 @@ protected:
   void
   other(c_user_cmd *cmd); // other features (rank revealer, name changer, etc)
 private:
-  void bunny_hop(entity_t* local_player, c_user_cmd *cmd);
-  void auto_strafe(entity_t* local_player, c_user_cmd *cmd);
-  void rank_revealer(entity_t* local_player, c_user_cmd *cmd);
+  void bunny_hop(entity_t *local_player, c_user_cmd *cmd);
+  void auto_strafe(entity_t *local_player, c_user_cmd *cmd);
+  void rank_revealer(entity_t *local_player, c_user_cmd *cmd);
   void crouch_exploit(c_user_cmd *cmd);
 };
 

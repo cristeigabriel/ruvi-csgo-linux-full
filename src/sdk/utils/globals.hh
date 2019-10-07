@@ -4,5 +4,5 @@
 
 namespace globals {
 
-  inline bool send_packet = true;
+inline bool send_packet = true;
 }

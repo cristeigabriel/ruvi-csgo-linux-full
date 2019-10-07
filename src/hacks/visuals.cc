@@ -258,24 +258,23 @@ void features::visuals::grenade_prediction() {
       vars::checkbox["#grenade_prediction"]->get_bool());
 }
 
-void features::visuals::disable_smoke_effect(entity_t *entity,
-                                                 c_client_class *client_class) {
+void features::visuals::disable_smoke_effect(entity_t *      entity,
+                                             c_client_class *client_class) {
 
-  if (!vars::checkbox["#disable_smoke_effect"]->get_bool())
-    return;
+  if (!vars::checkbox["#disable_smoke_effect"]->get_bool()) return;
 
-  if (client_class->class_id != class_id_t::SMOKE_GRENADE_PROJECTILE)
-    return;
+  if (client_class->class_id != class_id_t::SMOKE_GRENADE_PROJECTILE) return;
 
   // grenade projectile pointer
   smoke_grenade_projectile_t *smoke_grenade_projectile =
       reinterpret_cast<smoke_grenade_projectile_t *>(entity);
 
   // check if there's a grenade on the world first
-  if (!smoke_grenade_projectile)
-    return;
+  if (!smoke_grenade_projectile) return;
 
-  // trick the game on thinking that the smoke effect was already applied 
+  // trick the game on thinking that the smoke effect was already applied
   *smoke_grenade_projectile->m_bDidSmokeEffect() = true;
-  *smoke_grenade_projectile->m_nSmokeEffectTickBegin() = -999; // ghetto fix for preventing the smoke drawing on the local player's position
+  *smoke_grenade_projectile->m_nSmokeEffectTickBegin() =
+      -999; // ghetto fix for preventing the smoke drawing on the local player's
+            // position
 }
