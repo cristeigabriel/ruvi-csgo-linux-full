@@ -30,6 +30,8 @@ void features::miscellaneous::movement(c_user_cmd *cmd) {
 
   // hit perfect jumps
   features::miscellaneous::bunny_hop(local_player, cmd);
+  
+  // strafe according to viewangles
   features::miscellaneous::auto_strafe(local_player, cmd);
 }
 
