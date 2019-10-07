@@ -27,8 +27,8 @@ struct style {
    *
    * Just follow the template above:
    *
-   * std::array<fgui::color, 2> button = { fgui::color(45, 45, 45),
-   * fgui::color(25, 25, 25) };
+   * std::array<fgui::color, 2> button = { fgui::color(245, 245, 245),
+   * fgui::color(194, 194, 194) };
    *
    * In case you want to remove or add a new color just increase/decrease the
    * array size.
@@ -54,64 +54,26 @@ struct style {
    */
 
   // general
-  std::array<fgui::color, 5> text = {
-      fgui::color(181, 181, 181), fgui::color(215, 215, 100),
-      fgui::color(65, 135, 255), fgui::color(245, 245, 245),
-      fgui::color(137, 162, 204)};
-  std::array<fgui::color, 2> cursor        = {fgui::color(255, 255, 255),
-                                       fgui::color(0, 0, 0)};
-  std::array<fgui::color, 4> notifications = {
-      fgui::color(85, 85, 85), fgui::color(45, 45, 45), fgui::color(25, 25, 25),
-      fgui::color(61, 158, 255)};
+  std::array<fgui::color, 4> text = { fgui::color(0, 0, 0), fgui::color(215, 215, 100), fgui::color(65, 135, 255), fgui::color(245, 245, 245) };
+  std::array<fgui::color, 2> cursor = {fgui::color(255, 255, 255), fgui::color(0, 0, 0)};
+  std::array<fgui::color, 4> notifications = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
 
   // elements
-  std::array<fgui::color, 4> button = {
-      fgui::color(85, 85, 85), fgui::color(45, 45, 45), fgui::color(25, 25, 25),
-      fgui::color(61, 158, 255)};
-  std::array<fgui::color, 5> checkbox = {
-      fgui::color(85, 85, 85), fgui::color(45, 45, 45), fgui::color(25, 25, 25),
-      fgui::color(61, 158, 255), fgui::color(46, 119, 191)};
-  std::array<fgui::color, 4> colorlist = {
-      fgui::color(85, 85, 85), fgui::color(45, 45, 45), fgui::color(25, 25, 25),
-      fgui::color(61, 158, 255)};
-  std::array<fgui::color, 4> colorpicker = {
-      fgui::color(85, 85, 85), fgui::color(45, 45, 45), fgui::color(25, 25, 25),
-      fgui::color(61, 158, 255)};
-  std::array<fgui::color, 4> combobox = {
-      fgui::color(85, 85, 85), fgui::color(45, 45, 45), fgui::color(25, 25, 25),
-      fgui::color(61, 158, 255)};
-  std::array<fgui::color, 3> container = {fgui::color(85, 85, 85),
-                                          fgui::color(25, 25, 25),
-                                          fgui::color(61, 158, 255)};
-  std::array<fgui::color, 4> keybinder = {
-      fgui::color(85, 85, 85), fgui::color(45, 45, 45), fgui::color(25, 25, 25),
-      fgui::color(61, 158, 255)};
-  std::array<fgui::color, 6> label = {
-      fgui::color(85, 85, 85),   fgui::color(45, 45, 45),
-      fgui::color(25, 25, 25),   fgui::color(181, 181, 181),
-      fgui::color(65, 158, 255), fgui::color(65, 135, 255)};
-  std::array<fgui::color, 4> listbox = {
-      fgui::color(85, 85, 85), fgui::color(45, 45, 45), fgui::color(25, 25, 25),
-      fgui::color(61, 158, 255)};
-  std::array<fgui::color, 4> multibox = {
-      fgui::color(85, 85, 85), fgui::color(45, 45, 45), fgui::color(25, 25, 25),
-      fgui::color(61, 158, 255)};
-  std::array<fgui::color, 5> slider = {
-      fgui::color(85, 85, 85), fgui::color(45, 45, 45), fgui::color(25, 25, 25),
-      fgui::color(61, 158, 255), fgui::color(46, 119, 191)};
-  std::array<fgui::color, 4> spinner = {
-      fgui::color(85, 85, 85), fgui::color(45, 45, 45), fgui::color(25, 25, 25),
-      fgui::color(61, 158, 255)};
-  std::array<fgui::color, 5> tabs = {
-      fgui::color(85, 85, 85), fgui::color(15, 15, 15), fgui::color(40, 40, 40),
-      fgui::color(35, 35, 35), fgui::color(60, 60, 60)};
-  std::array<fgui::color, 4> textbox = {
-      fgui::color(85, 85, 85), fgui::color(45, 45, 45), fgui::color(25, 25, 25),
-      fgui::color(61, 158, 255)};
-  std::array<fgui::color, 5> window = {
-      fgui::color(25, 25, 25), fgui::color(40, 40, 40),
-      fgui::color(61, 200, 255), fgui::color(61, 158, 255),
-      fgui::color(46, 119, 191)};
+  std::array<fgui::color, 4> button = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
+  std::array<fgui::color, 5> checkbox = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61), fgui::color(191, 46, 46)};
+  std::array<fgui::color, 4> colorlist = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
+  std::array<fgui::color, 4> colorpicker = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
+  std::array<fgui::color, 4> combobox = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
+  std::array<fgui::color, 3> container = {fgui::color(194, 194, 194), fgui::color(235, 235, 235), fgui::color(255, 61, 61)};
+  std::array<fgui::color, 4> keybinder = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
+  std::array<fgui::color, 6> label = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(194, 194, 194), fgui::color(255, 65, 65), fgui::color(65, 135, 255)};
+  std::array<fgui::color, 4> listbox = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
+  std::array<fgui::color, 4> multibox = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
+  std::array<fgui::color, 5> slider = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61), fgui::color(191, 46, 46)};
+  std::array<fgui::color, 4> spinner = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
+  std::array<fgui::color, 5> tabs = { fgui::color(15, 15, 15), fgui::color(15, 15, 15), fgui::color(40, 40, 40), fgui::color(35, 35, 35), fgui::color(60, 60, 60)};
+  std::array<fgui::color, 4> textbox = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
+  std::array<fgui::color, 5> window = { fgui::color(15, 15, 15), fgui::color(245, 245, 245), fgui::color(255, 61, 61), fgui::color(255, 61, 61), fgui::color(191, 46, 46)};
 };
 
 // Man that's nasty. I should probably re-do this as soon as possible.

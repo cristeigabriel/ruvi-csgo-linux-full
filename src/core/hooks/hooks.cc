@@ -4,7 +4,7 @@
 
 // includes
 #include "hooks.hh"
-#include "../../core/globals/globals.hh"
+#include "../../sdk/utils/globals.hh"
 #include "../../hacks/miscellaneous.hh"
 #include "../../hacks/visuals.hh"
 #include "../../menu/menu.hh"
@@ -104,10 +104,10 @@ bool hooks::create_move::hooked(void *thisptr, float sample_time,
 
   if (cmd || cmd->command_number) {
 
-    // send packet -- FUZION
+    // send packet (from Aimtux Fuzion)
     uintptr_t rbp;
     asm volatile("mov %%rbp, %0" : "=r" (rbp));
-    bool *send_packet = ((*(bool **)rbp) - 0x18);
+    bool *send_packet = *reinterpret_cast<bool **>(rbp - 0x18);
     globals::send_packet = true;
 
     // miscellaneous

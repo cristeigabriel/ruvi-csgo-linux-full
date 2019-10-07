@@ -17,7 +17,7 @@ enum cs_team_id_t {
   COUNTER_TERRORIST = 3
 };
 
-enum entity_flags_t {
+enum entity_flag_t {
   ON_GROUND             = (1 << 0),
   DUCKING               = (1 << 1),
   PARTIAL_GROUND        = (1 << 17),

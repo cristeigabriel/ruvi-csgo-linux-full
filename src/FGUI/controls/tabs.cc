@@ -51,18 +51,18 @@ void fgui::tabs::draw() {
                        (tab_button_size + 1), m_height};
 
     // tab button body
-    fgui::render.outline(area.left, area.top, area.right, area.bottom,
+    fgui::render.outline(area.left - 1, area.top - 1, area.right + 2, area.bottom + 2,
                          fgui::color(style.tabs.at(1)));
-    fgui::render.outline(area.left + 1, area.top + 1, area.right - 2,
-                         area.bottom - 2, fgui::color(style.tabs.at(0), 200));
+    fgui::render.outline(area.left, area.top, area.right,
+                         area.bottom, fgui::color(style.tabs.at(0), 200));
 
     if (m_index == i)
       fgui::render.colored_gradient(
-          area.left + 1, area.top + 1, area.right - 2, area.bottom - 2,
+          area.left, area.top, area.right, area.bottom,
           fgui::color(style.tabs.at(3)), fgui::color(style.tabs.at(4)), false);
     else
       fgui::render.colored_gradient(
-          area.left + 1, area.top + 1, area.right - 2, area.bottom - 2,
+          area.left, area.top, area.right, area.bottom,
           fgui::color(style.tabs.at(2)), fgui::color(style.tabs.at(1)), false);
 
     // tab button label

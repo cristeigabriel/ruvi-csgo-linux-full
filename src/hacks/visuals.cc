@@ -277,5 +277,5 @@ void features::visuals::disable_smoke_effect(entity_t *entity,
 
   // trick the game on thinking that the smoke effect was already applied 
   *smoke_grenade_projectile->m_bDidSmokeEffect() = true;
-  *smoke_grenade_projectile->m_nSmokeEffectTickBegin() = -999; // ghetto fix for removing the smoke on the local player head.
+  *smoke_grenade_projectile->m_nSmokeEffectTickBegin() = -999; // ghetto fix for preventing the smoke drawing on the local player's position
 }
