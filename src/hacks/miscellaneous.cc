@@ -30,6 +30,7 @@ void features::miscellaneous::movement(c_user_cmd *cmd) {
 
   // hit perfect jumps
   features::miscellaneous::bunny_hop(local_player, cmd);
+  features::miscellaneous::auto_strafe(local_player, cmd);
 }
 
 void features::miscellaneous::other(c_user_cmd *cmd) {
