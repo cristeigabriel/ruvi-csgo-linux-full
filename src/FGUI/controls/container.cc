@@ -251,19 +251,18 @@ void fgui::container::draw() {
   // draw the scrollbar
   if (m_scrollable) {
 
-    // disable resizing if the groupbox has scrollbars enabled
+    // disable resizing if the groupbox have scrollbars
     m_resizeable = false;
 
     // calculate the scrollbar slider size
     float calculated_size =
-        (m_height / static_cast<float>(m_bottom_element_pos)) *
-        static_cast<float>(m_height);
+        (m_height / static_cast<float>(m_bottom_element_pos)) * static_cast<float>(m_height);
 
     // calculate the scrollbar slider position
     float calculated_position =
         (m_height - calculated_size) *
         static_cast<float>(m_scroll_offset /
-                           static_cast<float>(m_bottom_element_pos - m_height));
+                           static_cast<float>(m_bottom_element_pos - static_cast<float>(m_height)));
 
     // scrollbar body
     fgui::render.rect((a.x + m_width) - 8, a.y + 1, 8, m_height - 1,

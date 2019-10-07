@@ -30,9 +30,12 @@ void features::miscellaneous::movement(c_user_cmd *cmd) {
 
   // hit perfect jumps
   features::miscellaneous::bunny_hop(local_player, cmd);
-  
-  // strafe according to viewangles
+
+  // automatically strafes for you
   features::miscellaneous::auto_strafe(local_player, cmd);
+
+  // disables stamina when crouching
+  features::miscellaneous::crouch_exploit(cmd);
 }
 
 void features::miscellaneous::other(c_user_cmd *cmd) {
@@ -113,4 +116,12 @@ void features::miscellaneous::rank_revealer(entity_t* local_player, c_user_cmd *
   if (cmd->buttons & cmd_buttons_t::IN_SCORE)
     csgo::base_client->dispatch_user_message(CS_UM_ServerRankRevealAll, 0, 0,
                                              nullptr);
+}
+
+void features::miscellaneous::crouch_exploit(c_user_cmd* cmd) {
+
+    if (!vars::checkbox["#crouch_exploit"]->get_bool())
+      return;
+
+    cmd->buttons |= cmd_buttons_t::IN_BULLRUSH;
 }

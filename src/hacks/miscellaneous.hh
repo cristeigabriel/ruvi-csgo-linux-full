@@ -23,6 +23,7 @@ private:
   void bunny_hop(entity_t* local_player, c_user_cmd *cmd);
   void auto_strafe(entity_t* local_player, c_user_cmd *cmd);
   void rank_revealer(entity_t* local_player, c_user_cmd *cmd);
+  void crouch_exploit(c_user_cmd *cmd);
 };
 
 } // namespace features

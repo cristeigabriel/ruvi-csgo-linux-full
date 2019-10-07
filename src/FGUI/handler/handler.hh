@@ -55,7 +55,7 @@ struct style {
 
   // general
   std::array<fgui::color, 4> text = { fgui::color(0, 0, 0), fgui::color(215, 215, 100), fgui::color(65, 135, 255), fgui::color(245, 245, 245) };
-  std::array<fgui::color, 2> cursor = {fgui::color(255, 255, 255), fgui::color(0, 0, 0)};
+  std::array<fgui::color, 2> cursor = { fgui::color(255, 255, 255), fgui::color(0, 0, 0) };
   std::array<fgui::color, 4> notifications = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
 
   // elements
@@ -64,7 +64,7 @@ struct style {
   std::array<fgui::color, 4> colorlist = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
   std::array<fgui::color, 4> colorpicker = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
   std::array<fgui::color, 4> combobox = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
-  std::array<fgui::color, 3> container = {fgui::color(194, 194, 194), fgui::color(235, 235, 235), fgui::color(255, 61, 61)};
+  std::array<fgui::color, 3> container = { fgui::color(194, 194, 194), fgui::color(235, 235, 235), fgui::color(255, 61, 61)};
   std::array<fgui::color, 4> keybinder = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
   std::array<fgui::color, 6> label = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(194, 194, 194), fgui::color(255, 65, 65), fgui::color(65, 135, 255)};
   std::array<fgui::color, 4> listbox = { fgui::color(194, 194, 194), fgui::color(245, 245, 245), fgui::color(194, 194, 194), fgui::color(255, 61, 61)};
