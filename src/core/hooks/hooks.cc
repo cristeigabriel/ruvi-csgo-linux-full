@@ -14,11 +14,6 @@
 // framework includes
 #include <FGUI/FGUI.hh>
 
-std::unique_ptr<vmt_hook> engine_vgui_hook  = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> base_client_hook  = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> vgui_surface_hook = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> client_mode_hook  = std::make_unique<vmt_hook>();
-
 // declare pointers
 std::unique_ptr<vmt_hook> engine_vgui_hook  = std::make_unique<vmt_hook>();
 std::unique_ptr<vmt_hook> base_client_hook  = std::make_unique<vmt_hook>();
