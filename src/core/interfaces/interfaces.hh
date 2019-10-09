@@ -4,11 +4,16 @@
 
 #pragma once
 
+// GLOBAL INCLUDES
+#include "../security/stringcrypt.hh"
+#include "../definitions/handler.hh"
+
 // includes
 #include <array>
 #include <dlfcn.h>
 #include <sstream>
 #include <string>
+
 
 // interfaces
 #include "sdk/valve/cbaseclientstate.hh"

@@ -27,7 +27,7 @@ hooks::create_move::fn *       hooks::create_move::original;
 hooks::frame_stage_notify::fn *hooks::frame_stage_notify::original;
 
 void hooks::on_entry_point() {
-  try {
+  CODE_START
 
     if (engine_vgui_hook->initialize_and_hook_instance(csgo::engine_vgui))
       engine_vgui_hook->apply_hook<hooks::paint>(15);
@@ -42,15 +42,11 @@ void hooks::on_entry_point() {
 
     if (client_mode_hook->initialize_and_hook_instance(csgo::client_mode))
       client_mode_hook->apply_hook<hooks::create_move>(25);
-  } catch (...) {
-
-    std::throw_with_nested(
-        std::runtime_error("error handler - entry point - hooks"));
-  }
+  CODE_END("error handler - entry point - hooks")
 }
 
 void hooks::paint::hooked(void *thisptr, paint_mode_t mode) {
-  try {
+  CODE_START
 
     // call original function
     original(thisptr, mode);
@@ -79,29 +75,22 @@ void hooks::paint::hooked(void *thisptr, paint_mode_t mode) {
 
       finish_drawing(csgo::vgui_surface);
     }
-  } catch (...) {
-
-    std::throw_with_nested(std::runtime_error("error handler - paint - hooks"));
-  }
+  CODE_END("error handler - paint - hooks")
 }
 
 int hooks::in_key_event::hooked(void *thisptr, int event_code, int key_num,
                                 const char *current_binding) {
-  try {
+  CODE_START
 
     if (vars::container["#window"]->get_state()) return 0;
 
     // call original function
     return original(thisptr, event_code, key_num, current_binding);
-  } catch (...) {
-
-    std::throw_with_nested(
-        std::runtime_error("error handler - in key event - hooks"));
-  }
+  CODE_END("error handler - in key event - hooks")
 }
 
 void hooks::lock_cursor::hooked(void *thisptr) {
-  try {
+  CODE_START
 
     if (vars::container["#window"]->get_state()) {
 
@@ -113,16 +102,12 @@ void hooks::lock_cursor::hooked(void *thisptr) {
 
     // call original function
     original(thisptr);
-  } catch (...) {
-
-    std::throw_with_nested(
-        std::runtime_error("error handler - lock cursor - hooks"));
-  }
+  CODE_END("error handler - lock cursor - hooks")
 }
 
 bool hooks::create_move::hooked(void *thisptr, float sample_time,
                                 c_user_cmd *cmd) {
-  try {
+  CODE_START
 
     original(thisptr, sample_time, cmd);
 
@@ -138,22 +123,14 @@ bool hooks::create_move::hooked(void *thisptr, float sample_time,
       miscellaneous.on_create_move(cmd);
     }
     return false;
-  } catch (...) {
-
-    std::throw_with_nested(
-        std::runtime_error("error handler - create move - hooks"));
-  }
+  CODE_END("error handler - create move - hooks")
 }
 
 void hooks::frame_stage_notify::hooked(void *               thisptr,
                                        client_frame_stage_t stage) {
-  try {
-
+  CODE_START
+  
     // call original function
     original(thisptr, stage);
-  } catch (...) {
-
-    std::throw_with_nested(
-        std::runtime_error("error handler - frame stage notify - hooks"));
-  }
+  CODE_END("error handler - frame stage notify - hooks")
 }

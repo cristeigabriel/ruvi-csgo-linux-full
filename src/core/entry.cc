@@ -9,13 +9,14 @@
 #include "sdk/input/input.hh"
 #include "sdk/netvars/netvars.hh"
 #include "sdk/render/render.hh"
+
 #include <thread>
 
 std::thread main_thread;
 
 // initialize all our stuff here
 void constructor() {
-  try {
+ CODE_START
 
     while (!dlopen("./bin/linux64/serverbrowser_client.so",
                    RTLD_NOLOAD | RTLD_NOW))
@@ -27,11 +28,7 @@ void constructor() {
     input::on_entry_point();
     hooks::on_entry_point();
     menu::on_entry_point();
-  } catch (...) {
-
-    std::throw_with_nested(
-        std::runtime_error("error handler - constructor - entry"));
-  }
+  CODE_END("error handler - constructor - entry")
 }
 
 // entry point

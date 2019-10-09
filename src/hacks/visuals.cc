@@ -244,7 +244,7 @@ void features::visuals::grenade_prediction() {
 
   // sv cheats convar
   static convar *sv_cheats =
-      csgo::cvar->spoof(csgo::cvar->find_var("sv_cheats"), "sv_cheats_spoofed");
+      csgo::cvar->spoof(csgo::cvar->find_var("sv_cheats"), "_spoofed");
 
   // grenade preview convar
   static convar *cl_grenadepreview = csgo::cvar->spoof(
