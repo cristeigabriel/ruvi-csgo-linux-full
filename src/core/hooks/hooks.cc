@@ -19,12 +19,18 @@ std::unique_ptr<vmt_hook> base_client_hook  = std::make_unique<vmt_hook>();
 std::unique_ptr<vmt_hook> vgui_surface_hook = std::make_unique<vmt_hook>();
 std::unique_ptr<vmt_hook> client_mode_hook  = std::make_unique<vmt_hook>();
 
-// originals
-hooks::paint::fn *             hooks::paint::original;
-hooks::in_key_event::fn *      hooks::in_key_event::original;
-hooks::lock_cursor::fn *       hooks::lock_cursor::original;
-hooks::create_move::fn *       hooks::create_move::original;
-hooks::frame_stage_notify::fn *hooks::frame_stage_notify::original;
+// declare pointers
+std::unique_ptr<vmt_hook> engine_vgui_hook  = std::make_unique<vmt_hook>();
+std::unique_ptr<vmt_hook> base_client_hook  = std::make_unique<vmt_hook>();
+std::unique_ptr<vmt_hook> vgui_surface_hook = std::make_unique<vmt_hook>();
+std::unique_ptr<vmt_hook> client_mode_hook  = std::make_unique<vmt_hook>();
+
+// declare original
+decltype( &hooks::paint::hooked )              hooks::paint::original              = nullptr;
+decltype( &hooks::in_key_event::hooked )       hooks::in_key_event::original       = nullptr;
+decltype( &hooks::lock_cursor::hooked )        hooks::lock_cursor::original        = nullptr;
+decltype( &hooks::create_move::hooked )        hooks::create_move::original        = nullptr;
+decltype( &hooks::frame_stage_notify::hooked ) hooks::frame_stage_notify::original = nullptr;
 
 void hooks::on_entry_point() {
   CODE_START
