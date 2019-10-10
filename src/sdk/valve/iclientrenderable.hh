@@ -7,10 +7,10 @@
 // includes
 #include "../memory/memory.hh"
 #include "../vector/vector.hh"
+#include "../vector/matrix3x4.hh"
 #include <functional>
 
 struct model_t;
-class matrix3x4_t;
 
 class i_client_renderable {
 public:

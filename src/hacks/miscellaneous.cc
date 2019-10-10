@@ -2,8 +2,8 @@
 // ruvi base
 //
 
-#include "miscellaneous.hh"
 #include "menu/menu.hh"
+#include "miscellaneous.hh"
 
 void features::miscellaneous::on_create_move(c_user_cmd *cmd) {
 
@@ -24,16 +24,24 @@ void features::miscellaneous::movement(c_user_cmd *cmd) {
       reinterpret_cast<entity_t *>(csgo::entity_list->get_client_entity(
           csgo::engine_client->get_local_player()));
 
-  if (!cmd || local_player->m_iHealth() == 0) return;
+  // local player's active weapon
+  weapon_t *active_weapon = reinterpret_cast<weapon_t *>(
+      csgo::entity_list->get_client_entity_from_handle(
+          local_player->m_hActiveWeapon()));
+
+  if (!cmd || !active_weapon || local_player->m_iHealth() == 0) return;
 
   // hit perfect jumps
-  features::miscellaneous::bunny_hop(local_player, cmd);
+  miscellaneous::bunny_hop(local_player, cmd);
 
   // automatically strafes for you
-  features::miscellaneous::auto_strafe(local_player, cmd);
+  miscellaneous::auto_strafe(local_player, cmd);
 
   // disables stamina when crouching
-  features::miscellaneous::crouch_exploit(cmd);
+  miscellaneous::crouch_exploit(cmd);
+
+  // removes the 3 second delay when you tries to plant the c4 while walking
+  miscellaneous::instant_bomb_plant(local_player, active_weapon, cmd);
 }
 
 void features::miscellaneous::other(c_user_cmd *cmd) {
@@ -46,7 +54,10 @@ void features::miscellaneous::other(c_user_cmd *cmd) {
   if (!cmd) return;
 
   // reveal players ranks
-  features::miscellaneous::rank_revealer(local_player, cmd);
+  miscellaneous::rank_revealer(local_player, cmd);
+
+  // force thirdperson camera while spectating other player
+  miscellaneous::thirdperson_while_spectating(local_player);
 }
 
 //
@@ -65,18 +76,18 @@ void features::miscellaneous::bunny_hop(entity_t *  local_player,
   if (!last_jumped && should_fake) {
 
     should_fake = false;
-    cmd->buttons |= IN_JUMP;
+    cmd->buttons |= cmd_buttons_t::IN_JUMP;
   }
 
-  else if (cmd->buttons & IN_JUMP) {
-    if (local_player->m_fFlags() & ON_GROUND) {
+  else if (cmd->buttons & cmd_buttons_t::IN_JUMP) {
+    if (local_player->m_fFlags() & entity_flag_t::ON_GROUND) {
 
       actual_hop++;
       last_jumped = true;
       should_fake = true;
     } else {
 
-      cmd->buttons &= ~IN_JUMP;
+      cmd->buttons &= ~cmd_buttons_t::IN_JUMP;
       last_jumped = false;
     }
   } else {
@@ -120,4 +131,37 @@ void features::miscellaneous::crouch_exploit(c_user_cmd *cmd) {
   if (!vars::checkbox["#crouch_exploit"]->get_bool()) return;
 
   cmd->buttons |= cmd_buttons_t::IN_BULLRUSH;
+}
+
+void features::miscellaneous::instant_bomb_plant(entity_t *  local_player,
+                                                 weapon_t *  active_weapon,
+                                                 c_user_cmd *cmd) {
+
+  if (!vars::checkbox["#instant_bomb_plant"]->get_bool()) return;
+
+  // check if the local player is holding a c4 and if he is on the bomb site
+  if (active_weapon->m_iItemDefinitionIndex() !=
+          item_definition_index_t::WEAPON_C4 ||
+      (local_player->m_bInBombZone() &&
+       local_player->m_fFlags() & entity_flag_t::ON_GROUND))
+    return;
+
+  if (!cmd->buttons & cmd_buttons_t::IN_USE &&
+      !cmd->buttons & cmd_buttons_t::IN_ATTACK)
+    return;
+
+  // start planting the bomb as soon as the user hits the plant key (this will
+  // remove the delay that happens when you try to plant the c4
+  // while walking on the bomb site)
+  cmd->buttons &= ~cmd_buttons_t::IN_USE;
+  cmd->buttons &= ~cmd_buttons_t::IN_ATTACK;
+}
+
+void features::miscellaneous::thirdperson_while_spectating(entity_t* local_player) {
+
+  if (!vars::checkbox["#thirdperson_while_spectating"]->get_bool()) return;
+
+  // check if the local player is dead
+  if (local_player->m_iHealth() == 0)
+    *local_player->m_iObserverMode() = observer_mode_t::MODE_CHASE;
 }

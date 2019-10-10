@@ -11,12 +11,17 @@ namespace features {
 class visuals { // using classes for this might be a little bit overkill, but
                 // IMO it's better for organization, and feature control.
 public:
-  void on_paint(); // main entity loop and other visuals
+  void on_paint();         // main entity loop and other visuals
+  void on_override_view(c_view_setup* view_setup); // override view
 protected:
   void player(entity_t *entity); // player visuals (bounding box, name esp,
                                  // weapon esp, flags, etc)
   void world(entity_t *world); // non player visuals (dropped weapons, grenades
                                // esp, etc)
+
+  void
+  view(entity_t* local_player, c_view_setup *view_setup); // everything that manipulates the screen or
+                                  // camera (thirdperson, fov changer, etc)
 private:
   void bounding_box(const utilities::esp_box_t &box);
   void player_name(entity_t *entity, const utilities::esp_box_t &box);
@@ -27,6 +32,8 @@ private:
   void grenade_prediction();
   void disable_panorama_blur();
   void disable_smoke_effect(entity_t *entity, c_client_class *client_class);
+  void disable_flashbang_effect(entity_t *local_player);
+  void force_thirdperson(entity_t* local_player);
 };
 
 } // namespace features

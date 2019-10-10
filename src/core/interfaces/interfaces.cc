@@ -39,6 +39,8 @@ void interfaces::on_entry_point() {
       memory::get_vtable(csgo::engine_client)[12]);
   std::uintptr_t hud_update_vfunc = reinterpret_cast<std::uintptr_t>(
       memory::get_vtable(csgo::base_client)[11]);
+  std::uintptr_t in_activate_mouse_vfunc = reinterpret_cast<std::uintptr_t>(
+      memory::get_vtable(csgo::base_client)[16]);
 
   // pointers (addresses)
   i_client_mode *(*client_mode_ptr)() =
@@ -47,10 +49,14 @@ void interfaces::on_entry_point() {
   c_base_client_state *(*client_state_ptr)(int) =
       reinterpret_cast<c_base_client_state *(*)(int)>(
           memory::get_address(get_local_player_vfunc + 9, 1, 5));
+  c_global_vars *global_vars_ptr = *reinterpret_cast<c_global_vars **>(
+      memory::get_address(hud_update_vfunc + 13, 3, 7));
+  c_input *input_ptr = **reinterpret_cast<c_input ***>(
+      memory::get_address(in_activate_mouse_vfunc, 3, 7));
 
   // initialize non exposed interfaces
   csgo::client_mode  = client_mode_ptr();
   csgo::client_state = client_state_ptr(-1);
-  csgo::global_vars  = *reinterpret_cast<c_global_vars **>(
-      memory::get_address(hud_update_vfunc + 13, 3, 7));
+  csgo::global_vars = global_vars_ptr;
+  csgo::input = input_ptr;
 }

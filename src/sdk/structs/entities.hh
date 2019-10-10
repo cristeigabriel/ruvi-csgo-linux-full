@@ -124,6 +124,20 @@ enum class_id_t {
 
 };
 
+enum observer_mode_t {
+  MODE_NONE = 0,  // not in spectator mode
+  MODE_DEATHCAM,  // special mode for death cam animation
+  MODE_FREEZECAM, // zooms to a target, and freeze-frames on them
+  MODE_FIXED,     // view from a fixed camera position
+  MODE_IN_EYE,    // follow a player in first person view
+  MODE_CHASE,     // follow a player in third person view
+  MODE_POI,       // PASSTIME point of interest - game objective, big fight,
+                // anything interesting; added in the middle of the enum due to
+                // tons of hard-coded "<ROAMING" enum compares
+  MODE_ROAMING, // free roaming
+  OBSERVER_MODES,
+};
+
 struct smoke_grenade_projectile_t {
 
   NETVAR_PTR(bool, m_bDidSmokeEffect, "DT_SmokeGrenadeProjectile",
@@ -142,6 +156,12 @@ struct tonemap_controller_t {
              "m_flCustomAutoExposureMin");
   NETVAR_PTR(float, m_flCustomAutoExposureMax, "DT_EnvTonemapController",
              "m_flCustomAutoExposureMax");
+};
+
+struct weapon_t {
+
+  OFFSET(item_definition_index_t, m_iItemDefinitionIndex,
+         0x37B2); // hardcoded offset until the netvar manager is fixed.
 };
 
 struct entity_t : public i_client_networkable, public i_client_renderable {
@@ -166,15 +186,24 @@ struct entity_t : public i_client_networkable, public i_client_renderable {
     return memory::vfunc<12, const vector3d &>(this);
   }
 
-  void set_model_index(int index) {
+  inline void set_model_index(int index) {
     return memory::vfunc<111, void>(this, index);
   }
 
-  player_info_t get_entity_info() {
-    player_info_t temp_info;
+  inline player_info_t get_entity_info() {
+    static player_info_t temp_info;
     csgo::engine_client->get_player_info(IClientNetworkable()->get_index(),
                                          &temp_info);
     return temp_info;
+  }
+
+  inline void update_visibility_all_entities() {
+
+    static void (*update_visibility_all_entities_fn)() = reinterpret_cast<void (*)()>(
+        memory::find_pattern("client_panorama_client.so",
+                             "55 48 89 E5 53 48 8D 5D E0 48 83 EC 18 48 89 DF E8 ? ? ? ? EB 11"));
+    
+    update_visibility_all_entities_fn();
   }
 
   //
@@ -187,20 +216,18 @@ struct entity_t : public i_client_networkable, public i_client_renderable {
   // netvars goes here
   //
   NETVAR(int, m_iHealth, "DT_CSPlayer", "m_iHealth");
-  NETVAR(int, m_iTeamNum, "DT_CSPlayer", "m_iTeamNum");
-  NETVAR(int, m_fFlags, "DT_CSPlayer", "m_fFlags");
+  NETVAR(class_id_t, m_iTeamNum, "DT_CSPlayer", "m_iTeamNum");
+  NETVAR(entity_flag_t, m_fFlags, "DT_CSPlayer", "m_fFlags");
+  NETVAR(bool, m_bInBombZone, "DT_CSPlayer", "m_bInBombZone");
   NETVAR(vector3d, m_vecOrigin, "DT_BaseEntity", "m_vecOrigin");
   NETVAR(vector3d, m_vecViewOffset, "DT_BasePlayer", "m_vecViewOffset[0]");
   NETVAR(vector3d, m_vecMins, "DT_BaseEntity", "m_vecMins");
   NETVAR(vector3d, m_vecMaxs, "DT_BaseEntity", "m_vecMaxs");
+  NETVAR_PTR(observer_mode_t, m_iObserverMode, "DT_BasePlayer", "m_iObserverMode");
   NETVAR_PTR(bool, m_bSpotted, "DT_BaseEntity", "m_bSpotted");
   NETVAR_PTR(float, m_flHealthShotBoostExpirationTime, "DT_CSPlayer",
              "m_flHealthShotBoostExpirationTime");
-};
-
-struct weapon_t {
-
-  //
-  // netvars goes here
-  //
+  NETVAR_PTR(float, m_flFlashMaxAlpha, "DT_CSPlayer", "m_flFlashMaxAlpha");
+  NETVAR_PTR(weapon_t, m_hActiveWeapon, "DT_BaseCombatCharacter",
+             "m_hActiveWeapon");
 };

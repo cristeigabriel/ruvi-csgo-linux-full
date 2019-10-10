@@ -5,21 +5,23 @@
 // includes
 #include "menu.hh"
 
+#include "../core/interfaces/interfaces.hh"
+
 void menu::on_entry_point() {
 
   // default font
-  fgui::element_font title_font   = {"Verdana Bold", 10,
+  fgui::element_font title_font   = {"Verdana Bold", 11,
                                    fgui::external::font_flags::ANTIALIAS, true};
   fgui::element_font element_font = {
       "Verdana", 11, fgui::external::font_flags::ANTIALIAS, false};
 
   // initialize notifications
-  REGISTER_NOTIFICATIONS(element_font);
+  REGISTER_NOTIFICATIONS(title_font);
 
   // initialize the main window
   ADD_WINDOW(vars::container["#window"], 50, 50,
              "Ruvi for Counter-Strike: Global Offensive", 560, 450,
-             fgui::external::key_code::KEY_HOME, element_font);
+             fgui::external::key_code::KEY_HOME, title_font);
 
   // initialize the input system
   REGISTER_CURSOR(fgui::cursor_type::ARROW, fgui::input_state::UNLOCKED);
@@ -68,6 +70,9 @@ void menu::on_entry_point() {
       ADD_CHECKBOX(vars::checkbox["#disable_smoke_effect"], 15, (90 + 25),
                    "Disable Smoke Effect", "vars.disable_smoke_effect",
                    element_font, vars::container["#effects_groupbox"], -1);
+      ADD_CHECKBOX(vars::checkbox["#disable_flashbang_effect"], 15, (115 + 25),
+                   "Disable Flashbang Effect", "vars.disable_flashbang_effect",
+                   element_font, vars::container["#effects_groupbox"], -1);
     }
 
     ADD_GROUPBOX(vars::container["#other_visuals_groupbox"], (260 + 15) + 10,
@@ -81,6 +86,10 @@ void menu::on_entry_point() {
                    vars::container["#other_visuals_groupbox"], -1);
       ADD_CHECKBOX(vars::checkbox["#grenade_prediction"], 15, (15 + 25),
                    "Grenade Prediction", "vars.grenade_prediction",
+                   element_font, vars::container["#other_visuals_groupbox"],
+                   -1);
+      ADD_CHECKBOX(vars::checkbox["#force_thirdperosn"], 15, (40 + 25),
+                   "Force Thirdperson Camera", "vars.force_thirdperosn",
                    element_font, vars::container["#other_visuals_groupbox"],
                    -1);
     }
@@ -106,6 +115,14 @@ void menu::on_entry_point() {
                    vars::container["#miscellaneous_groupbox"], -1);
       ADD_CHECKBOX(vars::checkbox["#crouch_exploit"], 15, (65 + 25),
                    "Crouch Exploit", "vars.crouch_exploit", element_font,
+                   vars::container["#miscellaneous_groupbox"], -1);
+      ADD_CHECKBOX(vars::checkbox["#instant_bomb_plant"], 15, (90 + 25),
+                   "Instant Bomb Plant", "vars.instant_bomb_plant",
+                   element_font, vars::container["#miscellaneous_groupbox"],
+                   -1);
+      ADD_CHECKBOX(vars::checkbox["#thirdperson_while_spectating"], 15,
+                   (115 + 25), "Thirdperson while Spectating",
+                   "vars.thirdperson_while_spectating", element_font,
                    vars::container["#miscellaneous_groupbox"], -1);
     }
   }

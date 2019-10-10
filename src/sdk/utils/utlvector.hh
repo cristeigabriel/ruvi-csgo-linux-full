@@ -7,11 +7,11 @@
 template <class t, class m = int>
 class utl_memory {
 public:
-  t &operator[](m i) { return memory[i]; }
+  t &operator[](m index) { return memory[index]; }
 
 protected:
   t * memory;
-  int allocation_size;
+  int allocation_count;
   int grow_size;
 };
 
@@ -20,11 +20,11 @@ class utl_vector {
   typedef a allocator;
 
 public:
-  t &operator[](std::size_t index) { return memory[index]; }
+  t &operator[](int index) { return memory[index]; }
 
   int count() const { return size; }
 
-  void set_size(std::size_t value) { size = value; }
+  void set_size(int value) { size = value; }
 
 protected:
   allocator memory;

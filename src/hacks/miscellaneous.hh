@@ -24,6 +24,8 @@ private:
   void auto_strafe(entity_t *local_player, c_user_cmd *cmd);
   void rank_revealer(entity_t *local_player, c_user_cmd *cmd);
   void crouch_exploit(c_user_cmd *cmd);
+  void instant_bomb_plant(entity_t* local_player, weapon_t* active_weapon, c_user_cmd *cmd);
+  void thirdperson_while_spectating(entity_t* local_player);
 };
 
 } // namespace features

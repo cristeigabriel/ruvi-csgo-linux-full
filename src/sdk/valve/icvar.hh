@@ -19,8 +19,8 @@ public:
 
   int get_int() { return memory::vfunc<16, int>(this); }
 
-  void set_value(const char *value) {
-    return memory::vfunc<17, void>(this, value);
+  void set_value(const std::string_view value) {
+    return memory::vfunc<17, void>(this, value.data());
   }
 
   void set_value(float value) { return memory::vfunc<18, void>(this, value); }
@@ -32,7 +32,7 @@ public:
   convar *               next;
   int                    registered;
   char *                 name;
-  char *                 help_string;
+  char *                 description;
   int                    flags;
   char                   pad1[0x4];
   convar *               parent;
@@ -58,8 +58,8 @@ public:
     return memory::vfunc<11, void>(this, command);
   }
 
-  convar *find_var(const char *name) {
-    return memory::vfunc<15, convar *>(this, name);
+  convar *find_var(const std::string_view name) {
+    return memory::vfunc<15, convar *>(this, name.data());
   }
 
   convar *spoof(convar *cvar, const std::string_view new_name) {

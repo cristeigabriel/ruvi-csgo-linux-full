@@ -3,8 +3,8 @@
 ///
 
 // includes
-#include "visuals.hh"
 #include "menu/menu.hh"
+#include "visuals.hh"
 
 void features::visuals::on_paint() {
 
@@ -56,8 +56,23 @@ void features::visuals::on_paint() {
 
   // draw a line that predicts the grenade path (where it will land)
   visuals::grenade_prediction();
+
+  // disables the flashbang effect
+  visuals::disable_flashbang_effect(local_player);
 }
 
+void features::visuals::on_override_view(c_view_setup *view_setup) {
+
+  if (!view_setup) return;
+
+  // local player pointer
+  entity_t *local_player =
+      reinterpret_cast<entity_t *>(csgo::entity_list->get_client_entity(
+          csgo::engine_client->get_local_player()));
+
+  // run thinker
+  visuals::view(local_player, view_setup);
+}
 //
 // thinkers
 //
@@ -88,6 +103,14 @@ void features::visuals::world(entity_t *entity) {
 
   utilities::esp_box_t box;
   if (utilities::create_box(entity, box)) {}
+}
+
+void features::visuals::view(entity_t *local_player, c_view_setup *view_setup) {
+
+  if (!view_setup || local_player->m_iHealth() == 0) return;
+
+  // force the thirdperson camera
+  visuals::force_thirdperson(local_player);
 }
 
 //
@@ -244,7 +267,7 @@ void features::visuals::grenade_prediction() {
 
   // sv cheats convar
   static convar *sv_cheats =
-      csgo::cvar->spoof(csgo::cvar->find_var("sv_cheats"), "_spoofed");
+      csgo::cvar->spoof(csgo::cvar->find_var("sv_cheats"), "sv_cheats_spoofed");
 
   // grenade preview convar
   static convar *cl_grenadepreview = csgo::cvar->spoof(
@@ -277,4 +300,36 @@ void features::visuals::disable_smoke_effect(entity_t *      entity,
   *smoke_grenade_projectile->m_nSmokeEffectTickBegin() =
       -999; // ghetto fix for preventing the smoke drawing on the local player's
             // position
+}
+
+void features::visuals::disable_flashbang_effect(entity_t *local_player) {
+
+  if (!vars::checkbox["#disable_flashbang_effect"]->get_bool()) return;
+
+  // set the flashbang effect alpha to 0
+  *local_player->m_flFlashMaxAlpha() = 0.f;
+}
+
+void features::visuals::force_thirdperson(entity_t *local_player) {
+
+  if (!vars::checkbox["#force_thirdperosn"]->get_bool()) return;
+
+  constexpr float camera_distance = 150.f; // TODO: make this dynamic
+
+  // local player view angles
+  static qangle view_angles = {0.f, 0.f, 0.f};
+  csgo::engine_client->get_view_angles(&view_angles);
+
+  // update visibility convar
+  static convar *name = csgo::cvar->find_var("name");
+
+  // callback update visibility (this will fix the flickering on local servers)
+  local_player->update_visibility_all_entities();
+
+  if (local_player->m_iHealth() > 0) {
+    csgo::input->camera_in_third_person = true;
+    csgo::input->camera_offset          = {view_angles.x, view_angles.y,
+                                  camera_distance};
+  } else
+    csgo::input->camera_in_third_person = false;
 }

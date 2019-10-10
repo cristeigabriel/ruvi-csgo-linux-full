@@ -3,45 +3,52 @@
 //
 
 // includes
-#include "netvars.hh"
+#include "../../core/definitions/handler.hh"
 #include "../../core/interfaces/interfaces.hh" // yikes :C
+#include "netvars.hh"
 
 void netvars::on_entry_point() {
 
   c_client_class *client_class = csgo::base_client->get_all_classes();
 
-  std::stringstream ss;
+  static std::stringstream sn; // netvars
+  static std::stringstream sc; // class id
 
-  // set this variable to true if you want to dump netvars
-  constexpr bool DUMP_NETVARS = true;
+  // set these variables to true if you want to dump netvars or class id
+  constexpr bool DUMP_NETVARS  = true;
+  constexpr bool DUMP_CLASS_ID = true;
 
   for (c_client_class *data = client_class; data != nullptr;
        data                 = data->next) {
 
-    if (data->table) collect_netvars(data->table->name, data->table);
+    // populate the netvar container
+    netvars::collect_netvars(data->table->name, data->table);
 
-    // debug purposes only
-    m_dumped_tables++;
+    if (DUMP_NETVARS) sn << netvars::dump_netvars(data->table);
 
-    if (DUMP_NETVARS) ss << netvars::dump_netvars(data->table);
+    if (DUMP_CLASS_ID) sc << netvars::dump_class_id(data);
   }
 
   if (DUMP_NETVARS) {
 
     // file name (located at game folder)
-    std::ofstream file("netvars.txt");
+    std::ofstream file("netvars.dump");
 
-    if (file.fail()) // todo: trow an exception here if it fails
-      return;
+    if (file.fail()) EXCEPTION("error handler - entry point - dumper")
 
     // read buffer and write to file
-    file << ss.rdbuf();
+    file << sn.rdbuf();
+  }
 
-    // debug purposes only
-    file << std::endl
-         << "dumped: " + std::to_string(m_dumped_tables) + " tables" + ", " +
-                std::to_string(m_dumped_netvars) + " netvars"
-         << std::endl;
+  if (DUMP_CLASS_ID) {
+
+    // file name (located at game folder)
+    std::ofstream file("classid.dump");
+
+    if (file.fail()) EXCEPTION("error handler - entry point - dumper")
+
+    // read buffer and write to file
+    file << sc.rdbuf();
   }
 }
 
@@ -68,12 +75,25 @@ std::string netvars::dump_netvars(recv_table_t *table) {
     if (current_netvar->data_table) dump_netvars(current_netvar->data_table);
   }
 
-  // write to file
+  return ss.str();
+}
+
+std::string netvars::dump_class_id(c_client_class *client_class) {
+
+  std::stringstream ss;
+
+  // class name (table)
+  ss << client_class->network_name << " = " << client_class->class_id
+     << std::endl;
+
+  // todo: fix the class id always being 0
+
   return ss.str();
 }
 
 void netvars::collect_netvars(const std::string &table_name,
-                              recv_table_t *table, int table_offset) {
+                              recv_table_t *     table,
+                              std::uintptr_t     table_offset) {
 
   // loop through tables and netvars
   for (std::size_t i = 0; i < table->num_props; ++i) {
@@ -84,22 +104,13 @@ void netvars::collect_netvars(const std::string &table_name,
     // current table
     recv_table_t *current_table = current_netvar->data_table;
 
-    // if the table have at least one netvar store it
-    if (current_table && current_table->num_props > 0)
-      collect_netvars(table_name, current_table, current_netvar->offset);
+    // if the table have at least one netvar, store it
+    if (current_table && current_table->num_props >= 1)
+      netvars::collect_netvars(table_name, current_table,
+                               current_netvar->offset);
 
-    if (m_netvar[table_name][current_netvar->name] <= 0 &&
-        (current_netvar->type == DPT_Float || current_netvar->type == DPT_Int ||
-         current_netvar->type == DPT_String ||
-         current_netvar->type == DPT_Vector ||
-         current_netvar->type == DPT_VectorXY)) {
-
-      // assign the offset of the netvar that we searched
-      m_netvar[table_name][current_netvar->name] =
-          static_cast<std::uintptr_t>(current_netvar->offset) + table_offset;
-
-      // debug purposes only
-      m_dumped_netvars++;
-    }
+    // assign an offset to the netvar
+    m_netvar[table_name][current_netvar->name] =
+        static_cast<std::uintptr_t>(current_netvar->offset + table_offset);
   }
 }

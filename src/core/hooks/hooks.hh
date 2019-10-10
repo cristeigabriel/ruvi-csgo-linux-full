@@ -41,4 +41,10 @@ struct frame_stage_notify {
   static fn  hooked;
   static fn *original;
 };
+
+struct override_view {
+  typedef void(fn)(void *, c_view_setup *);
+  static fn  hooked;
+  static fn *original;
+};
 } // namespace hooks
