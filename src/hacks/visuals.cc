@@ -3,8 +3,8 @@
 ///
 
 // includes
-#include "menu/menu.hh"
 #include "visuals.hh"
+#include "menu/menu.hh"
 
 void features::visuals::on_paint() {
 
@@ -139,7 +139,7 @@ void features::visuals::player_name(entity_t *                  entity,
     fgui::dimension text_size = draw::get_text_size(
         fonts.at(FONT_TAHOMA), entity->get_entity_info().name);
     fgui::dimension text_size_bot =
-        draw::get_text_size(fonts.at(FONT_TAHOMA), "[BOT]");
+        draw::get_text_size(fonts.at(FONT_TAHOMA), STR("[BOT]"));
 
     // bot name
     draw::text(box.x + (box.width / 2) - (text_size.width / 2),
@@ -148,7 +148,7 @@ void features::visuals::player_name(entity_t *                  entity,
     draw::text(box.x + (box.width / 2) - (text_size.width / 2) +
                    (text_size.width + 2),
                (box.y - text_size.height) - 1, fgui::color(150, 150, 150),
-               fonts.at(FONT_TAHOMA), "[BOT]");
+               fonts.at(FONT_TAHOMA), STR("[BOT]"));
   }
 
   else {
@@ -161,7 +161,7 @@ void features::visuals::player_name(entity_t *                  entity,
     const std::string &player_name = entity->get_entity_info().name;
 
     // safety check
-    if (player_name.size() > 17) player_name.substr(0, 17) + "...";
+    if (player_name.size() > 17) player_name.substr(0, 17) + STR("...");
 
     // player name
     draw::text(box.x + (box.width / 2) - (text_size.width / 2),
@@ -189,14 +189,14 @@ void features::visuals::nightmode(entity_t *      entity,
   if (!tonemap_controller) return;
 
   // get the skyname convar (is this convar checked?)
-  static convar *sv_skyname = csgo::cvar->find_var("sv_skyname");
+  static convar *sv_skyname = csgo::cvar->find_var(STR("sv_skyname"));
 
   // 3d skybox convar
-  static convar *r_3dsky = csgo::cvar->find_var("r_3dsky");
+  static convar *r_3dsky = csgo::cvar->find_var(STR("r_3dsky"));
 
   // change skybox
-  sv_skyname->set_value(
-      "sky_csgo_cloudy01"); // todo: find a proper way to restore sky boxes.
+  sv_skyname->set_value(STR(
+      "sky_csgo_cloudy01")); // todo: find a proper way to restore sky boxes.
 
   // disable 3d skybox (newer maps)
   r_3dsky->set_value(!vars::checkbox["#nightmode"]->get_bool());
@@ -223,13 +223,14 @@ void features::visuals::disable_post_processing() {
 
   // post process convar
   static convar *mat_postproccesing_enable =
-      csgo::cvar->spoof(csgo::cvar->find_var("mat_postprocess_enable"),
-                        "mat_postprocess_enable_spoofed");
-  static convar *mat_disable_bloom = csgo::cvar->spoof(
-      csgo::cvar->find_var("mat_disable_bloom"), "mat_disable_bloom_spoofed");
+      csgo::cvar->spoof(csgo::cvar->find_var(STR("mat_postprocess_enable")),
+                        STR("mat_postprocess_enable_spoofed"));
+  static convar *mat_disable_bloom =
+      csgo::cvar->spoof(csgo::cvar->find_var(STR("mat_disable_bloom")),
+                        STR("mat_disable_bloom_spoofed"));
   static convar *mat_colorcorrection =
-      csgo::cvar->spoof(csgo::cvar->find_var("mat_colorcorrection"),
-                        "mat_colorcorrection_spoofed");
+      csgo::cvar->spoof(csgo::cvar->find_var(STR("mat_colorcorrection")),
+                        STR("mat_colorcorrection_spoofed"));
 
   // disable post processing effects
   mat_postproccesing_enable->set_value(
@@ -256,7 +257,7 @@ void features::visuals::disable_panorama_blur() {
 
   // panorama blur convar
   static convar *panorama_disable_blur =
-      csgo::cvar->find_var("@panorama_disable_blur");
+      csgo::cvar->find_var(STR("@panorama_disable_blur"));
 
   // disable blur
   panorama_disable_blur->set_value(
@@ -266,12 +267,13 @@ void features::visuals::disable_panorama_blur() {
 void features::visuals::grenade_prediction() {
 
   // sv cheats convar
-  static convar *sv_cheats =
-      csgo::cvar->spoof(csgo::cvar->find_var("sv_cheats"), "sv_cheats_spoofed");
+  static convar *sv_cheats = csgo::cvar->spoof(
+      csgo::cvar->find_var(STR("sv_cheats")), STR("sv_cheats_spoofed"));
 
   // grenade preview convar
-  static convar *cl_grenadepreview = csgo::cvar->spoof(
-      csgo::cvar->find_var("cl_grenadepreview"), "cl_grenadepreview_spoofed");
+  static convar *cl_grenadepreview =
+      csgo::cvar->spoof(csgo::cvar->find_var(STR("cl_grenadepreview")),
+                        STR("cl_grenadepreview_spoofed"));
 
   // set spoofed sv cheats to true
   sv_cheats->set_value(vars::checkbox["#grenade_prediction"]->get_bool());
@@ -321,7 +323,7 @@ void features::visuals::force_thirdperson(entity_t *local_player) {
   csgo::engine_client->get_view_angles(&view_angles);
 
   // update visibility convar
-  static convar *name = csgo::cvar->find_var("name");
+  static convar *name = csgo::cvar->find_var(STR("name"));
 
   // callback update visibility (this will fix the flickering on local servers)
   local_player->update_visibility_all_entities();

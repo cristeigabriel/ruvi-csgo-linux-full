@@ -3,6 +3,7 @@
 //
 
 // includes
+#include "hooks.hh"
 #include "../../core/definitions/handler.hh"
 #include "../../hacks/miscellaneous.hh"
 #include "../../hacks/visuals.hh"
@@ -10,7 +11,6 @@
 #include "../../sdk/render/render.hh"
 #include "../../sdk/utils/globals.hh"
 #include "../../sdk/utils/utilities.hh"
-#include "hooks.hh"
 
 // framework includes
 #include <FGUI/FGUI.hh>
@@ -50,7 +50,7 @@ void hooks::on_entry_point() {
     client_mode_hook->apply_hook<hooks::override_view>(19);
   }
 
-  CODE_END("error handler - entry point - hooks");
+  CODE_END(STR("error handler - entry point - hooks"));
 }
 
 void hooks::paint::hooked(void *thisptr, paint_mode_t mode) {
@@ -61,10 +61,11 @@ void hooks::paint::hooked(void *thisptr, paint_mode_t mode) {
   original(thisptr, mode);
 
   static void (*start_drawing)(void *) = reinterpret_cast<void (*)(void *)>(
-      memory::find_pattern("vguimatsurface_client.so",
-                           "55 48 89 E5 53 48 89 FB 48 83 EC 28 80 3D"));
-  static void (*finish_drawing)(void *) = reinterpret_cast<void (*)(void *)>(
-      memory::find_pattern("vguimatsurface_client.so", "55 31 FF 48 89 E5 53"));
+      memory::find_pattern(STR("vguimatsurface_client.so"),
+                           STR("55 48 89 E5 53 48 89 FB 48 83 EC 28 80 3D")));
+  static void (*finish_drawing)(void *) =
+      reinterpret_cast<void (*)(void *)>(memory::find_pattern(
+          STR("vguimatsurface_client.so"), STR("55 31 FF 48 89 E5 53")));
 
   if (mode & paint_mode_t::PAINT_UIPANELS) {
 
@@ -85,7 +86,7 @@ void hooks::paint::hooked(void *thisptr, paint_mode_t mode) {
     finish_drawing(csgo::vgui_surface);
   }
 
-  CODE_END("error handler - paint - hooks");
+  CODE_END(STR("error handler - paint - hooks"));
 }
 
 int hooks::in_key_event::hooked(void *thisptr, int event_code, int key_num,
@@ -97,7 +98,7 @@ int hooks::in_key_event::hooked(void *thisptr, int event_code, int key_num,
   // call original function
   return original(thisptr, event_code, key_num, current_binding);
 
-  CODE_END("error handler - in key event - hooks");
+  CODE_END(STR("error handler - in key event - hooks"));
 }
 
 void hooks::lock_cursor::hooked(void *thisptr) {
@@ -115,7 +116,7 @@ void hooks::lock_cursor::hooked(void *thisptr) {
   // call original function
   original(thisptr);
 
-  CODE_END("error handler - lock cursor - hooks")
+  CODE_END(STR("error handler - lock cursor - hooks"))
 }
 
 bool hooks::create_move::hooked(void *thisptr, float sample_time,
@@ -137,7 +138,7 @@ bool hooks::create_move::hooked(void *thisptr, float sample_time,
   }
   return false;
 
-  CODE_END("error handler - create move - hooks")
+  CODE_END(STR("error handler - create move - hooks"))
 }
 
 void hooks::frame_stage_notify::hooked(void *               thisptr,
@@ -147,7 +148,7 @@ void hooks::frame_stage_notify::hooked(void *               thisptr,
   // call original function
   original(thisptr, stage);
 
-  CODE_END("error handler - frame stage notify - hooks")
+  CODE_END(STR("error handler - frame stage notify - hooks"))
 }
 
 void hooks::override_view::hooked(void *thisptr, c_view_setup *view_setup) {
@@ -163,5 +164,5 @@ void hooks::override_view::hooked(void *thisptr, c_view_setup *view_setup) {
   // call original function
   original(thisptr, view_setup);
 
-  CODE_END("error handler - override view - hooks")
+  CODE_END(STR("error handler - override view - hooks"))
 }

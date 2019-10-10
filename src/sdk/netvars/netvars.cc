@@ -32,9 +32,9 @@ void netvars::on_entry_point() {
   if (DUMP_NETVARS) {
 
     // file name (located at game folder)
-    std::ofstream file("netvars.dump");
+    std::ofstream file(STR("netvars.dump"));
 
-    if (file.fail()) EXCEPTION("error handler - entry point - dumper")
+    if (file.fail()) EXCEPTION(STR("error handler - entry point - dumper"))
 
     // read buffer and write to file
     file << sn.rdbuf();
@@ -43,9 +43,9 @@ void netvars::on_entry_point() {
   if (DUMP_CLASS_ID) {
 
     // file name (located at game folder)
-    std::ofstream file("classid.dump");
+    std::ofstream file(STR("classid.dump"));
 
-    if (file.fail()) EXCEPTION("error handler - entry point - dumper")
+    if (file.fail()) EXCEPTION(STR("error handler - entry point - dumper"))
 
     // read buffer and write to file
     file << sc.rdbuf();
@@ -64,10 +64,10 @@ std::string netvars::dump_netvars(recv_table_t *table) {
     recv_prop_t *current_netvar = &table->p_props[i];
 
     // remove useless stuff
-    if (std::string("baseclass").compare(current_netvar->name) == 0) continue;
+    if (std::string(STR("baseclass")).compare(current_netvar->name) == 0) continue;
 
     // offset
-    ss << current_netvar->name << " ="
+    ss << current_netvar->name << STR(" =")
        << " 0x" << std::uppercase << std::hex << current_netvar->offset
        << std::endl;
 

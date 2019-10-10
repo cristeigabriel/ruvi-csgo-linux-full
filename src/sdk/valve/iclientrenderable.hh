@@ -6,8 +6,8 @@
 
 // includes
 #include "../memory/memory.hh"
-#include "../vector/vector.hh"
 #include "../vector/matrix3x4.hh"
+#include "../vector/vector.hh"
 #include <functional>
 
 struct model_t;

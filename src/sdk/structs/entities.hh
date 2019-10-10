@@ -132,8 +132,8 @@ enum observer_mode_t {
   MODE_IN_EYE,    // follow a player in first person view
   MODE_CHASE,     // follow a player in third person view
   MODE_POI,       // PASSTIME point of interest - game objective, big fight,
-                // anything interesting; added in the middle of the enum due to
-                // tons of hard-coded "<ROAMING" enum compares
+            // anything interesting; added in the middle of the enum due to
+            // tons of hard-coded "<ROAMING" enum compares
   MODE_ROAMING, // free roaming
   OBSERVER_MODES,
 };
@@ -199,10 +199,11 @@ struct entity_t : public i_client_networkable, public i_client_renderable {
 
   inline void update_visibility_all_entities() {
 
-    static void (*update_visibility_all_entities_fn)() = reinterpret_cast<void (*)()>(
-        memory::find_pattern("client_panorama_client.so",
-                             "55 48 89 E5 53 48 8D 5D E0 48 83 EC 18 48 89 DF E8 ? ? ? ? EB 11"));
-    
+    static void (*update_visibility_all_entities_fn)() = reinterpret_cast<
+        void (*)()>(memory::find_pattern(
+        "client_panorama_client.so",
+        "55 48 89 E5 53 48 8D 5D E0 48 83 EC 18 48 89 DF E8 ? ? ? ? EB 11"));
+
     update_visibility_all_entities_fn();
   }
 
@@ -223,7 +224,8 @@ struct entity_t : public i_client_networkable, public i_client_renderable {
   NETVAR(vector3d, m_vecViewOffset, "DT_BasePlayer", "m_vecViewOffset[0]");
   NETVAR(vector3d, m_vecMins, "DT_BaseEntity", "m_vecMins");
   NETVAR(vector3d, m_vecMaxs, "DT_BaseEntity", "m_vecMaxs");
-  NETVAR_PTR(observer_mode_t, m_iObserverMode, "DT_BasePlayer", "m_iObserverMode");
+  NETVAR_PTR(observer_mode_t, m_iObserverMode, "DT_BasePlayer",
+             "m_iObserverMode");
   NETVAR_PTR(bool, m_bSpotted, "DT_BaseEntity", "m_bSpotted");
   NETVAR_PTR(float, m_flHealthShotBoostExpirationTime, "DT_CSPlayer",
              "m_flHealthShotBoostExpirationTime");

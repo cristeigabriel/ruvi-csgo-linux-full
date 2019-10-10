@@ -4,6 +4,10 @@
 
 #pragma once
 
+// GLOBAL INCLUDES
+#include "../definitions/handler.hh"
+#include "../security/stringcrypt.hh"
+
 // includes
 #include <array>
 #include <dlfcn.h>
@@ -14,6 +18,7 @@
 #include "sdk/valve/cbaseclientstate.hh"
 #include "sdk/valve/cclientclass.hh"
 #include "sdk/valve/cglobalvars.hh"
+#include "sdk/valve/cinput.hh"
 #include "sdk/valve/crecvproxydata.hh"
 #include "sdk/valve/cusercmd.hh"
 #include "sdk/valve/ibaseclient.hh"
@@ -30,7 +35,6 @@
 #include "sdk/valve/ipanel.hh"
 #include "sdk/valve/isurface.hh"
 #include "sdk/valve/ivdebugoverlay.hh"
-#include "sdk/valve/cinput.hh"
 #include "sdk/valve/viewshared.hh"
 
 typedef void *(*create_interface_fn)();
@@ -65,11 +69,11 @@ inline t *get_interface(const std::string &interface_location) {
     splitted_string.push_back(interface_location.substr(start));
 
   // fetch dll path
-  if (splitted_string.at(0).find("client_panorama_client.so") !=
+  if (splitted_string.at(0).find(STR("client_panorama_client.so")) !=
       std::string::npos)
-    dll_path = "./csgo/bin/linux64/";
+    dll_path = STR("./csgo/bin/linux64/");
   else
-    dll_path = "./bin/linux64/";
+    dll_path = STR("./bin/linux64/");
 
   // insert dll location
   splitted_string.at(0).insert(0, dll_path);
@@ -79,8 +83,8 @@ inline t *get_interface(const std::string &interface_location) {
                         RTLD_NOLOAD | RTLD_NOW | RTLD_LOCAL);
 
   // grab the interface list
-  interface_reg_t *interfaces_sym =
-      *reinterpret_cast<interface_reg_t **>(dlsym(module, "s_pInterfaceRegs"));
+  interface_reg_t *interfaces_sym = *reinterpret_cast<interface_reg_t **>(
+      dlsym(module, STR("s_pInterfaceRegs")));
 
   // iterate through the interface list and grab the correct interface
   for (interface_reg_t *current = interfaces_sym; current != nullptr;

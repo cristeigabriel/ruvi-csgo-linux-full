@@ -2,8 +2,8 @@
 // ruvi base
 //
 
-#include "menu/menu.hh"
 #include "miscellaneous.hh"
+#include "menu/menu.hh"
 
 void features::miscellaneous::on_create_move(c_user_cmd *cmd) {
 
@@ -157,7 +157,8 @@ void features::miscellaneous::instant_bomb_plant(entity_t *  local_player,
   cmd->buttons &= ~cmd_buttons_t::IN_ATTACK;
 }
 
-void features::miscellaneous::thirdperson_while_spectating(entity_t* local_player) {
+void features::miscellaneous::thirdperson_while_spectating(
+    entity_t *local_player) {
 
   if (!vars::checkbox["#thirdperson_while_spectating"]->get_bool()) return;
 
