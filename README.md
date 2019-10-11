@@ -1,5 +1,11 @@
-## Ruvi-Full
-A CS:GO cheat for GNU/Linux. In developement.
+<p align="center">
+  RUVI
+</p>
+
+<p align="center">
+    <a href="https://en.wikipedia.org/wiki/C%2B%2B"><img src="https://img.shields.io/badge/MADE%20WITH-%E2%99%A5-pink"></a>
+      <a href="https://github.com/iFloody/fgui/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-yellowgreen?style=for-the-badge" alt="mit"></a>
+</p>
 
 ## Menu Picture
 ![menu](https://raw.githubusercontent.com/cristeigabriel/ruvi-csgo-linux-full/master/resource/image.png)
