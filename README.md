@@ -7,17 +7,17 @@
       <a href="https://github.com/cristeigabriel/ruvi-csgo-linux-full/blob/master/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-pink"></a>
 </p>
 
-
+##
 
 <p align="center">
-  MENU PICTURE
+  Menu
 </p>
 
 ## 
 ![menu](https://raw.githubusercontent.com/cristeigabriel/ruvi-csgo-linux-full/master/resource/image.png)
 
 <p align="center">
-  LICENSE
+  Licensing
 </p>
 
 ## 
