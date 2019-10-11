@@ -19,7 +19,9 @@
 #include "sdk/valve/cclientclass.hh"
 #include "sdk/valve/cglobalvars.hh"
 #include "sdk/valve/cinput.hh"
+#include "sdk/valve/cmodelinfo.hh"
 #include "sdk/valve/crecvproxydata.hh"
+#include "sdk/valve/crenderview.hh"
 #include "sdk/valve/cusercmd.hh"
 #include "sdk/valve/ibaseclient.hh"
 #include "sdk/valve/icliententitylist.hh"
@@ -33,8 +35,10 @@
 #include "sdk/valve/imaterialsystem.hh"
 #include "sdk/valve/imatrendercontext.hh"
 #include "sdk/valve/ipanel.hh"
+#include "sdk/valve/iprediction.hh"
 #include "sdk/valve/isurface.hh"
 #include "sdk/valve/ivdebugoverlay.hh"
+#include "sdk/valve/ivmodelrender.hh"
 #include "sdk/valve/viewshared.hh"
 
 typedef void *(*create_interface_fn)();
@@ -126,4 +130,8 @@ inline i_cvar *              cvar;
 inline i_material_system *   material_system;
 inline c_global_vars *       global_vars;
 inline c_input *             input;
+inline iv_model_render *     model_render;
+inline c_model_info *        model_info;
+inline c_render_view *       render_view;
+inline i_prediction *        prediction;
 } // namespace csgo

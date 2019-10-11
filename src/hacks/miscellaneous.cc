@@ -2,8 +2,8 @@
 // ruvi base
 //
 
-#include "miscellaneous.hh"
 #include "menu/menu.hh"
+#include "miscellaneous.hh"
 
 void features::miscellaneous::on_create_move(c_user_cmd *cmd) {
 

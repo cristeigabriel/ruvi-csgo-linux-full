@@ -126,4 +126,37 @@ inline bool create_box(entity_t *entity, esp_box_t &box) {
   return true;
 }
 
+inline void create_materials() {
+
+  std::ofstream("csgo//materials//normal_material.vmt")
+      << R"#("VertexLitGeneric" {
+            "$basetexture" "vgui/white_additive"
+            "$ignorez"      "0"
+            "$envmap"       ""
+            "$nofog"        "1"
+            "$model"        "1"
+            "$nocull"       "0"
+            "$selfillum"    "1"
+            "$halflambert"  "1"
+            "$znearer"      "0"
+            "$flat"         "1"
+			"$wireframe"    "0"
+        })#";
+
+  std::ofstream("csgo//materials//ignorez_material.vmt")
+      << R"#("VertexLitGeneric" {
+            "$basetexture" "vgui/white_additive"
+            "$ignorez"      "1"
+            "$envmap"       ""
+            "$nofog"        "1"
+            "$model"        "1"
+            "$nocull"       "0"
+            "$selfillum"    "1"
+            "$halflambert"  "1"
+            "$znearer"      "0"
+            "$flat"         "1"
+			"$wireframe"    "0"
+        })#";
+}
+
 } // namespace utilities

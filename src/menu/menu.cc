@@ -47,6 +47,9 @@ void menu::on_entry_point() {
       ADD_CHECKBOX(vars::checkbox["#player_name"], 15, (15 + 25), "Player Name",
                    "vars.player_name", element_font,
                    vars::container["#player_esp_groupbox"], -1);
+      ADD_CHECKBOX(vars::checkbox["#player_chams"], 15, (40 + 25), "Player Chams",
+                   "vars.player_chams", element_font,
+                   vars::container["#player_esp_groupbox"], -1);
     }
 
     ADD_GROUPBOX(vars::container["#effects_groupbox"], (260 + 15) + 10,

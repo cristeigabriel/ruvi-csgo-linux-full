@@ -7,6 +7,8 @@
 // includes
 #include "core/interfaces/interfaces.hh"
 #include "sdk/utils/vmthook.hh"
+#include "sdk/valve/cmodelinfo.hh"
+#include "sdk/vector/matrix3x4.hh"
 
 namespace hooks {
 
@@ -44,6 +46,12 @@ struct frame_stage_notify {
 
 struct override_view {
   typedef void(fn)(void *, c_view_setup *);
+  static fn  hooked;
+  static fn *original;
+};
+
+struct draw_model_execute {
+  typedef void(fn)(void *, i_mat_render_context *, void *, const model_render_info_t &, matrix3x4_t *);
   static fn  hooked;
   static fn *original;
 };

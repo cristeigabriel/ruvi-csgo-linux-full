@@ -3,8 +3,9 @@
 ///
 
 // includes
-#include "visuals.hh"
+#include "core/hooks/hooks.hh"
 #include "menu/menu.hh"
+#include "visuals.hh"
 
 void features::visuals::on_paint() {
 
@@ -73,10 +74,47 @@ void features::visuals::on_override_view(c_view_setup *view_setup) {
   // run thinker
   visuals::view(local_player, view_setup);
 }
+
+void features::visuals::on_draw_model_execute(
+    i_mat_render_context *render_context, void *state,
+    const model_render_info_t &model_info, matrix3x4_t *custom_bone_to_world) {
+
+  // entity pointer
+  entity_t *entity = reinterpret_cast<entity_t *>(
+      csgo::entity_list->get_client_entity(model_info.entity_index));
+
+  // model name
+  const std::string_view model_name =
+      csgo::model_info->get_model_name(model_info.model);
+
+  static std::once_flag once_flag1, once_flag2;
+
+  // create chams material
+  std::call_once(once_flag1, utilities::create_materials);
+
+  // grab original function from draw model execute
+  std::call_once(once_flag2,
+                 draw_model_execute_original.operator=(std::bind(
+                     hooks::draw_model_execute::original, csgo::model_render,
+                     render_context, state, model_info,
+                     custom_bone_to_world))); // what the fuck is this lmao
+
+  // run thinkers
+  if (model_name.compare("models/player"))
+    visuals::player_advanced(entity);
+  else
+    visuals::world_advanced(entity);
+}
+
 //
 // thinkers
 //
 void features::visuals::player(entity_t *entity) {
+
+  // local player pointer
+  entity_t *local_player =
+      reinterpret_cast<entity_t *>(csgo::entity_list->get_client_entity(
+          csgo::engine_client->get_local_player()));
 
   // sanity checks
   if (!entity || entity->IClientNetworkable()->is_dormant() ||
@@ -107,10 +145,30 @@ void features::visuals::world(entity_t *entity) {
 
 void features::visuals::view(entity_t *local_player, c_view_setup *view_setup) {
 
+  // sanity checks
   if (!view_setup || local_player->m_iHealth() == 0) return;
 
   // force the thirdperson camera
   visuals::force_thirdperson(local_player);
+}
+
+void features::visuals::player_advanced(entity_t *entity) {
+
+  // sanity checks
+  if (!entity || entity->IClientNetworkable()->is_dormant() ||
+      entity->m_iHealth() == 0)
+    return;
+
+  // change player textures color
+  visuals::player_chams(entity);
+}
+
+void features::visuals::world_advanced(entity_t *entity) {
+
+  // sanity checks
+  if (!entity || entity->IClientNetworkable()->is_dormant() ||
+      entity->m_iHealth() == 0)
+    return;
 }
 
 //
@@ -268,7 +326,7 @@ void features::visuals::grenade_prediction() {
 
   // sv cheats convar
   static convar *sv_cheats = csgo::cvar->spoof(
-      csgo::cvar->find_var(STR("sv_cheats")), STR("sv_cheats_spoofed"));
+      csgo::cvar->find_var(STR("sv_cheats")), ("sv_cheats_spoofed"));
 
   // grenade preview convar
   static convar *cl_grenadepreview =
@@ -314,16 +372,16 @@ void features::visuals::disable_flashbang_effect(entity_t *local_player) {
 
 void features::visuals::force_thirdperson(entity_t *local_player) {
 
-  if (!vars::checkbox["#force_thirdperosn"]->get_bool()) return;
+  if (!vars::checkbox["#force_thirdperosn"]->get_bool()) {
+    csgo::input->camera_in_third_person = false;
+    return;
+  }
 
   constexpr float camera_distance = 150.f; // TODO: make this dynamic
 
   // local player view angles
   static qangle view_angles = {0.f, 0.f, 0.f};
   csgo::engine_client->get_view_angles(&view_angles);
-
-  // update visibility convar
-  static convar *name = csgo::cvar->find_var(STR("name"));
 
   // callback update visibility (this will fix the flickering on local servers)
   local_player->update_visibility_all_entities();
@@ -334,4 +392,38 @@ void features::visuals::force_thirdperson(entity_t *local_player) {
                                   camera_distance};
   } else
     csgo::input->camera_in_third_person = false;
+}
+
+void features::visuals::player_chams(entity_t *entity) {
+
+  if (!vars::checkbox["#player_chams"]->get_bool()) return;
+
+  // chams materials
+  i_material *normal_material =
+      csgo::material_system->find_material("normal_material", "Other textures");
+  i_material *ignorez_material = csgo::material_system->find_material(
+      "ignorez_material", "Other textures");
+
+  // check if materials are valid
+  if (!normal_material || !ignorez_material) return;
+
+  // normal color (r: 200, g: 100, b: 0)
+  // ignorez color (r: 255, g: 255, b: 255)
+  float normal_chams_color[3]  = {(255.f / 255.f), (75.f / 255.f),
+                                 (75.f / 255.f)};
+  float ignorez_chams_color[3] = {1.f, 1.f, 1.f};
+
+  // change texture color (behind walls)
+  csgo::render_view->set_color_modulation(ignorez_chams_color);
+
+  // replace model texture with our own
+  csgo::model_render->force_override_material(ignorez_material);
+
+  draw_model_execute_original();
+
+  // change texture color
+  csgo::render_view->set_color_modulation(normal_chams_color);
+
+  // replace model texture with our own
+  csgo::model_render->force_override_material(normal_material);
 }

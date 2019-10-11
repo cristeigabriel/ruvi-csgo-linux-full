@@ -64,12 +64,12 @@ std::string netvars::dump_netvars(recv_table_t *table) {
     recv_prop_t *current_netvar = &table->p_props[i];
 
     // remove useless stuff
-    if (std::string(STR("baseclass")).compare(current_netvar->name) == 0) continue;
+    if (std::string(STR("baseclass")).compare(current_netvar->name) == 0)
+      continue;
 
     // offset
-    ss << current_netvar->name << STR(" =")
-       << " 0x" << std::uppercase << std::hex << current_netvar->offset
-       << std::endl;
+    ss << current_netvar->name << STR(" =") << STR(" 0x") << std::uppercase
+       << std::hex << current_netvar->offset << std::endl;
 
     // repeat
     if (current_netvar->data_table) dump_netvars(current_netvar->data_table);
@@ -83,7 +83,7 @@ std::string netvars::dump_class_id(c_client_class *client_class) {
   std::stringstream ss;
 
   // class name (table)
-  ss << client_class->network_name << " = " << client_class->class_id
+  ss << client_class->network_name << STR(" = ") << client_class->class_id
      << std::endl;
 
   // todo: fix the class id always being 0

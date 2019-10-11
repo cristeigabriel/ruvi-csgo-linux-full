@@ -3,7 +3,6 @@
 //
 
 // includes
-#include "hooks.hh"
 #include "../../core/definitions/handler.hh"
 #include "../../hacks/miscellaneous.hh"
 #include "../../hacks/visuals.hh"
@@ -11,6 +10,7 @@
 #include "../../sdk/render/render.hh"
 #include "../../sdk/utils/globals.hh"
 #include "../../sdk/utils/utilities.hh"
+#include "hooks.hh"
 
 // framework includes
 #include <FGUI/FGUI.hh>
@@ -20,6 +20,7 @@ std::unique_ptr<vmt_hook> engine_vgui_hook  = std::make_unique<vmt_hook>();
 std::unique_ptr<vmt_hook> base_client_hook  = std::make_unique<vmt_hook>();
 std::unique_ptr<vmt_hook> vgui_surface_hook = std::make_unique<vmt_hook>();
 std::unique_ptr<vmt_hook> client_mode_hook  = std::make_unique<vmt_hook>();
+std::unique_ptr<vmt_hook> model_render_hook = std::make_unique<vmt_hook>();
 
 // declare originals
 decltype(&hooks::paint::hooked)        hooks::paint::original;
@@ -28,6 +29,8 @@ decltype(&hooks::lock_cursor::hooked)  hooks::lock_cursor::original;
 decltype(&hooks::create_move::hooked)  hooks::create_move::original;
 decltype(
     &hooks::frame_stage_notify::hooked) hooks::frame_stage_notify::original;
+decltype(
+    &hooks::draw_model_execute::hooked) hooks::draw_model_execute::original;
 decltype(&hooks::override_view::hooked) hooks::override_view::original;
 
 void hooks::on_entry_point() {
@@ -49,6 +52,9 @@ void hooks::on_entry_point() {
     client_mode_hook->apply_hook<hooks::create_move>(25);
     client_mode_hook->apply_hook<hooks::override_view>(19);
   }
+
+  if (model_render_hook->initialize_and_hook_instance(csgo::model_render))
+    model_render_hook->apply_hook<hooks::draw_model_execute>(21);
 
   CODE_END(STR("error handler - entry point - hooks"));
 }
@@ -165,4 +171,26 @@ void hooks::override_view::hooked(void *thisptr, c_view_setup *view_setup) {
   original(thisptr, view_setup);
 
   CODE_END(STR("error handler - override view - hooks"))
+}
+
+void hooks::draw_model_execute::hooked(void *                thisptr,
+                                       i_mat_render_context *context,
+                                       void *state, const model_render_info_t &info,
+                                       matrix3x4_t *custom_bone_to_world) {
+  CODE_START
+
+  // check if something is trying to override the chams and call original (glow fix)
+  if (csgo::model_render->is_forced_material_override())
+    original(thisptr, context, state, info, custom_bone_to_world);
+
+  // visuals
+  visuals.on_draw_model_execute(context, state, info, custom_bone_to_world);
+
+  // call original function
+  original(thisptr, context, state, info, custom_bone_to_world);
+
+  // restore materials after we are done
+  csgo::model_render->force_override_material(nullptr);
+
+  CODE_END(STR("error handler - draw model execute - hooks"))
 }

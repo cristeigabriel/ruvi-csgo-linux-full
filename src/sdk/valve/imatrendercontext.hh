@@ -6,7 +6,6 @@
 
 // includes
 #include "../memory/memory.hh"
-#include <functional>
 
 class i_material;
 

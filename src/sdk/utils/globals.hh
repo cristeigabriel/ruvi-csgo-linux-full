@@ -3,8 +3,8 @@
 ///
 
 // includes
-#include "../vector/vector.hh"
 #include "../vector/matrix3x4.hh"
+#include "../vector/vector.hh"
 
 namespace globals {
 

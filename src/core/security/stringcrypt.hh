@@ -116,7 +116,6 @@ public:
 
 } // namespace xorstr_impl
 
-#define STR(s)                                                                 \
-  (xorstr_impl::string<sizeof(s) - 1, __COUNTER__>(                            \
-       s, std::make_index_sequence<sizeof(s) - 1>())                           \
-       .decrypt())
+
+// fucking clang breaking lines :<
+#define STR(s) (xorstr_impl::string<sizeof(s) - 1, __COUNTER__>(s, std::make_index_sequence<sizeof(s) - 1>()).decrypt())

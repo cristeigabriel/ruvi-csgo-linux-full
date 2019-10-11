@@ -30,7 +30,15 @@ void interfaces::on_entry_point() {
   csgo::cvar = interfaces::get_interface<i_cvar>(
       STR("materialsystem_client.so->VEngineCvar0"));
   csgo::material_system = interfaces::get_interface<i_material_system>(
-      ("materialsystem_client.so->VMaterialSystem0"));
+      STR("materialsystem_client.so->VMaterialSystem0"));
+  csgo::model_render = interfaces::get_interface<iv_model_render>(
+      STR("engine_client.so->VEngineModel0"));
+  csgo::model_info = interfaces::get_interface<c_model_info>(
+      "engine_client.so->VModelInfoClient0");
+  csgo::render_view = interfaces::get_interface<c_render_view>(
+      "engine_client.so->VEngineRenderView0");
+  csgo::prediction = interfaces::get_interface<i_prediction>(
+      "client_panorama_client.so->VClientPrediction0");
 
   // vfunc addresses
   std::uintptr_t hud_process_input_vfunc = reinterpret_cast<std::uintptr_t>(

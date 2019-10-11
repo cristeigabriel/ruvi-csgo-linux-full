@@ -5,12 +5,17 @@
 #pragma once
 
 // includes
+#include <assert.h>
+#include <cassert>
 #include <cstdint>
 #include <cstdlib>
+#include <functional>
 #include <link.h>
 #include <memory.h>
 #include <string.h>
 #include <vector>
+
+#include "../vector/vector.hh"
 
 namespace memory {
 
