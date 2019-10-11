@@ -7,6 +7,8 @@
       <a href="https://github.com/cristeigabriel/ruvi-csgo-linux-full/blob/master/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-pink"></a>
 </p>
 
+
+
 <p align="center">
   MENU PICTURE
 </p>
