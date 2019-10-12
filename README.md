@@ -11,9 +11,8 @@ An open source Counter-Strike: Global Offensive cheat for GNU/Linux.
 
 #
 
-is a **GNU/Linux** only CS:GO cheat that aims to be as simple as possible,  
-while keeping the amount of features available at the highest possible level.  
-It's mainly designed for beginners looking for a starting point in their hacking journey.
+Ruvi is a **GNU/Linux** only CS:GO cheat that aims to be as simple as possible,  
+while keeping the amount of features available at the highest possible level.
 
 #
 
@@ -21,7 +20,7 @@ It's mainly designed for beginners looking for a starting point in their hacking
 
 ### Features
 
-Click dropdown to reveal complete feature list.
+Click on the dropdown to reveal complete feature list.
 
 <details>
 <summary>:bookmark_tabs: Feature list</summary>
@@ -54,9 +53,9 @@ Miscellanous:
 
 ### Acknowledgments
 
-Ruvi available under the [MIT License](https://github.com/cristeigabriel/ruvi-csgo-linux-full/blob/master/LICENSE)
+Ruvi is available under the [MIT License](https://github.com/cristeigabriel/ruvi-csgo-linux-full/blob/master/LICENSE)
 
 <img width="64" height="64" src="https://raw.githubusercontent.com/iFloody/fgui/master/resources/fgui_logo.png" alt="fgui logo" align="left">
 
-Written using  
+Written using
 [fgui](https://github.com/iFloody/fgui) framework.
