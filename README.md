@@ -46,8 +46,8 @@ Visuals:
 Miscellanous:
 - **Bunnyhop**
   - Auto strafer
-- Instant bomb plant
-- Force thirdperson while specating
+- **Instant bomb plant**
+- **Force thirdperson while specating**
 
 :construction: *more features soon...*
 </details>
