@@ -39,24 +39,27 @@ void hooks::on_entry_point() {
 
   CODE_START
 
-  if (engine_vgui_hook->initialize_and_hook_instance(csgo::engine_vgui))
-    engine_vgui_hook->apply_hook<hooks::paint>(15);
+  if (engine_vgui_hook.initialize_and_hook_instance(csgo::engine_vgui))
+    engine_vgui_hook.apply_hook<hooks::paint>(15);
 
-  if (base_client_hook->initialize_and_hook_instance(csgo::base_client)) {
-    base_client_hook->apply_hook<hooks::in_key_event>(21);
-    base_client_hook->apply_hook<hooks::frame_stage_notify>(37);
+  if (base_client_hook.initialize_and_hook_instance(csgo::base_client)) {
+    base_client_hook.apply_hook<hooks::in_key_event>(21);
+    base_client_hook.apply_hook<hooks::frame_stage_notify>(37);
   }
 
-  if (vgui_surface_hook->initialize_and_hook_instance(csgo::vgui_surface))
-    vgui_surface_hook->apply_hook<hooks::lock_cursor>(67);
+  if (vgui_surface_hook.initialize_and_hook_instance(csgo::vgui_surface))
+    vgui_surface_hook.apply_hook<hooks::lock_cursor>(67);
 
-  if (client_mode_hook->initialize_and_hook_instance(csgo::client_mode)) {
-    client_mode_hook->apply_hook<hooks::create_move>(25);
-    client_mode_hook->apply_hook<hooks::override_view>(19);
+  if (client_mode_hook.initialize_and_hook_instance(csgo::client_mode)) {
+    client_mode_hook.apply_hook<hooks::create_move>(25);
+    client_mode_hook.apply_hook<hooks::override_view>(19);
   }
 
-  if (model_render_hook->initialize_and_hook_instance(csgo::model_render))
-    model_render_hook->apply_hook<hooks::draw_model_execute>(21);
+  if (model_render_hook.initialize_and_hook_instance(csgo::model_render))
+    model_render_hook.apply_hook<hooks::draw_model_execute>(21);
+
+  if (view_render_hook.initialize_and_hook_instance(csgo::view_render))
+    view_render_hook.apply_hook<hooks::render_view>(6);
 
   CODE_END(STR("error handler - entry point - hooks"));
 }
