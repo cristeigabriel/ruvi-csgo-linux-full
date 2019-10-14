@@ -2,6 +2,8 @@
 ///  ruvi base
 ///
 
+#pragma once
+
 // includes
 #include <array>
 #include <cinttypes>
