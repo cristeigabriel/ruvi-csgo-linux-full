@@ -47,6 +47,7 @@ Miscellanous:
   - Auto strafer
 - **Instant bomb plant**
 - **Force thirdperson while specating**
+- **Mirror cam**
 
 :construction: *more features soon...*
 </details>
