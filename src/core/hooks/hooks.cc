@@ -15,12 +15,14 @@
 // framework includes
 #include <FGUI/FGUI.hh>
 
-// declare pointers
-std::unique_ptr<vmt_hook> engine_vgui_hook  = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> base_client_hook  = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> vgui_surface_hook = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> client_mode_hook  = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> model_render_hook = std::make_unique<vmt_hook>();
+// declare objects (global objects, no need
+//                  to wrap them in smart pointers)
+static vmt_hook engine_vgui_hook;
+static vmt_hook base_client_hook;
+static vmt_hook vgui_surface_hook;
+static vmt_hook client_mode_hook;
+static vmt_hook model_render_hook;
+static vmt_hook view_render_hook;
 
 // declare originals
 decltype(&hooks::paint::hooked)        hooks::paint::original;
