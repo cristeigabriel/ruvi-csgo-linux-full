@@ -158,12 +158,12 @@ class c_model_info {
 public:
   void *get_model(int index) { return memory::vfunc<2, void *>(this, index); }
 
-  int get_model_index(const char *file_name) {
-    return memory::vfunc<3, int>(this, file_name);
+  int get_model_index(const std::string_view file_name) {
+    return memory::vfunc<3, int>(this, file_name.data());
   }
 
-  const char *get_model_name(const void *model_name) {
-    return memory::vfunc<4, const char *>(this, model_name);
+  const std::string_view get_model_name(const void *model_name) {
+    return memory::vfunc<4, const std::string_view>(this, model_name);
   }
 
   void get_model_materials(const model_t *model, int count,

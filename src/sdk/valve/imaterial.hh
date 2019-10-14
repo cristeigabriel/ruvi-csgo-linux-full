@@ -41,12 +41,21 @@ enum material_flags_t {
   MATERIAL_VAR_WIREFRAME                = (1 << 28),
 };
 
+class i_material_var {
+public:
+  void set_float_value(float value) {
+    return memory::vfunc<4, void>(this, value);
+  }
+};
+
 class i_material {
 public:
-  const char *get_name() { return memory::vfunc<0, const char *>(this); }
+  const char* get_name() {
+    return memory::vfunc<0, const char*>(this);
+  }
 
-  const char *get_texture_group_name() {
-    return memory::vfunc<1, const char *>(this);
+  const char* get_texture_group_name() {
+    return memory::vfunc<1, const char*>(this);
   }
 
   void increment_reference_count() { return memory::vfunc<4, void>(this); }

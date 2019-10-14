@@ -40,6 +40,7 @@
 #include "sdk/valve/ivdebugoverlay.hh"
 #include "sdk/valve/ivmodelrender.hh"
 #include "sdk/valve/viewshared.hh"
+#include "sdk/valve/iviewrender.hh"
 
 typedef void *(*create_interface_fn)();
 
@@ -134,4 +135,5 @@ inline iv_model_render *     model_render;
 inline c_model_info *        model_info;
 inline c_render_view *       render_view;
 inline i_prediction *        prediction;
+inline i_view_render *       view_render;
 } // namespace csgo

@@ -59,15 +59,17 @@ public:
 
   bool is_connected() { return memory::vfunc<27, bool>(this); }
 
-  char const *get_map_name() { return memory::vfunc<52, char const *>(this); }
+  const std::string_view get_map_name() {
+    return memory::vfunc<52, const std::string_view>(this);
+  }
 
   bool is_taking_screenshot() { return memory::vfunc<92, bool>(this); }
 
-  void execute_client_cmd(char const *command) {
-    return memory::vfunc<108, void>(this, command);
+  void execute_client_cmd(const std::string_view command) {
+    return memory::vfunc<108, void>(this, command.data());
   }
 
-  void client_cmd_unrestricted(char const *command) {
-    return memory::vfunc<113, void>(this, command);
+  void client_cmd_unrestricted(const std::string_view command) {
+    return memory::vfunc<113, void>(this, command.data());
   }
 };

@@ -32,9 +32,9 @@ public:
     return memory::vfunc<19, void>(this, x1, y1, x2, y2);
   }
 
-  void draw_set_texture_file(int texture_id, const char *texture_name,
+  void draw_set_texture_file(int texture_id, const std::string_view texture_name,
                              int hardware_filter, bool force_reload = 0) {
-    return memory::vfunc<36, void>(this, texture_id, texture_name,
+    return memory::vfunc<36, void>(this, texture_id, texture_name.data(),
                                    hardware_filter, force_reload);
   }
 
@@ -67,21 +67,21 @@ public:
 
   unsigned long create_font() { return memory::vfunc<71, unsigned long>(this); }
 
-  bool set_font_glyph_set(unsigned long font, const char *font_name, int tall,
+  bool set_font_glyph_set(unsigned long font, const std::string_view font_name, int tall,
                           int weight, int blur, int scanlines, int flags,
                           int min_range = 0, int max_range = 0) {
-    return memory::vfunc<72, bool>(this, font, font_name, tall, weight, blur,
+    return memory::vfunc<72, bool>(this, font, font_name.data(), tall, weight, blur,
                                    scanlines, flags, min_range, max_range);
   }
 
-  void get_text_size(unsigned long font, const wchar_t *text, int &wide,
+  void get_text_size(unsigned long font, const std::wstring_view text, int &wide,
                      int &tall) {
-    return memory::vfunc<79, void>(this, font, text, std::ref(wide),
+    return memory::vfunc<79, void>(this, font, text.data(), std::ref(wide),
                                    std::ref(tall));
   }
 
-  void play_sound(const char *file_name) {
-    return memory::vfunc<82, void>(this, file_name);
+  void play_sound(const std::string_view file_name) {
+    return memory::vfunc<82, void>(this, file_name.data());
   }
 
   void surface_get_cursor_pos(int &x, int &y) {
@@ -116,8 +116,8 @@ public:
   }
 
   void draw_colored_text(unsigned long font, int x, int y, int red, int green,
-                         int blue, int alpha, const char *text) {
+                         int blue, int alpha, const std::string_view text) {
     return memory::vfunc<163, void>(this, font, x, y, red, green, blue, alpha,
-                                    text);
+                                    text.data());
   }
 };

@@ -28,7 +28,7 @@ public:
     return memory::vfunc<19, int>(this, code);
   }
 
-  const char *button_code_to_string(int code) {
-    return memory::vfunc<40, const char *>(this, code);
+  const std::string_view button_code_to_string(int code) {
+    return memory::vfunc<40, const std::string_view>(this, code);
   }
 };

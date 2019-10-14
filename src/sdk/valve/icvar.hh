@@ -11,7 +11,7 @@
 
 class convar {
 private:
-  using callback_t = void (*)(convar *cvar, const char *p_old_value,
+  using callback_t = void (*)(convar *cvar, const std::string_view p_old_value,
                               float old_value);
 
 public:

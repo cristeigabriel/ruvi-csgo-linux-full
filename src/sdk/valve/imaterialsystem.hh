@@ -127,25 +127,32 @@ enum render_target_flags_t {
 
 class i_material_system {
 public:
-  OFFSET_PTR(bool, m_bGameStarted, 0x32A8)
+  OFFSET_PTR(bool, m_bGameStarted, 0x32A4); // or 0x32A8 both works.
 
   image_format_t get_back_buffer_format() {
     return memory::vfunc<36, image_format_t>(this);
   }
 
-  i_material *create_material(const char *p_material_name, void *key_values) {
-    return memory::vfunc<83, i_material *>(this, p_material_name, key_values);
+  i_material *create_material(const char *material_name, void *key_values) {
+    return memory::vfunc<83, i_material *>(this, material_name, key_values);
   }
 
-  i_material *find_material(char const *p_material_name,
-                            const char *p_texture_group, bool complain = true,
-                            const char *p_complain_prefix = nullptr) {
-    return memory::vfunc<84, i_material *>(
-        this, p_material_name, p_texture_group, complain, p_complain_prefix);
+  i_material *find_material(const char *material_name,
+                            const char *texture_group, bool complain = true,
+                            const char *complain_prefix = nullptr) {
+    return memory::vfunc<84, i_material *>(this, material_name, texture_group,
+                                           complain, complain_prefix);
   }
 
   i_material *get_material(material_handle_t handle) {
     return memory::vfunc<89, i_material *>(this, handle);
+  }
+
+  i_texture *find_texture(const char *texture, const char *texture_group,
+                          bool complain                  = true,
+                          int  additional_creation_flags = 0x0) {
+    return memory::vfunc<91, i_texture *>(this, texture, texture_group,
+                                          complain, additional_creation_flags);
   }
 
   void begin_render_target_allocation() {
@@ -171,5 +178,19 @@ public:
         name, 1, 1, RT_SIZE_FULL_FRAME_BUFFER, get_back_buffer_format(),
         MATERIAL_RT_DEPTH_SHARED, TEXTUREFLAGS_CLAMPS | TEXTUREFLAGS_CLAMPT,
         CREATERENDERTARGETFLAGS_HDR);
+  }
+
+  void force_begin_render_target_allocation() {
+    bool old_state    = m_bGameStarted();
+    *m_bGameStarted() = false;
+    begin_render_target_allocation();
+    *m_bGameStarted() = old_state;
+  }
+
+  void force_end_render_target_allocation() {
+    bool old_state    = m_bGameStarted();
+    *m_bGameStarted() = false;
+    end_render_target_allocation();
+    *m_bGameStarted() = m_bGameStarted();
   }
 };

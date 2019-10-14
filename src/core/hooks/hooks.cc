@@ -15,12 +15,14 @@
 // framework includes
 #include <FGUI/FGUI.hh>
 
-// declare pointers
-std::unique_ptr<vmt_hook> engine_vgui_hook  = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> base_client_hook  = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> vgui_surface_hook = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> client_mode_hook  = std::make_unique<vmt_hook>();
-std::unique_ptr<vmt_hook> model_render_hook = std::make_unique<vmt_hook>();
+// declare objects (global objects, no need
+//                  to wrap them in smart pointers)
+static vmt_hook engine_vgui_hook;
+static vmt_hook base_client_hook;
+static vmt_hook vgui_surface_hook;
+static vmt_hook client_mode_hook;
+static vmt_hook model_render_hook;
+static vmt_hook view_render_hook;
 
 // declare originals
 decltype(&hooks::paint::hooked)        hooks::paint::original;
@@ -32,29 +34,33 @@ decltype(
 decltype(
     &hooks::draw_model_execute::hooked) hooks::draw_model_execute::original;
 decltype(&hooks::override_view::hooked) hooks::override_view::original;
+decltype(&hooks::render_view::hooked)   hooks::render_view::original;
 
 void hooks::on_entry_point() {
 
   CODE_START
 
-  if (engine_vgui_hook->initialize_and_hook_instance(csgo::engine_vgui))
-    engine_vgui_hook->apply_hook<hooks::paint>(15);
+  if (engine_vgui_hook.initialize_and_hook_instance(csgo::engine_vgui))
+    engine_vgui_hook.apply_hook<hooks::paint>(15);
 
-  if (base_client_hook->initialize_and_hook_instance(csgo::base_client)) {
-    base_client_hook->apply_hook<hooks::in_key_event>(21);
-    base_client_hook->apply_hook<hooks::frame_stage_notify>(37);
+  if (base_client_hook.initialize_and_hook_instance(csgo::base_client)) {
+    base_client_hook.apply_hook<hooks::in_key_event>(21);
+    base_client_hook.apply_hook<hooks::frame_stage_notify>(37);
   }
 
-  if (vgui_surface_hook->initialize_and_hook_instance(csgo::vgui_surface))
-    vgui_surface_hook->apply_hook<hooks::lock_cursor>(67);
+  if (vgui_surface_hook.initialize_and_hook_instance(csgo::vgui_surface))
+    vgui_surface_hook.apply_hook<hooks::lock_cursor>(67);
 
-  if (client_mode_hook->initialize_and_hook_instance(csgo::client_mode)) {
-    client_mode_hook->apply_hook<hooks::create_move>(25);
-    client_mode_hook->apply_hook<hooks::override_view>(19);
+  if (client_mode_hook.initialize_and_hook_instance(csgo::client_mode)) {
+    client_mode_hook.apply_hook<hooks::create_move>(25);
+    client_mode_hook.apply_hook<hooks::override_view>(19);
   }
 
-  if (model_render_hook->initialize_and_hook_instance(csgo::model_render))
-    model_render_hook->apply_hook<hooks::draw_model_execute>(21);
+  if (model_render_hook.initialize_and_hook_instance(csgo::model_render))
+    model_render_hook.apply_hook<hooks::draw_model_execute>(21);
+
+  if (view_render_hook.initialize_and_hook_instance(csgo::view_render))
+    view_render_hook.apply_hook<hooks::render_view>(6);
 
   CODE_END(STR("error handler - entry point - hooks"));
 }
@@ -68,7 +74,7 @@ void hooks::paint::hooked(void *thisptr, paint_mode_t mode) {
 
   static void (*start_drawing)(void *) = reinterpret_cast<void (*)(void *)>(
       memory::find_pattern(STR("vguimatsurface_client.so"),
-                           STR("55 48 89 E5 53 48 89 FB 48 83 EC 28 80 3D")));
+                           STR("55 48 89 ?? 53 ?? 89 FB 48 ?? EC 28 80 3D")));
   static void (*finish_drawing)(void *) =
       reinterpret_cast<void (*)(void *)>(memory::find_pattern(
           STR("vguimatsurface_client.so"), STR("55 31 FF 48 89 E5 53")));
@@ -86,7 +92,6 @@ void hooks::paint::hooked(void *thisptr, paint_mode_t mode) {
     // enable clipping before rendering the menu
     *csgo::vgui_surface->m_bClippingEnabled() = true;
     fgui::handler::render_window();
-
     *csgo::vgui_surface->m_bClippingEnabled() = false;
 
     finish_drawing(csgo::vgui_surface);
@@ -96,7 +101,7 @@ void hooks::paint::hooked(void *thisptr, paint_mode_t mode) {
 }
 
 int hooks::in_key_event::hooked(void *thisptr, int event_code, int key_num,
-                                const char *current_binding) {
+                                const std::string_view current_binding) {
   CODE_START
 
   if (vars::container["#window"]->get_state()) return 0;
@@ -173,13 +178,15 @@ void hooks::override_view::hooked(void *thisptr, c_view_setup *view_setup) {
   CODE_END(STR("error handler - override view - hooks"))
 }
 
-void hooks::draw_model_execute::hooked(void *                thisptr,
-                                       i_mat_render_context *context,
-                                       void *state, const model_render_info_t &info,
+void hooks::draw_model_execute::hooked(void *                     thisptr,
+                                       i_mat_render_context *     context,
+                                       void *                     state,
+                                       const model_render_info_t &info,
                                        matrix3x4_t *custom_bone_to_world) {
   CODE_START
 
-  // check if something is trying to override the chams and call original (glow fix)
+  // check if something is trying to override the chams material and call
+  // original (glow fix)
   if (csgo::model_render->is_forced_material_override())
     original(thisptr, context, state, info, custom_bone_to_world);
 
@@ -193,4 +200,19 @@ void hooks::draw_model_execute::hooked(void *                thisptr,
   csgo::model_render->force_override_material(nullptr);
 
   CODE_END(STR("error handler - draw model execute - hooks"))
+}
+
+void hooks::render_view::hooked(void *thisptr, c_view_setup &view_setup,
+                                c_view_setup &hud_setup, int clear_flags,
+                                int what_to_draw) {
+
+  CODE_START
+
+  // visuals
+  visuals.on_render_view(view_setup, hud_setup, clear_flags, what_to_draw);
+
+  // call original function
+  original(thisptr, view_setup, hud_setup, clear_flags, what_to_draw);
+
+  CODE_END(STR("error gandler - render view - hooks"))
 }

@@ -5,6 +5,7 @@
 #pragma once
 
 // includes
+#include <mutex>
 #include "core/interfaces/interfaces.hh"
 #include "sdk/utils/vmthook.hh"
 #include "sdk/valve/cmodelinfo.hh"
@@ -21,7 +22,7 @@ struct paint {
 };
 
 struct in_key_event {
-  typedef int(fn)(void *, int, int, const char *);
+  typedef int(fn)(void *, int, int, const std::string_view);
   static fn  hooked;
   static fn *original;
 };
@@ -51,7 +52,15 @@ struct override_view {
 };
 
 struct draw_model_execute {
-  typedef void(fn)(void *, i_mat_render_context *, void *, const model_render_info_t &, matrix3x4_t *);
+  typedef void(fn)(void *, i_mat_render_context *, void *,
+                   const model_render_info_t &, matrix3x4_t *);
+  static fn  hooked;
+  static fn *original;
+};
+
+struct render_view {
+  typedef void(fn)(void *, c_view_setup &, c_view_setup &, int,
+                   int);
   static fn  hooked;
   static fn *original;
 };

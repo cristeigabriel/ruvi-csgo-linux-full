@@ -53,18 +53,25 @@ void interfaces::on_entry_point() {
   // pointers (addresses)
   i_client_mode *(*client_mode_ptr)() =
       reinterpret_cast<i_client_mode *(*)(void)>(
-          memory::get_address(hud_process_input_vfunc + 11, 1, 5));
+          memory::get_address(hud_process_input_vfunc + 0xB, 0x1, 0x5));
   c_base_client_state *(*client_state_ptr)(int) =
       reinterpret_cast<c_base_client_state *(*)(int)>(
-          memory::get_address(get_local_player_vfunc + 9, 1, 5));
+          memory::get_address(get_local_player_vfunc + 0x9, 0x1, 0x5));
   c_global_vars *global_vars_ptr = *reinterpret_cast<c_global_vars **>(
-      memory::get_address(hud_update_vfunc + 13, 3, 7));
+      memory::get_address(hud_update_vfunc + 0xD, 0x3, 0x7));
   c_input *input_ptr = **reinterpret_cast<c_input ***>(
-      memory::get_address(in_activate_mouse_vfunc, 3, 7));
+      memory::get_address(in_activate_mouse_vfunc, 0x3, 0x7));
+  i_view_render *view_render_ptr = reinterpret_cast<i_view_render *>(
+      memory::get_address(reinterpret_cast<std::uintptr_t>(memory::find_pattern(
+                              "client_panorama_client.so",
+                              "55 48 8D 15 13 ?? ?? ?? 31 C9")) +
+                              0x126,
+                          0x3, 0x7));
 
   // initialize non exposed interfaces
   csgo::client_mode  = client_mode_ptr();
   csgo::client_state = client_state_ptr(-1);
   csgo::global_vars  = global_vars_ptr;
   csgo::input        = input_ptr;
+  csgo::view_render  = view_render_ptr;
 }

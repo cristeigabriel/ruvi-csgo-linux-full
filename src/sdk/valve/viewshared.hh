@@ -16,6 +16,13 @@ enum clear_flags_t {
   VIEW_CLEAR_STENCIL      = 0x20,
 };
 
+enum render_view_info_t {
+    VIEW_UNSPECIFIED = 0,
+    VIEW_DRAW_VIEWMODEL = (1 << 0),
+    VIEW_DRAWHUD = (1 << 1),
+    VIEW_SUPPRESS_MONITOR_RENDERING = (1 << 2),
+};
+
 enum motio_blur_mode_t {
   MOTION_BLUR_DISABLE = 1,
   MOTION_BLUR_GAME    = 2,

@@ -30,6 +30,7 @@ public:
 
 class i_mat_render_context {
 public:
+
   int release() { return memory::vfunc<1, int>(this); }
 
   void set_render_target(i_texture *p_texture) {
@@ -48,7 +49,7 @@ public:
   }
 
   void push_render_target_and_viewport() {
-    return memory::vfunc<118, void>(this);
+    return memory::vfunc<115, void>(this);
   }
 
   void pop_render_target_and_viewport() {

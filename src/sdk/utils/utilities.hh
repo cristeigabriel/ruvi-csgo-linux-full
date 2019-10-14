@@ -157,6 +157,26 @@ inline void create_materials() {
             "$flat"         "1"
 			"$wireframe"    "0"
         })#";
+
+  std::ofstream("csgo//materials//glow_material.vmt")
+      << R"#("UnlitGeneric" {
+            "$basetexture" "vgui/white_additive"
+            "$ignorez"      "1"
+            "$envmap"       ""
+            "$nofog"        "1"
+            "$model"        "1"
+            "$nocull"       "0"
+            "$selfillum"    "1"
+            "$halflambert"  "1"
+            "$znearer"      "0"
+            "$flat"         "1"
+			"$wireframe"    "1"
+        })#";
+
+  std::ofstream("csgo//materials//mirrorcam_material.vmt")
+      << R"#("UnlitGeneric" {
+            "$basetexture" "mirrorcam_texture"
+      })#";
 }
 
 } // namespace utilities
