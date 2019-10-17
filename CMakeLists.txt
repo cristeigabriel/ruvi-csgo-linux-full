@@ -27,6 +27,7 @@ add_library(ruvi SHARED
         src/core/entry.cc
         src/core/hooks/hooks.cc
         src/core/interfaces/interfaces.cc
+        src/hacks/legitbot.cc
         src/hacks/visuals.cc
         src/hacks/miscellaneous.cc
         src/menu/menu.cc
