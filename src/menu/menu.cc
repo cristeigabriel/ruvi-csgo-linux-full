@@ -12,6 +12,12 @@
 //
 // move this to another place
 //
+void spawn_notification() {
+
+  fgui::handler::call_notification("This is a notification",
+                                   fgui::animation_type::LINEAR);
+}
+
 void mirror_cam(std::shared_ptr<fgui::container> window) {
 
   if (csgo::engine_client->is_in_game()) {
@@ -32,15 +38,13 @@ void mirror_cam(std::shared_ptr<fgui::container> window) {
     static i_material *mirror_material = csgo::material_system->find_material(
         "mirrorcam_material", "Other textures");
 
-    if (!mirror_material || !globals::mirror_texture)
-      return;
+    if (!mirror_material || !globals::mirror_texture) return;
 
     render_context->draw_screen_space_rectangle(
         mirror_material, position.x + 6, position.y + 26, size.width - 12,
         size.height - 31, 0, 0, float(size.width), float(size.height),
         globals::mirror_texture->get_actual_width(),
-        globals::mirror_texture->get_actual_height(),
-        nullptr, 1, 1);
+        globals::mirror_texture->get_actual_height(), nullptr, 1, 1);
 
     render_context->release();
   }
@@ -58,8 +62,7 @@ void menu::on_entry_point() {
   REGISTER_NOTIFICATIONS(title_font);
 
   // initialize the main window
-  ADD_WINDOW(vars::container["#window"], 50, 50,
-             "Ruvi", 560, 450,
+  ADD_WINDOW(vars::container["#window"], 50, 50, "Ruvi", 560, 450,
              fgui::external::key_code::KEY_HOME, title_font);
 
   ADD_WINDOW(vars::container["#mirror_window"], 50, 50, "Mirror Cam", 350, 200,
@@ -74,7 +77,50 @@ void menu::on_entry_point() {
                vars::container["#window"], -1);
 
   ADD_TAB(vars::tabs["#tab_panel"], "Aimbot");
-  {}
+  {
+
+    ADD_GROUPBOX(vars::container["#aimbot_settings"], 15, (25 + 15), "Settings",
+                 260, 370, title_font, vars::container["#window"], 0, false,
+                 false, false) {
+      ADD_CONTROLLER(vars::container["#aimbot_settings"],
+                     vars::tabs["#tab_panel"]);
+
+      ADD_CHECKBOX(vars::checkbox["#aim_assist"], 15, 15, "Aim Assist",
+                   "vars.aim_assist", element_font,
+                   vars::container["#aimbot_settings"], -1);
+      ADD_SLIDER(vars::slider["#field_of_view"], 15, (15 + 32), "FOV", 0.f, 0.f,
+                 100.f, "vars.field_of_view", element_font,
+                 vars::container["#aimbot_settings"], -1);
+      ADD_SLIDER(vars::slider["#strength"], 15, (15 + 56), "Strength", 0.f, 0.f,
+                 100.f, "vars.strength", element_font,
+                 vars::container["#aimbot_settings"], -1);
+      ADD_SLIDER(vars::slider["#smoothing"], 15, (15 + 80), "Smoothing", 0.f,
+                 0.f, 100.f, "vars.smoothing", element_font,
+                 vars::container["#aimbot_settings"], -1);
+      ADD_SLIDER(vars::slider["#recoil_control_system"], 15, (15 + 104),
+                 "Recoil Control System", 0.f, 0.f, 3.f,
+                 "vars.recoil_control_system", element_font,
+                 vars::container["#aimbot_settings"], -1);
+
+      ADD_CHECKBOX(vars::checkbox["#backtrack"], 15, (15 + 120), "Backtrack",
+                   "vars.backtrack", element_font,
+                   vars::container["#aimbot_settings"], -1);
+      ADD_SLIDER(vars::slider["#backtrack_ticks"], 15, (15 + 152), "Ticks", 0.f,
+                 0.f, 14.f, "vars.ticks", element_font,
+                 vars::container["#aimbot_settings"], -1);
+    }
+
+    ADD_GROUPBOX(vars::container["#aimbot_visuals"], (260 + 15) + 10, (25 + 15),
+                 "Visuals", 260, 150, title_font, vars::container["#window"], 0,
+                 false, false, false) {
+      ADD_CONTROLLER(vars::container["#aimbot_visuals"],
+                     vars::tabs["#tab_panel"]);
+
+      ADD_CHECKBOX(vars::checkbox["#fov_circle"], 15, 15, "FOV Circle",
+                   "vars.fov_circle", element_font,
+                   vars::container["#aimbot_visuals"], -1);
+    }
+  }
 
   ADD_TAB(vars::tabs["#tab_panel"], "Visuals");
   {

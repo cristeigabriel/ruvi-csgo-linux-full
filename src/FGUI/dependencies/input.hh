@@ -26,7 +26,7 @@ inline std::array<bool, 256> m_key_state, m_old_key_state;
 
 namespace input_system {
 
-inline void listen() noexcept {
+inline void listen() {
 
   static fgui::point last_known_position = {0, 0};
 

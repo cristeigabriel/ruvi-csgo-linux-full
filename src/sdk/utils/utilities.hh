@@ -9,6 +9,7 @@
 #include "../render/render.hh"
 #include "../structs/entities.hh"
 #include "../vector/vector.hh"
+#include "math.hh"
 #include <cmath>
 
 namespace utilities {
@@ -158,8 +159,7 @@ inline void create_materials() {
 			"$wireframe"    "0"
         })#";
 
-  std::ofstream("csgo//materials//glow_material.vmt")
-      << R"#("UnlitGeneric" {
+  std::ofstream("csgo//materials//glow_material.vmt") << R"#("UnlitGeneric" {
             "$basetexture" "vgui/white_additive"
             "$ignorez"      "1"
             "$envmap"       ""
@@ -177,6 +177,66 @@ inline void create_materials() {
       << R"#("UnlitGeneric" {
             "$basetexture" "mirrorcam_texture"
       })#";
+}
+
+inline vector3d angle_to_pixels(const vector3d &angle) {
+
+  // m_yaw convar
+  static convar *m_yaw = csgo::cvar->find_var(STR("m_yaw"));
+
+  // m_pitch convar
+  static convar *m_pitch = csgo::cvar->find_var(STR("m_pitch"));
+
+  float x = angle.x / m_pitch->get_float();
+  float y = angle.y / m_yaw->get_float();
+
+  return vector3d(-y, x, 0.f);
+}
+
+inline vector3d pixels_to_angle(const vector3d &pixel) {
+
+  // m_yaw convar
+  static convar *m_yaw = csgo::cvar->find_var(STR("m_yaw"));
+
+  // m_pitch convar
+  static convar *m_pitch = csgo::cvar->find_var(STR("m_pitch"));
+
+  float x = pixel.x * m_pitch->get_float();
+  float y = pixel.y * m_yaw->get_float();
+
+  return vector3d(-y, x, 0.f).clamp();
+}
+
+inline vector3d get_hitbox_position(entity_t *entity, int hitbox_id) {
+
+  matrix3x4_t bone_matrix[128];
+
+  if (entity->setup_bones(bone_matrix, 128, 0x100, 0.0f)) {
+
+    // studio model pointer
+    studiohdr_t *studio_model =
+        csgo::model_info->get_studio_model(entity->get_model());
+
+    if (studio_model) {
+
+      // search for the hitbox that we are looking for
+      mstudiobbox_t *hitbox = studio_model->hitbox_set(0)->hitbox(hitbox_id);
+
+      // if we have a valid hitbox
+      if (hitbox) {
+
+        vector3d min = {0.f, 0.f, 0.f};
+        vector3d max = {0.f, 0.f, 0.f};
+
+        math::vector_transform(hitbox->bbmin, bone_matrix[hitbox->bone], min);
+        math::vector_transform(hitbox->bbmax, bone_matrix[hitbox->bone], max);
+
+        return (min + max) / 2.0f;
+      }
+    }
+  }
+
+  return vector3d{};
 }
 
 } // namespace utilities

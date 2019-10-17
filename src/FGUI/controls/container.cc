@@ -3,9 +3,10 @@
  *                                       */
 
 // includes
-#include "container.hh"
 #include "../dependencies/color.hh"
 #include "../handler/handler.hh"
+#include "container.hh"
+
 
 fgui::container::container() {
 
@@ -105,11 +106,6 @@ void fgui::container::draw() {
     // container background
     fgui::render.rect(a.x, a.y + 1, m_width, m_height - 1,
                       fgui::color(style.container.at(1)));
-
-    // container label
-    fgui::render.text(a.x + 10, a.y - (text_size.height / 2),
-                      fgui::color(style.text.at(0)),
-                      fgui::container::get_font(), m_title);
 
     // if the groupbox is resizeable
     if (m_resizeable) {
@@ -256,13 +252,15 @@ void fgui::container::draw() {
 
     // calculate the scrollbar slider size
     float calculated_size =
-        (m_height / static_cast<float>(m_bottom_element_pos)) * static_cast<float>(m_height);
+        (m_height / static_cast<float>(m_bottom_element_pos)) *
+        static_cast<float>(m_height);
 
     // calculate the scrollbar slider position
     float calculated_position =
         (m_height - calculated_size) *
         static_cast<float>(m_scroll_offset /
-                           static_cast<float>(m_bottom_element_pos - static_cast<float>(m_height)));
+                           static_cast<float>(m_bottom_element_pos -
+                                              static_cast<float>(m_height)));
 
     // scrollbar body
     fgui::render.rect((a.x + m_width) - 8, a.y + 1, 8, m_height - 1,
@@ -318,6 +316,14 @@ void fgui::container::draw() {
                         fgui::container::get_font(), "Hidden");
     }
   }
+
+  if (m_parent_element) {
+
+    // container label
+    fgui::render.text(a.x + 10, a.y - (text_size.height / 2),
+                      fgui::color(style.text.at(0)),
+                      fgui::container::get_font(), m_title);
+  }
 }
 
 //---------------------------------------------------------
@@ -372,37 +378,6 @@ void fgui::container::add_control(const std::shared_ptr<fgui::element> &control,
         control->get_position().y + control->get_size().height;
 
   m_elements.push_back(control);
-}
-
-//---------------------------------------------------------
-bool fgui::container::hovered() {
-
-  if (shared_from_this() == get_window()) {
-
-    if (m_focused_element) {
-
-      fgui::point a = m_focused_element->get_absolute_position();
-
-      // focused element region
-      fgui::rect focused_control_region = {a.x, a.y, m_focused_element->m_width,
-                                           m_focused_element->m_height};
-
-      if (fgui::input_system::mouse_in_area(focused_control_region))
-        return true;
-    }
-
-    // container region
-    fgui::rect container_region = {m_x, m_y, m_width, m_height};
-
-    return fgui::input_system::mouse_in_area(container_region);
-  }
-
-  fgui::point a = m_focused_element->get_absolute_position();
-
-  // focused window region
-  fgui::rect focused_window_region = {a.x, a.y, m_width, m_height};
-
-  return fgui::input_system::mouse_in_area(focused_window_region);
 }
 
 //---------------------------------------------------------

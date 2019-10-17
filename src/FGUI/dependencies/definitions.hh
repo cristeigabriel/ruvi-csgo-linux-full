@@ -61,12 +61,10 @@ struct item_info {
   item_info(const std::string_view _item, bool _state)
       : item(_item), checked(_state) {}
   item_info(const std::string_view _item) : item(_item) {}
-  item_info(const std::vector<std::string> &_items) : items(_items) {}
 
-  int                      value   = 0;
-  bool                     checked = false;
-  std::string              item    = "";
-  std::vector<std::string> items;
+  int         value   = 0;
+  bool        checked = false;
+  std::string item    = "";
 };
 } // namespace detail
 

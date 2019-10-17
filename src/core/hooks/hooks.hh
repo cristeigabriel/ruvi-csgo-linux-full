@@ -5,62 +5,68 @@
 #pragma once
 
 // includes
-#include <mutex>
 #include "core/interfaces/interfaces.hh"
 #include "sdk/utils/vmthook.hh"
 #include "sdk/valve/cmodelinfo.hh"
 #include "sdk/vector/matrix3x4.hh"
+#include <mutex>
 
 namespace hooks {
 
 void on_entry_point();
 
 struct paint {
-  typedef void(fn)(void *, paint_mode_t);
+  using fn = void(void *, paint_mode_t);
   static fn  hooked;
   static fn *original;
 };
 
 struct in_key_event {
-  typedef int(fn)(void *, int, int, const std::string_view);
+  using fn = int(void *, int, int, const std::string_view);
   static fn  hooked;
   static fn *original;
 };
 
 struct lock_cursor {
-  typedef void(fn)(void *);
+  using fn = void(void *);
   static fn  hooked;
   static fn *original;
 };
 
 struct create_move {
-  typedef bool(fn)(void *, float, c_user_cmd *);
+  using fn = bool(void *, float, c_user_cmd *);
   static fn  hooked;
   static fn *original;
 };
 
 struct frame_stage_notify {
-  typedef void(fn)(void *, client_frame_stage_t);
+  using fn = void(void *, client_frame_stage_t);
   static fn  hooked;
   static fn *original;
 };
 
 struct override_view {
-  typedef void(fn)(void *, c_view_setup *);
+  using fn = void(void *, c_view_setup *);
   static fn  hooked;
   static fn *original;
 };
 
 struct draw_model_execute {
-  typedef void(fn)(void *, i_mat_render_context *, void *,
-                   const model_render_info_t &, matrix3x4_t *);
+  using fn = void(void *, i_mat_render_context *, void *,
+                  const model_render_info_t &, matrix3x4_t *);
   static fn  hooked;
   static fn *original;
 };
 
 struct render_view {
-  typedef void(fn)(void *, c_view_setup &, c_view_setup &, int,
-                   int);
+  using fn = void(void *, c_view_setup &, c_view_setup &, int, int);
+  static fn  hooked;
+  static fn *original;
+};
+
+struct override_mouse_input {
+  using fn = void(void *, float *x, float *y);
+
   static fn  hooked;
   static fn *original;
 };

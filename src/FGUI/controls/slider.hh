@@ -57,9 +57,9 @@ public:
   void load(const std::string_view file_name);
 
 private:
-  float       m_value;
-  bool        m_dragging;
-  float       m_min, m_max;
-  std::string m_min_text, m_max_text;
+  float            m_value;
+  bool             m_dragging;
+  float            m_min, m_max;
+  std::string_view m_min_text, m_max_text;
 };
 } // namespace fgui

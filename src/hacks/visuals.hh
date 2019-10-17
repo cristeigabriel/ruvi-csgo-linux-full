@@ -2,11 +2,11 @@
 ///  ruvi base
 ///
 
+#pragma once
+
 // includes
 #include "../core/interfaces/interfaces.hh"
 #include "../sdk/utils/utilities.hh"
-#include <array>
-#include <functional>
 #include <mutex>
 
 namespace features {
@@ -58,8 +58,8 @@ private:
   void disable_flashbang_effect(entity_t *local_player);
   void force_thirdperson(entity_t *local_player);
   void player_chams();
-  void mirror_cam(i_texture* texture, c_view_setup &        view_setup,
-                   i_mat_render_context *render_context);
+  void mirror_cam(i_texture *texture, c_view_setup &view_setup,
+                  i_mat_render_context *render_context);
 
 private:
   std::function<void()> draw_model_execute_original;

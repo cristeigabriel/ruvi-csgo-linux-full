@@ -3,12 +3,11 @@
  *                                       */
 
 // includes
-#include "handler.hh"
 #include "../dependencies/aliases.hh"
+#include "handler.hh"
+
 
 void fgui::handler::render_window() {
-
-  static bool overlaying_window_clicked = false;
 
   if (m_input_state == fgui::input_state::UNLOCKED) {
 
@@ -34,35 +33,16 @@ void fgui::handler::render_window() {
     m_notifications->handle_input();
   }
 
-  for (std::size_t i = 0; i < m_windows.size(); i++) {
+  for (std::shared_ptr<fgui::container> window : m_windows) {
 
-    // main window
-    std::shared_ptr<fgui::container> main_window = m_windows.at(i);
-
-    if (main_window->get_state()) {
+    if (window->get_state()) {
 
       // draw and update
-      main_window->update();
-      main_window->draw();
+      window->update();
+      window->draw();
 
       // draw cursors
       draw_cursors();
-    }
-
-    // other window
-    std::shared_ptr<fgui::container> other_window =
-        m_windows.at(m_windows.size() - 1 - i);
-
-    if (other_window && other_window->hovered()) {
-
-      if (!overlaying_window_clicked &&
-          fgui::input_system::key_press(fgui::external::MOUSE_LEFT)) {
-
-        overlaying_window_clicked = true;
-
-        m_windows.erase(m_windows.end() - i - 1);
-        m_windows.push_back(other_window);
-      }
     }
   }
 }

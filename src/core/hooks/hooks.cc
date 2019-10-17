@@ -4,6 +4,7 @@
 
 // includes
 #include "../../core/definitions/handler.hh"
+#include "../../hacks/legitbot.hh"
 #include "../../hacks/miscellaneous.hh"
 #include "../../hacks/visuals.hh"
 #include "../../menu/menu.hh"
@@ -35,6 +36,8 @@ decltype(
     &hooks::draw_model_execute::hooked) hooks::draw_model_execute::original;
 decltype(&hooks::override_view::hooked) hooks::override_view::original;
 decltype(&hooks::render_view::hooked)   hooks::render_view::original;
+decltype(
+    &hooks::override_mouse_input::hooked) hooks::override_mouse_input::original;
 
 void hooks::on_entry_point() {
 
@@ -54,6 +57,7 @@ void hooks::on_entry_point() {
   if (client_mode_hook.initialize_and_hook_instance(csgo::client_mode)) {
     client_mode_hook.apply_hook<hooks::create_move>(25);
     client_mode_hook.apply_hook<hooks::override_view>(19);
+    client_mode_hook.apply_hook<hooks::override_mouse_input>(24);
   }
 
   if (model_render_hook.initialize_and_hook_instance(csgo::model_render))
@@ -87,6 +91,9 @@ void hooks::paint::hooked(void *thisptr, paint_mode_t mode) {
 
       // visuals
       visuals.on_paint();
+
+      // legit bot
+      legitbot.on_paint();
     }
 
     // enable clipping before rendering the menu
@@ -139,13 +146,16 @@ bool hooks::create_move::hooked(void *thisptr, float sample_time,
   if (cmd || cmd->command_number) {
 
     // send packet (from Aimtux Fuzion)
-    uintptr_t rbp;
+    std::uintptr_t rbp;
     asm volatile("mov %%rbp, %0" : "=r"(rbp));
     bool *send_packet    = *reinterpret_cast<bool **>(rbp - 0x18);
     globals::send_packet = true;
 
     // miscellaneous
     miscellaneous.on_create_move(cmd);
+
+    // legitbot
+    legitbot.on_create_move(cmd);
   }
   return false;
 
@@ -214,5 +224,18 @@ void hooks::render_view::hooked(void *thisptr, c_view_setup &view_setup,
   // call original function
   original(thisptr, view_setup, hud_setup, clear_flags, what_to_draw);
 
-  CODE_END(STR("error gandler - render view - hooks"))
+  CODE_END(STR("error handler - render view - hooks"))
+}
+
+void hooks::override_mouse_input::hooked(void *thisptr, float *x, float *y) {
+
+  CODE_START
+
+  // call original function
+  original(thisptr, x, y);
+
+  // legitbot
+  legitbot.on_override_mouse_input(x, y);
+
+  CODE_END(STR("error handler - override mouse input - hooks"))
 }

@@ -34,11 +34,13 @@ void interfaces::on_entry_point() {
   csgo::model_render = interfaces::get_interface<iv_model_render>(
       STR("engine_client.so->VEngineModel0"));
   csgo::model_info = interfaces::get_interface<c_model_info>(
-      "engine_client.so->VModelInfoClient0");
+      STR("engine_client.so->VModelInfoClient0"));
   csgo::render_view = interfaces::get_interface<c_render_view>(
-      "engine_client.so->VEngineRenderView0");
+      STR("engine_client.so->VEngineRenderView0"));
   csgo::prediction = interfaces::get_interface<i_prediction>(
-      "client_panorama_client.so->VClientPrediction0");
+      STR("client_panorama_client.so->VClientPrediction0"));
+  csgo::engine_trace = interfaces::get_interface<i_engine_trace>(
+      STR("engine_client.so->EngineTraceClient0"));
 
   // vfunc addresses
   std::uintptr_t hud_process_input_vfunc = reinterpret_cast<std::uintptr_t>(
@@ -61,12 +63,12 @@ void interfaces::on_entry_point() {
       memory::get_address(hud_update_vfunc + 0xD, 0x3, 0x7));
   c_input *input_ptr = **reinterpret_cast<c_input ***>(
       memory::get_address(in_activate_mouse_vfunc, 0x3, 0x7));
-  i_view_render *view_render_ptr = reinterpret_cast<i_view_render *>(
-      memory::get_address(reinterpret_cast<std::uintptr_t>(memory::find_pattern(
-                              "client_panorama_client.so",
-                              "55 48 8D 15 13 ?? ?? ?? 31 C9")) +
-                              0x126,
-                          0x3, 0x7));
+  i_view_render *view_render_ptr =
+      reinterpret_cast<i_view_render *>(memory::get_address(
+          reinterpret_cast<std::uintptr_t>(memory::find_pattern(
+              STR("client_panorama_client.so"), STR("55 48 8D 15 13 ?? ??"))) +
+              0x126,
+          0x3, 0x7));
 
   // initialize non exposed interfaces
   csgo::client_mode  = client_mode_ptr();

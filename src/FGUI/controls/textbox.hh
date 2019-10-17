@@ -13,6 +13,8 @@
 
 namespace fgui {
 
+namespace detail {
+
 /*
  * NOTE 1: If you don't want to use winapi keycodes, you will need to manually
  * map your keys here.
@@ -58,6 +60,7 @@ constexpr std::string_view m_iinput_system_text[] = {
     "",  "",  "",  "",  "",  "",  "",  "",  "",  "",  "",  "",  "",  "",  "",
     "",  "",  "",  "",  "",  "",  "",  "",  "",  "",  "",  "",  "",  "",  "",
     "",  "",  "",  "",  "",  "",  "",  "",  ""};
+} // namespace detail
 
 class textbox : public fgui::element {
 public:

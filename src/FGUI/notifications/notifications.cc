@@ -3,8 +3,8 @@
  *                                       */
 
 // includes
-#include "notifications.hh"
 #include "../handler/handler.hh"
+#include "notifications.hh"
 
 fgui::notification::notification() {
 
@@ -103,22 +103,17 @@ void fgui::notification::draw() {
 //---------------------------------------------------------
 void fgui::notification::update() {
 
-  static const int increase_value = 1;
-  static const int alpha_value    = 235;
+  constexpr int increase_value       = 1;
+  constexpr int alpha_value          = 235;
+  static int    current_notification = 0;
 
   if (m_info.empty()) return;
 
   for (std::size_t i = 0; i < m_info.size(); i++) {
 
-    if (!m_info[i].state) {
-      m_info[i].tick = 0;
-      m_info[i].text.clear();
+    current_notification = i;
 
-      m_info.erase(m_info.begin() + i);
-      m_info.shrink_to_fit();
-    }
-
-    else if (m_info[i].state) {
+    if (m_info[i].state) {
 
       m_info[i].tick += increase_value;
 
@@ -150,31 +145,20 @@ void fgui::notification::update() {
         }
       }
     }
+
+    else if (!m_info[i].state) {
+
+      // reset ticks
+      m_info[i].tick = 0;
+    }
   }
+
+  // remove the last spawned notification
+  if (!m_info[current_notification]
+           .state) // this needs to be outside of the loop, so it don't remove
+                   // every notification at once.
+    m_info.pop_back();
 }
 
 //---------------------------------------------------------
-void fgui::notification::handle_input() {
-
-  // screen size
-  int screen_width, screen_height;
-  fgui::render.get_screen_size(screen_width, screen_height);
-
-  if (m_info.empty()) return;
-
-  for (std::size_t i = 0; i < m_info.size(); i++) {
-
-    // notification area
-    fgui::rect area = {m_x + (screen_width - m_width),
-                       m_y + (m_height * static_cast<int>(i)), m_width + 30,
-                       m_height};
-
-    // check if the user is hovering the notification area
-    if (fgui::input_system::mouse_in_area(area)) {
-
-      // close the notification if the user click on it
-      if (fgui::input_system::key_held(fgui::external::MOUSE_LEFT))
-        m_info[i].state = false;
-    }
-  }
-}
+void fgui::notification::handle_input() {}

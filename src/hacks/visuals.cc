@@ -3,10 +3,10 @@
 ///
 
 // includes
+#include "visuals.hh"
 #include "../sdk/utils/globals.hh"
 #include "core/hooks/hooks.hh"
 #include "menu/menu.hh"
-#include "visuals.hh"
 
 void features::visuals::on_paint() {
 
@@ -429,9 +429,6 @@ void features::visuals::force_thirdperson(entity_t *local_player) {
   // local player view angles
   static qangle view_angles = {0.f, 0.f, 0.f};
   csgo::engine_client->get_view_angles(&view_angles);
-
-  // callback update visibility (this will fix the flickering on local servers)
-  local_player->update_visibility_all_entities();
 
   if (local_player->m_iHealth() > 0) {
     csgo::input->camera_in_third_person = true;

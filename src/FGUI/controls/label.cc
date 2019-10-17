@@ -30,20 +30,20 @@ void fgui::label::draw() {
 
   // label size
   fgui::dimension text_size =
-      fgui::render.get_text_size(fgui::label::get_font(), fgui::label::m_text);
+      fgui::render.get_text_size(fgui::label::get_font(), m_text);
 
   // label types
   switch (m_type) {
 
   case fgui::label_type::TEXT: {
     fgui::render.text(a.x, a.y, fgui::color(style.label.at(3)),
-                      fgui::label::get_font(), m_text);
+                      fgui::label::get_font(), m_text.data());
     break;
   }
 
   case fgui::label_type::LINK: {
     fgui::render.text(a.x, a.y, fgui::color(style.label.at(5)),
-                      fgui::label::get_font(), m_text);
+                      fgui::label::get_font(), m_text.data());
     fgui::render.rect(a.x, a.y + text_size.height, text_size.width, 1,
                       fgui::color(style.label.at(5)));
     break;
@@ -74,19 +74,19 @@ void fgui::label::draw() {
       fgui::render.text(
           banner_area.left + (banner_area.right / 2) - (text_size.width / 2),
           banner_area.top + (banner_area.bottom / 2) - (text_size.height / 2),
-          fgui::color(style.label.at(3)), fgui::label::get_font(), m_text);
+          fgui::color(style.label.at(3)), fgui::label::get_font(), m_text.data());
     else
       fgui::render.text(
           banner_area.left + 10,
           banner_area.top + (banner_area.bottom / 2) - (text_size.height / 2),
-          fgui::color(style.label.at(3)), fgui::label::get_font(), m_text);
+          fgui::color(style.label.at(3)), fgui::label::get_font(), m_text.data());
 
     break;
   }
 
   case fgui::label_type::COLORED: {
     fgui::render.text(a.x, a.y, fgui::color(style.label.at(4)),
-                      fgui::label::get_font(), m_text);
+                      fgui::label::get_font(), m_text.data());
     break;
   }
   }

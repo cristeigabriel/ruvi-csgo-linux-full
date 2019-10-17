@@ -2,6 +2,8 @@
 ///  ruvi base
 ///
 
+#pragma once
+
 // includes
 #include "../core/interfaces/interfaces.hh"
 #include "../sdk/utils/utilities.hh"

@@ -41,6 +41,7 @@
 #include "sdk/valve/ivmodelrender.hh"
 #include "sdk/valve/viewshared.hh"
 #include "sdk/valve/iviewrender.hh"
+#include "sdk/valve/ienginetrace.hh"
 
 typedef void *(*create_interface_fn)();
 
@@ -136,4 +137,5 @@ inline c_model_info *        model_info;
 inline c_render_view *       render_view;
 inline i_prediction *        prediction;
 inline i_view_render *       view_render;
+inline i_engine_trace *      engine_trace;
 } // namespace csgo

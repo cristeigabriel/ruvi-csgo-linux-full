@@ -2,6 +2,8 @@
 //  ruvi base
 //
 
+#pragma once
+
 // includes
 #include "../memory/memory.hh"
 #include "../netvars/netvars.hh"
@@ -9,6 +11,8 @@
 #include "../valve/iclientrenderable.hh"
 #include "../vector/matrix3x4.hh"
 #include "../vector/vector.hh"
+
+struct weapon_t;
 
 enum cs_team_id_t {
   NONE              = 0,
@@ -120,6 +124,8 @@ enum class_id_t {
   AK_47                    = 1,
   PLAYER                   = 40,
   ENV_TONEMAP_CONTROLLER   = 69,
+  KNIFE                    = 107,
+  KNIFE_GOLDEN             = 108,
   SMOKE_GRENADE_PROJECTILE = 156
 
 };
@@ -158,12 +164,6 @@ struct tonemap_controller_t {
              "m_flCustomAutoExposureMax");
 };
 
-struct weapon_t {
-
-  OFFSET(item_definition_index_t, m_iItemDefinitionIndex,
-         0x37B2); // hardcoded offset until the netvar manager is fixed.
-};
-
 struct entity_t : public i_client_networkable, public i_client_renderable {
 
   inline vector3d get_bone_position(int i) {
@@ -175,8 +175,6 @@ struct entity_t : public i_client_networkable, public i_client_renderable {
 
     return {};
   }
-
-  inline vector3d get_head_position() { return get_bone_position(8); }
 
   inline vector3d get_eye_position() {
     return m_vecOrigin() + m_vecViewOffset();
@@ -197,33 +195,32 @@ struct entity_t : public i_client_networkable, public i_client_renderable {
     return temp_info;
   }
 
-  inline void update_visibility_all_entities() {
-
-    static void (*update_visibility_all_entities_fn)() = reinterpret_cast<
-        void (*)()>(memory::find_pattern(
-        "client_panorama_client.so",
-        "55 48 89 E5 53 48 8D 5D E0 48 83 EC 18 48 89 DF E8 ? ? ? ? EB 11"));
-
-    update_visibility_all_entities_fn();
-  }
-
   //
   // offsets goes here
   //
   OFFSET_PTR(i_client_networkable, IClientNetworkable, 0x10);
   OFFSET(qangle, m_angEyeAngles, 0x8 + 0x4);
+  OFFSET(int, m_lastOcclusionCheck, 0xA30);
+  OFFSET(int, m_occlusionFlags, 0xA28);
+  OFFSET(unsigned int, m_flLastBoneSetupTime, 0x2924);
+  OFFSET(unsigned int, m_iMostRecentModelBoneCounter, 0x2690);
 
   //
   // netvars goes here
   //
   NETVAR(int, m_iHealth, "DT_CSPlayer", "m_iHealth");
+  NETVAR(bool, m_bGunGameImmunity, "DT_CSPlayer", "m_bGunGameImmunity");
   NETVAR(class_id_t, m_iTeamNum, "DT_CSPlayer", "m_iTeamNum");
   NETVAR(entity_flag_t, m_fFlags, "DT_CSPlayer", "m_fFlags");
   NETVAR(bool, m_bInBombZone, "DT_CSPlayer", "m_bInBombZone");
   NETVAR(vector3d, m_vecOrigin, "DT_BaseEntity", "m_vecOrigin");
+  NETVAR(float, m_flSimulationTime, "DT_BaseEntity", "m_flSimulationTime");
   NETVAR(vector3d, m_vecViewOffset, "DT_BasePlayer", "m_vecViewOffset[0]");
   NETVAR(vector3d, m_vecMins, "DT_BaseEntity", "m_vecMins");
   NETVAR(vector3d, m_vecMaxs, "DT_BaseEntity", "m_vecMaxs");
+  NETVAR(float, m_flFlashDuration, "DT_CSPlayer", "m_flFlashDuration");
+  NETVAR(bool, m_bIsScoped, "DT_CSPlayer", "m_bIsScoped");
+  NETVAR(int, m_aimPunchAngle, "DT_CSPlayer", "m_aimPunchAngle");
   NETVAR_PTR(observer_mode_t, m_iObserverMode, "DT_BasePlayer",
              "m_iObserverMode");
   NETVAR_PTR(bool, m_bSpotted, "DT_BaseEntity", "m_bSpotted");
@@ -232,4 +229,12 @@ struct entity_t : public i_client_networkable, public i_client_renderable {
   NETVAR_PTR(float, m_flFlashMaxAlpha, "DT_CSPlayer", "m_flFlashMaxAlpha");
   NETVAR_PTR(weapon_t, m_hActiveWeapon, "DT_BaseCombatCharacter",
              "m_hActiveWeapon");
+};
+
+struct weapon_t : public entity_t {
+
+  OFFSET(item_definition_index_t, m_iItemDefinitionIndex,
+         0x37B2); // hardcoded offset until the netvar manager is fixed.
+
+  NETVAR(int, m_iClip1, "DT_BaseCombatWeapon", "m_iClip1");
 };
