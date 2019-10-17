@@ -114,13 +114,12 @@ void features::legitbot::aim_assist(entity_t *      local_player,
 
   //
   // change the value according to the active weapon group
-  // move this to a struct later
   //
-  static float aimbot_fov      = vars::slider["#field_of_view"]->get_value();
-  static float strength_value  = vars::slider["#strength"]->get_value();
-  static float smoothing_value = vars::slider["#smoothing"]->get_value();
-  static float rcs_amount      = vars::slider["#recoil_control_system"]->get_value();
-  static int   aim_hitbox      = 0;
+  m_legitbot.aimbot_fov      = vars::slider["#field_of_view"]->get_value();
+  m_legitbot.strength_value  = vars::slider["#strength"]->get_value();
+  m_legitbot.smoothing_value = vars::slider["#smoothing"]->get_value();
+  m_legitbot.rcs_amount      = vars::slider["#recoil_control_system"]->get_value();
+  m_legitbot.aim_hitbox      = 0;
 
   // sanity checks
   if (active_weapon->m_iClip1() == 0 ||
@@ -155,13 +154,13 @@ void features::legitbot::aim_assist(entity_t *      local_player,
     //  continue;
 
     // aimbot target
-    vector3d hitbox_pos = utilities::get_hitbox_position(target, aim_hitbox);
+    vector3d hitbox_pos = utilities::get_hitbox_position(target, m_legitbot.aim_hitbox);
 
     // calculate aim angle
     vector3d aim_angle = math::calculate_angle(local_pos, hitbox_pos);
 
     // recoil control system
-    // aim_angle -= local_player->m_aimPunchAngle() * 2.f * rcs_amount;
+    // aim_angle -= local_player->m_aimPunchAngle() * 2.f * m_legitbot.rcs_amount;
 
     // conver pixel to angles
     vector3d move_ang = utilities::pixels_to_angle(vector3d(*x, *y, 0.f));
@@ -173,10 +172,10 @@ void features::legitbot::aim_assist(entity_t *      local_player,
     vector3d view_delta = (aim_angle - view_angle).clamp();
 
     // aimbot strength
-    move_ang *= strength_value;
+    move_ang *= m_legitbot.strength_value;
 
     // aimbot smoothing
-    move_ang /= smoothing_value;
+    move_ang /= m_legitbot.smoothing_value;
 
     float delta_y = std::abs(move_ang.y);
     float delta_x = std::abs(move_ang.x);
@@ -187,7 +186,7 @@ void features::legitbot::aim_assist(entity_t *      local_player,
 
     vector3d pixels = utilities::angle_to_pixels(delta);
 
-    if (view_delta.length2d() <= aimbot_fov) {
+    if (view_delta.length2d() <= m_legitbot.aimbot_fov) {
       *x += pixels.x;
       *y += pixels.y;
     }

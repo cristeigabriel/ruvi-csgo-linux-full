@@ -38,7 +38,13 @@ private:
   };
   backtrack_settings_t m_backtrack[64][14];
 
-  struct legitbot_settings_t {};
+  struct legitbot_settings_t {
+    static float aimbot_fov;
+    static float strength_value;
+    static float smoothing_value;
+    static float rcs_amount;
+    static int   aim_hitbox;
+  };
   legitbot_settings_t m_legitbot;
 };
 } // namespace features
